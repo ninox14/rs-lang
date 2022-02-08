@@ -1,0 +1,68 @@
+@import "../../styles/variables.scss";
+
+.form {
+  width: 100%;
+
+  padding-top: 27px;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+
+
+  & .input {
+    width: 100%;
+    background-color: $white;
+    font-family: inherit!important;
+    & .MuiInputLabel-root {
+      font-family: inherit!important;
+      color: $black;
+    }
+    & .MuiInputLabel-root.MuiFormLabel-filled {
+      color: $blue;
+      transform: translate(27px, -9px) scale(0.82);
+    }
+    & label.Mui-focused {
+      color: $accent-blue;
+      transform: translate(27px, -9px) scale(0.82);
+    }
+
+    & .MuiOutlinedInput-root {
+      border-color: $accent-blue;
+
+      & fieldset{
+        border-color: $blue;
+        border-width: 2px;
+        border-radius: 30px;
+      }
+      &.Mui-focused fieldset {
+        border-color: $accent-blue;
+        border-width: 3px;
+      }
+      & legend {
+        margin-left: 14px;
+        font-size: 0.82rem;
+      }
+    }
+  }
+  .button {
+    display: flex;
+    margin: 0 auto;
+    background-color: $light-blue;
+    color: $black;
+    font-family: inherit;
+    text-transform: capitalize;
+    font-weight: 700;
+    font-size: 14px;
+
+    &:hover {
+      background-color: $accent-blue;
+    }
+  }
+}
