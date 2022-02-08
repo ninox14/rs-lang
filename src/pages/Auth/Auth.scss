@@ -37,6 +37,11 @@
     line-height: 22px;
     letter-spacing: initial;
     border-radius: 10px;
+    transition: background-color .3s ease-in-out ;
+
+    &:hover {
+      background-color: #0000000a;
+    }
   }
   & .Mui-selected {
     color: $black!important;
