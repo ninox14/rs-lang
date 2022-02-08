@@ -1,0 +1,59 @@
+@import "../../styles/variables.scss";
+.page_auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 84px);
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px;
+  width: 650px;
+  height: 440px;
+  background-color: $light-gray;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+
+  &__form-container {
+    width: 350px;
+    height: 340px;
+    padding: 30px;
+  }
+}
+
+.auth_tabs {
+  & .MuiTabs-flexContainer{
+    justify-content: space-between;
+  }
+  & .MuiTab-root {
+    font-family: inherit;
+    text-transform: capitalize;
+    font-weight: 700;
+    color: $neutral-gray;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: initial;
+    border-radius: 10px;
+  }
+  & .Mui-selected {
+    color: $black!important;
+  }
+  & .MuiTabs-indicator {
+    // display: flex;
+    // justify-content: center;
+    // background-color: transparent;
+    height: 5px;
+    background-color: $black;
+    border-radius: 3px;
+  }
+  // & .MuiTabs-indicatorSpan {
+  //   height: 5px;
+  //   border-radius: 3px;
+  //   max-width: 40px;
+  //   width: 100%;
+  //   background-color: $black;
+  // }
+}
