@@ -7,7 +7,7 @@
 
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 35px;
 
   &__inputs {
     display: flex;
@@ -15,54 +15,69 @@
     row-gap: 20px;
   }
 
-
-  & .input {
-    width: 100%;
-    background-color: $white;
-    font-family: inherit!important;
-    & .MuiInputLabel-root {
-      font-family: inherit!important;
+  & .button {
+      display: flex;
+      margin: 0 auto;
+      background-color: $light-blue;
       color: $black;
-    }
-    & .MuiInputLabel-root.MuiFormLabel-filled {
-      color: $blue;
-      transform: translate(27px, -9px) scale(0.82);
-    }
-    & label.Mui-focused {
-      color: $accent-blue;
-      transform: translate(27px, -9px) scale(0.82);
-    }
+      font-family: inherit;
+      text-transform: capitalize;
+      font-weight: 700;
+      font-size: 1rem;
+      box-shadow: none;
 
-    & .MuiOutlinedInput-root {
-      border-color: $accent-blue;
-
-      & fieldset{
-        border-color: $blue;
-        border-width: 2px;
-        border-radius: 30px;
-      }
-      &.Mui-focused fieldset {
-        border-color: $accent-blue;
-        border-width: 3px;
-      }
-      & legend {
-        margin-left: 14px;
-        font-size: 0.82rem;
+      &:hover {
+        background-color: $accent-blue;
+        color: $white;
       }
     }
   }
-  .button {
-    display: flex;
-    margin: 0 auto;
-    background-color: $light-blue;
-    color: $black;
-    font-family: inherit;
-    text-transform: capitalize;
-    font-weight: 700;
-    font-size: 14px;
 
-    &:hover {
-      background-color: $accent-blue;
+.input {
+  width: 100%;
+  background-color: $white;
+  font-family: inherit!important;
+
+
+  & .MuiInputLabel-root {
+    font-family: inherit!important;
+    color: $black;
+  }
+  & .MuiInputLabel-root.Mui-error {
+    color: #d32f2f!important;
+  }
+  & .MuiInputLabel-root.MuiFormLabel-filled {
+    color: $blue;
+    transform: translate(28px, -9px) scale(0.82);
+  }
+  & label.Mui-focused {
+    color: $accent-blue;
+    transform: translate(28px, -9px) scale(0.82);
+  }
+
+  & .MuiOutlinedInput-root {
+    border-color: $accent-blue;
+    &:hover fieldset{
+      border-color: $accent-blue;
+    }
+    &.Mui-error:hover fieldset{
+      border-color: #d32f2f;
+    }
+    &.Mui-error.Mui-focused fieldset{
+      border-color: #d32f2f;
+    }
+    & fieldset{
+      border-color: $blue;
+      border-width: 2px;
+      border-radius: 30px;
+    }
+    &.Mui-focused fieldset {
+      border-color: $accent-blue;
+      border-width: 3px;
+    }
+    & legend {
+      margin-left: 14px;
+      font-size: 0.82rem;
     }
   }
 }
