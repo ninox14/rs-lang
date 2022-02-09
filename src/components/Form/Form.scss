@@ -2,7 +2,6 @@
 
 .form {
   width: 100%;
-
   padding-top: 27px;
 
   display: flex;
@@ -12,7 +11,7 @@
   &__inputs {
     display: flex;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 40px;
   }
 
   & .button {
@@ -34,10 +33,17 @@
   }
 
 .input {
-  width: 100%;
-  background-color: $white;
   font-family: inherit!important;
-
+  position: relative;
+  & .helper_text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateY(100%);
+  }
+  & .MuiFormHelperText-root {
+    background-color: transparent;
+  }
 
   & .MuiInputLabel-root {
     font-family: inherit!important;
@@ -57,6 +63,7 @@
 
   & .MuiOutlinedInput-root {
     border-color: $accent-blue;
+
     &:hover fieldset{
       border-color: $accent-blue;
     }

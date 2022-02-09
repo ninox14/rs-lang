@@ -7,6 +7,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { Form } from '../../components/Form/Form';
+
 interface TabPanelProps {
   index: number;
   value: number;
@@ -21,6 +22,7 @@ const TabPanel: FC<TabPanelProps> = (props) => {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      className="tab_panel"
       {...other}
     >
       {value === index && children}
@@ -48,12 +50,7 @@ export const Auth: FC = () => {
         <PlaneSvg />
         <div className="auth__form-container">
           <Box sx={{ width: '100%' }}>
-            <Tabs
-              className="auth_tabs"
-              value={value}
-              onChange={handleChange}
-              // TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
-            >
+            <Tabs className="auth_tabs" value={value} onChange={handleChange}>
               <Tab label="Вход" {...allyProps(0)} />
               <Tab label="Регистрация" {...allyProps(1)} />
             </Tabs>
@@ -62,7 +59,7 @@ export const Auth: FC = () => {
             <Form type="login" />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            Item Two
+            <Form type="register" />
           </TabPanel>
         </div>
       </div>
