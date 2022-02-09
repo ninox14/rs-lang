@@ -47,7 +47,7 @@ export const Auth: FC = () => {
   return (
     <main className="page page_auth">
       <div className="auth">
-        <PlaneSvg />
+        <PlaneSvg className="auth__svg" />
         <div className="auth__form-container">
           <Box sx={{ width: '100%' }}>
             <Tabs className="auth_tabs" value={value} onChange={handleChange}>
