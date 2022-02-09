@@ -71,7 +71,7 @@ export const Form: FC<FomrProps> = ({ type }) => {
           fullWidth
         />
       </div>
-      <Button type="submit" className="button" variant="contained">
+      <Button type="submit" className="form__button" variant="contained">
         {type === 'login' ? 'Войти' : 'Зарегистрироваться'}
       </Button>
     </form>

@@ -14,7 +14,7 @@
     row-gap: 40px;
   }
 
-  & .button {
+  & .form__button {
       display: flex;
       margin: 0 auto;
       background-color: $light-blue;
@@ -63,7 +63,6 @@
 
   & .MuiOutlinedInput-root {
     border-color: $accent-blue;
-
     &:hover fieldset{
       border-color: $accent-blue;
     }
@@ -74,6 +73,7 @@
       border-color: #d32f2f;
     }
     & fieldset{
+      background-color: $white;
       border-color: $blue;
       border-width: 2px;
       border-radius: 30px;
