@@ -54,3 +54,28 @@
 .tab_panel {
   height: 100%;
 }
+
+@media (max-width: 768px) {
+  .page_auth {
+    padding: 0 15px;
+  }
+  .auth {
+    justify-content: center;
+
+    &__svg {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .page_auth {
+    padding: 0 5px;
+  }
+  .auth {
+    background-color: $white;
+    box-shadow: none;
+    padding: 0;
+    width: 100%;
+  }
+}
