@@ -1,0 +1,28 @@
+.footer {
+  max-width: 100%;
+  display: flex;
+  padding: 10px 15px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+
+  @media all and (max-width: 460px) {
+    flex-direction: column;
+    row-gap: 30px;
+  }
+}
+
+.footer__logo-wrapper,
+.footer__links-wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.footer__logo {
+  display: inline-block;
+  width: 65px;
+  height: 24px;
+  background-image: url(../../assets/icons/rs-school-logo.svg);
+  background-size: contain;
+}
