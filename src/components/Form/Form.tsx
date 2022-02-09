@@ -20,16 +20,20 @@ interface FormValues {
 const validationSchema: yup.SchemaOf<FormValues> = yup.object({
   email: yup
     .string()
-    .required('Это поле нужно заполнить')
-    .email('Email вида example@mail.com')
-    .trim('Не должно быть пустых символов в начале'),
+    .required('Введите e-mail')
+    .email('Введите существующий e-mail')
+    .matches(/^[\w\-]+@[a-z]+.[a-z]+$/im, {
+      message: 'Введите существующий e-mail',
+    }),
   password: yup
     .string()
-    .required('Это поле нужно заполнить')
-    .min(8, 'Пароль минимум из 8 символов')
-    .trim('Не должно быть пустых символов в начале'),
+    .required('Введите пароль')
+    .min(8, 'Пароль должен содержать не менее 8 символов')
+    .matches(/^[a-z\d]+$/im, {
+      message:
+        'Можно использовать только символы латинского алфавита или цифры',
+    }),
 });
-
 export const Form: FC<FomrProps> = ({ type }) => {
   const {
     register,
