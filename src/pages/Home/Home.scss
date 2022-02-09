@@ -1,0 +1,96 @@
+@import '../../styles/variables.scss';
+
+.home-intro {
+  display: flex;
+  min-height: calc(100vh - 40px);
+  align-items: center;
+  max-width: 1140px;
+  margin: 0 auto;
+  user-select: none;
+  width: calc(100% - 40px);
+}
+
+.home-intro__text {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+}
+
+.home-intro__title {
+  font-size: 48px;
+  text-transform: uppercase;
+  margin: 0;
+
+  &_highlight {
+    color: $accent-blue;
+  }
+}
+
+.home-intro__subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.home-intro__btn {
+  display: block;
+  max-width: 187px;
+  padding: 10px 35px;
+  border: 2px solid $accent-blue;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: 0.5s;
+  text-align: center;
+
+  &:hover {
+    background-color: scale-color($accent-blue, $lightness: 65%);
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: $accent-blue;
+    color: $white;
+    cursor: pointer;
+  }
+}
+
+.home-intro__cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 355px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.home-intro__card {
+  width: 170px;
+  height: 170px;
+  border-radius: 30px;
+  border-width: 5px;
+  border-style: solid;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  &:nth-child(1) {
+    background-color: $blue;
+    border-color: $blue;
+    background-image: url('../../assets/icons/glass.svg');
+  }
+
+  &:nth-child(2) {
+    border-color: $yellow;
+    background-image: url('../../assets/icons/laptop.svg');
+  }
+
+  &:nth-child(3) {
+    background-color: $green;
+    border-color: $green;
+    background-image: url('../../assets/icons/main-puzzle.svg');
+  }
+
+  &:nth-child(4) {
+    border-color: $orange;
+    background-image: url('../../assets/icons/apple.svg');
+  }
+}
