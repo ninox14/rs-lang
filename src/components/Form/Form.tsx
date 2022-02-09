@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react';
+import { FC } from 'react';
 import './Form.scss';
 
 import TextField from '@mui/material/TextField';
@@ -11,6 +11,7 @@ import * as yup from 'yup';
 interface FomrProps {
   type: 'login' | 'register';
 }
+
 interface FormValues {
   email: string;
   password: string;
@@ -40,7 +41,7 @@ export const Form: FC<FomrProps> = ({ type }) => {
   });
 
   // TODO: Onsubmit for api
-  const onSubmit: SubmitHandler<FormValues> = (data) => {};
+  const onSubmit: SubmitHandler<FormValues> = () => {};
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -49,21 +50,25 @@ export const Form: FC<FomrProps> = ({ type }) => {
           type="email"
           error={!!errors.email}
           helperText={errors.email ? errors.email.message : null}
+          FormHelperTextProps={{ className: 'helper_text' }}
           className="input"
           label="E-mail"
           variant="outlined"
           required
           inputProps={{ ...register('email') }}
+          fullWidth
         />
         <TextField
           type="password"
           error={!!errors.password}
           helperText={errors.password ? errors.password.message : null}
+          FormHelperTextProps={{ className: 'helper_text' }}
           className="input"
-          label="Password"
+          label="Пароль"
           variant="outlined"
           required
           inputProps={{ ...register('password') }}
+          fullWidth
         />
       </div>
       <Button type="submit" className="button" variant="contained">

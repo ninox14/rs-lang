@@ -19,8 +19,7 @@
 
   &__form-container {
     width: 350px;
-    height: 340px;
-    padding: 30px;
+    padding: 0 30px;
   }
 }
 
@@ -47,18 +46,11 @@
     color: $black!important;
   }
   & .MuiTabs-indicator {
-    // display: flex;
-    // justify-content: center;
-    // background-color: transparent;
     height: 5px;
     background-color: $black;
     border-radius: 3px;
   }
-  // & .MuiTabs-indicatorSpan {
-  //   height: 5px;
-  //   border-radius: 3px;
-  //   max-width: 40px;
-  //   width: 100%;
-  //   background-color: $black;
-  // }
+}
+.tab_panel {
+  height: 100%;
 }
