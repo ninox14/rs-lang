@@ -40,6 +40,7 @@
     bottom: 0;
     left: 0;
     transform: translateY(100%);
+    font-size: 14px;
   }
 
   & .MuiOutlinedInput-input {
@@ -51,7 +52,7 @@
     color: $black;
   }
   & .MuiInputLabel-root.Mui-error {
-    color: #d32f2f!important;
+    color: $error-red!important;
   }
   & .MuiInputLabel-root.MuiFormLabel-filled {
     color: $blue;
@@ -68,10 +69,10 @@
       border-color: $accent-blue;
     }
     &.Mui-error:hover fieldset{
-      border-color: #d32f2f;
+      border-color: $error-red;
     }
     &.Mui-error.Mui-focused fieldset{
-      border-color: #d32f2f;
+      border-color: $error-red;
     }
     & fieldset{
       border-color: $blue;
