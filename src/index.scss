@@ -22,3 +22,125 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+header.header {
+  background: $white;
+  color: $black;
+  height: 40px;
+  box-shadow: none;
+
+  .MuiToolbar-root,
+  .MuiBox-root {
+    min-height: 0;
+    height: 40px;
+  }
+  
+  .header {
+    &-container {
+      padding: 0 15px !important;
+    }
+    &-buttons {
+      gap: 25px;
+      align-items: center;
+    }
+    &-button {
+      margin: 0;
+      color: $black;
+      font-size: 14px;
+      padding: 6px 0;
+      line-height: initial;
+      text-transform: none;
+  
+      &:hover {
+        color: $accent-blue;
+      }
+  
+      &_brd {
+        font-weight: bold;
+        border: solid 2px $blue;
+        border-radius: 10px;
+        padding: 6px 24px;
+    
+        &-wrn {
+          border-color: $red;
+        
+          &:hover {
+            color: $red;
+          }
+        }
+      }
+    }
+  }
+}
+
+#menu-appbar {
+  background: #0005;
+  top: 40px;
+  transition: none !important;
+  &[aria-hidden] {
+    visibility: hidden !important;
+  }
+
+  .MuiPopover-paper {
+    top: 0 !important;
+    right: 0 !important;
+    max-width: 360px;
+    width: 100%;
+    left: initial !important;
+    bottom: 0 !important;
+    height: 100% !important;
+    box-shadow: none;
+    max-height: none !important;
+    border-radius: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  * {
+    transition: none !important;
+    transform: none !important;
+  }
+  .MuiButtonBase-root:hover {
+    background-color: transparent;
+    color: $accent-blue;
+
+    .header-button_brd-wrn {
+      color: $red;
+    }
+  }
+  .MuiMenuItem-gutters {
+    font-size: 18px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    line-height: initial;
+    padding: 0;
+  }
+  .header-button {
+    padding: 14px 0;
+
+    &_brd {
+      font-weight: bold;
+      border: solid 2px $blue;
+      border-radius: 10px;
+      padding: 6px 24px;
+  
+      &-wrn {
+        border-color: $red;
+      
+        &:hover {
+          color: $red;
+        }
+      }
+    }
+  }
+  
+  @include s {
+    .MuiPopover-paper {
+      max-width: none;
+      bottom: initial !important;
+      height: 360px !important;
+    }
+  }
+}
