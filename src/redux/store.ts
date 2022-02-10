@@ -6,8 +6,7 @@ export const store = configureStore({
     words: wordsSlice.reducer,
   },
 });
-export type RootState = ReturnType<typeof store.getState>;
 
-export const selectWords = (state: RootState) => state.words.words;
+export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
