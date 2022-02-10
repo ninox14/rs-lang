@@ -1,4 +1,13 @@
-import { AppBar, Box, Button, Container, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import pages from '../../data/pages';
@@ -21,7 +30,12 @@ const Header: React.FC = () => {
     <AppBar className="header" position="static">
       <Container maxWidth="xl" className="header-container">
         <Toolbar disableGutters>
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, mr: 2, display: 'flex' }}>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, mr: 2, display: 'flex' }}
+          >
             <Logo />
           </Typography>
           <Box
@@ -63,8 +77,15 @@ const Header: React.FC = () => {
             >
               {pages.map(({ label, url }) => (
                 <MenuItem>
-                  <Link to={session.loggedIn && url === '/auth' ? '/logout' : url} className="header-button">
-                    <span className={url === '/auth' ? loginBtnClass : 'header-button'}>
+                  <Link
+                    to={session.loggedIn && url === '/auth' ? '/logout' : url}
+                    className="header-button"
+                  >
+                    <span
+                      className={
+                        url === '/auth' ? loginBtnClass : 'header-button'
+                      }
+                    >
                       {session.loggedIn && url === '/auth' ? 'Выйти' : label}
                     </span>
                   </Link>
