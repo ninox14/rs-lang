@@ -20,5 +20,6 @@ export interface IWordSlice {
   loading: boolean;
   page: number;
   group: number;
-  userId: string | null;
+  userId: string;
+  error: string;
 }

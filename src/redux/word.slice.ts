@@ -8,7 +8,8 @@ export const initialState: IWordSlice = {
   loading: true,
   page: 0,
   group: 0,
-  userId: null,
+  userId: '',
+  error: '',
 };
 
 export const wordsSlice = createSlice({
