@@ -1,11 +1,4 @@
-interface CardsDataInterface {
-  id: number;
-  type: string;
-  name: string;
-  desc: string;
-}
-
-const CardData: CardsDataInterface[] = [
+const CardData = [
   {
     id: 0,
     type: 'audiocall',

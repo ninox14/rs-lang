@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './CardGames.scss';
 
 interface CardsData {
+  id?: number;
   type: string;
   name: string;
   desc: string;
