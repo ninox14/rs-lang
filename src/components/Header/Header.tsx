@@ -1,3 +1,9 @@
+import './Header.scss';
+import pages from 'data/pages';
+import session from 'data/session';
+import { ReactComponent as Logo } from 'assets/icons/rs-lang-logo.svg';
+import { useState, FC, FormEvent } from 'react';
+import { Link } from 'react-router-dom';
 import {
   AppBar,
   Box,
@@ -8,12 +14,6 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import { useState, FC, FormEvent } from 'react';
-import { Link } from 'react-router-dom';
-import pages from '../../data/pages';
-import session from '../../data/session';
-import { ReactComponent as Logo } from '../../assets/icons/rs-lang-logo.svg';
-import './Header.scss';
 
 const Header: FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<Element>();
@@ -24,12 +24,19 @@ const Header: FC = () => {
     setAnchorElNav(undefined);
   };
   const loginBtnClass: string = session.loggedIn
-    ? 'header-button header-button_brd header-button_brd-wrn'
-    : 'header-button header-button_brd';
+    ? 'header__button header__button_brd header__button_red'
+    : 'header__button header__button_brd';
+  const getHeaderBtnClass = (url: string, visibility?: boolean): string => {
+    return visibility ?? true
+      ? url === '/auth'
+        ? loginBtnClass
+        : 'header__button'
+      : 'header__button header__button_hidden';
+  };
 
   return (
     <AppBar className="header" position="static">
-      <Container maxWidth="xl" className="header-container">
+      <Container maxWidth="xl" className="header__container">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -41,18 +48,12 @@ const Header: FC = () => {
           </Typography>
           <Box
             sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}
-            className="header-buttons header-buttons_desktop"
+            className="header__buttons header__buttons_desktop"
           >
             {pages.map(({ label, url, visibility }) => (
               <Link
                 to={session.loggedIn && url === '/auth' ? '#' : url}
-                className={
-                  visibility ?? true
-                    ? url === '/auth'
-                      ? loginBtnClass
-                      : 'header-button'
-                    : 'header-button header-button_hidden'
-                }
+                className={getHeaderBtnClass(url, visibility)}
                 onClick={handleCloseNavMenu}
               >
                 {session.loggedIn && url === '/auth' ? 'Выйти' : label}
@@ -61,11 +62,11 @@ const Header: FC = () => {
           </Box>
           <Box
             sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}
-            className="header-buttons header-buttons_mobile"
+            className="header__buttons header__buttons_mobile"
           >
             <Button
               key="Войти"
-              className="header-button header-button_brd"
+              className="header__button header__button_brd"
               sx={{ my: 2, display: 'block' }}
               onClick={handleOpenNavMenu}
             >
@@ -84,15 +85,15 @@ const Header: FC = () => {
             >
               {pages.map(({ label, url, visibility }) => (
                 <MenuItem
-                  className={visibility ?? true ? '' : 'header-button_hidden'}
+                  className={visibility ?? true ? '' : 'header__button_hidden'}
                 >
                   <Link
                     to={session.loggedIn && url === '/auth' ? '/logout' : url}
-                    className="header-button"
+                    className="header__button"
                   >
                     <span
                       className={
-                        url === '/auth' ? loginBtnClass : 'header-button'
+                        url === '/auth' ? loginBtnClass : 'header__button'
                       }
                     >
                       {session.loggedIn && url === '/auth' ? 'Выйти' : label}

@@ -12,15 +12,17 @@ header.header {
     height: 40px;
   }
   
-  .header {
-    &-container {
+  .header__ {
+    &container {
       padding: 0 15px !important;
     }
-    &-buttons {
+
+    &buttons {
       gap: 25px;
       align-items: center;
     }
-    &-button {
+
+    &button {
       margin: 0;
       color: $black;
       font-size: 14px;
@@ -37,15 +39,16 @@ header.header {
         border: solid 2px $blue;
         border-radius: 10px;
         padding: 6px 24px;
-    
-        &-wrn {
-          border-color: $red;
-        
-          &:hover {
-            color: $red;
-          }
+      }
+
+      &_red {
+        border-color: $red;
+      
+        &:hover {
+          color: $red;
         }
       }
+
       &_hidden {
         display: none !important;
       }
@@ -85,7 +88,7 @@ header.header {
     background-color: transparent;
     color: $accent-blue;
 
-    .header-button_brd-wrn {
+    .header__button_red   {
       color: $red;
     }
   }
@@ -97,7 +100,7 @@ header.header {
     line-height: initial;
     padding: 0;
   }
-  .header-button {
+  .header__button {
     padding: 14px 0;
 
     &_brd {
@@ -105,13 +108,13 @@ header.header {
       border: solid 2px $blue;
       border-radius: 10px;
       padding: 6px 24px;
-  
-      &-wrn {
-        border-color: $red;
-      
-        &:hover {
-          color: $red;
-        }
+    }
+
+    &_red {
+      border-color: $red;
+    
+      &:hover {
+        color: $red;
       }
     }
 
