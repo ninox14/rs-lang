@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './CardHome.scss';
 
 interface CardsData {
+  id?: number;
   title: string;
   iconName: string;
   desc: string;

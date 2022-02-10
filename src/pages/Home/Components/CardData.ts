@@ -1,13 +1,4 @@
-interface CardsDataInterface {
-  id: number;
-  title: string;
-  iconName: string;
-  desc: string;
-  linkName: string;
-  path: string;
-}
-
-const CardsData: CardsDataInterface[] = [
+const CardsData = [
   {
     id: 0,
     title: 'Возьмите обучение под контроль',
