@@ -10,7 +10,7 @@ const CardData: CardsDataInterface[] = [
     id: 0,
     type: 'audiocall',
     name: 'Аудиовызов',
-    desc: 'Развивает навыки восприятия речи и написания слов',
+    desc: 'Развивает навыки восприятия речи на слух',
   },
   {
     id: 1,
