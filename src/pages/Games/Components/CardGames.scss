@@ -1,0 +1,57 @@
+@import '../../../styles/variables.scss';
+
+.games-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 300px;
+  height: 400px;
+  padding: 50px 25px;
+  text-align: center;
+  border-radius: 25px;
+  transition: 0.5s;
+
+  &:hover {
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
+  }
+
+  &:nth-child(1) {
+    background-color: $light-blue;
+  }
+
+  &:nth-child(2) {
+    background-color: $peach;
+  }
+
+  &__subtitle {
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 18px;
+    text-transform: uppercase;
+  }
+
+  &__icon {
+    width: 150px;
+    height: 120px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &__desc {
+    font-size: 14px;
+  }
+}
+
+.games-card__icon_audiocall {
+  background-image: url('../../../assets/icons/headphones.svg');
+}
+
+.games-card__icon_sprint {
+  background-image: url('../../../assets/icons/sprint.svg');
+}
