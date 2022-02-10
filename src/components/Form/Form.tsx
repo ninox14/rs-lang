@@ -12,7 +12,7 @@ interface FomrProps {
   type: 'login' | 'register';
 }
 
-interface FormValues {
+export interface FormValues {
   email: string;
   password: string;
 }
