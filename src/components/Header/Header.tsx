@@ -8,16 +8,16 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import { useState, FC, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import pages from '../../data/pages';
 import session from '../../data/session';
 import { ReactComponent as Logo } from '../../assets/icons/rs-lang-logo.svg';
 import './Header.scss';
 
-const Header: React.FC = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<Element>();
-  const handleOpenNavMenu = (event: React.FormEvent): void => {
+const Header: FC = () => {
+  const [anchorElNav, setAnchorElNav] = useState<Element>();
+  const handleOpenNavMenu = (event: FormEvent): void => {
     setAnchorElNav(event.currentTarget);
   };
   const handleCloseNavMenu = (): void => {
@@ -43,10 +43,16 @@ const Header: React.FC = () => {
             sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}
             className="header-buttons header-buttons_desktop"
           >
-            {pages.map(({ label, url }) => (
+            {pages.map(({ label, url, visibility }) => (
               <Link
-                to={session.loggedIn && url === '/auth' ? '/logout' : url}
-                className={url === '/auth' ? loginBtnClass : 'header-button'}
+                to={session.loggedIn && url === '/auth' ? '#' : url}
+                className={
+                  visibility ?? true
+                    ? url === '/auth'
+                      ? loginBtnClass
+                      : 'header-button'
+                    : 'header-button header-button_hidden'
+                }
                 onClick={handleCloseNavMenu}
               >
                 {session.loggedIn && url === '/auth' ? 'Выйти' : label}
@@ -76,8 +82,10 @@ const Header: React.FC = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map(({ label, url }) => (
-                <MenuItem>
+              {pages.map(({ label, url, visibility }) => (
+                <MenuItem
+                  className={visibility ?? true ? '' : 'header-button_hidden'}
+                >
                   <Link
                     to={session.loggedIn && url === '/auth' ? '/logout' : url}
                     className="header-button"

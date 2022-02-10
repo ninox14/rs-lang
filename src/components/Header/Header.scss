@@ -46,6 +46,9 @@ header.header {
           }
         }
       }
+      &_hidden {
+        display: none !important;
+      }
     }
   }
 }
@@ -110,6 +113,10 @@ header.header {
           color: $red;
         }
       }
+    }
+
+    &_hidden {
+      display: none !important;
     }
   }
   

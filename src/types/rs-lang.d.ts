@@ -1,6 +1,7 @@
 export interface Page {
   label: string;
   url: string;
+  visibility?: boolean;
 }
 
 export type Pages = Page[];
