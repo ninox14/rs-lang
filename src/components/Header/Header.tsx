@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import pages from '../../data/pages';
 import session from '../../data/session';
 import { ReactComponent as Logo } from '../../assets/icons/rs-lang-logo.svg';
+import './Header.scss';
 
 const Header: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<Element>();
