@@ -1,18 +1,19 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { getNewTokens, USER_TOKEN_KEY } from "./AuthService";
+import { USER_TOKEN_KEY } from "./AuthService";
 
 enum StatusCode {
   Unauthorized = 401,
   Forbidden = 403,
+  UserExists = 417,
   TooManyRequests = 429,
   InternalServerError = 500,
 }
 
 const headers: Readonly<Record<string, string | boolean>> = {
-  Accept: "application/json",
-  "Content-Type": "application/json; charset=utf-8",
-  "Access-Control-Allow-Credentials": true,
-  "X-Requested-With": "XMLHttpRequest",
+  Accept: 'application/json',
+  'Content-Type': 'application/json; charset=utf-8',
+  'Access-Control-Allow-Credentials': true,
+  'X-Requested-With': 'XMLHttpRequest',
 };
 
 // We can use the following function to inject the JWT token through an interceptor
@@ -23,6 +24,7 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
 
     if (token != null && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log(token, config.headers)
     }
     return config;
   } catch (error) {
@@ -40,9 +42,9 @@ class Http {
 
   initHttp() {
     const http = axios.create({
-      baseURL: "https://rs-lang-team-34.herokuapp.com",
+      baseURL: 'https://rs-lang-team-34.herokuapp.com',
       headers,
-      withCredentials: true,
+      // withCredentials: true, <- triggers CORS error for some reason
     });
 
     http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
@@ -102,17 +104,22 @@ class Http {
         break;
       }
       case StatusCode.Unauthorized: {
-        const token = localStorage.getItem(USER_TOKEN_KEY);
-        if (token) {
+        // Maybe try to refresh tokens on handle
+        // const token = localStorage.getItem(USER_TOKEN_KEY);
+        // if (token) {
           //TODO get user id from store
           // getNewTokens('123');
           // error.statusText = ''
-        }
-
+        // }
+        // error.statusText = ''test@mail.ru
         break;
       }
       case StatusCode.TooManyRequests: {
         // Handle TooManyRequests
+        break;
+      }
+      case StatusCode.UserExists: {
+        error.data = 'Пользователь с таким e-mail уже существует';
         break;
       }
     }
