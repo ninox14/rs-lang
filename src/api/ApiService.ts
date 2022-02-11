@@ -1,4 +1,5 @@
-import { IWord } from '../redux/types/types';
+import { IUserWord, IWord } from '../redux/types/types';
+import { makeUserWordEndpoint } from '../utils/helpers';
 import { http } from './http';
 
 const WORDS_ENDPOINT = '/words';
@@ -9,10 +10,11 @@ interface IGetWordsOptions {
   group: number;
 }
 
-interface IUserWord {
-  difficulty: string;
-  //TODO interface for optional object
-  optional: unknown;
+interface IUserWordOptions extends IUserWord, IUserWordIDs {}
+
+interface IUserWordIDs {
+  userId: string;
+  wordId: string;
 }
 
 export const getWords = async ({ page, group }: IGetWordsOptions) => {
@@ -22,8 +24,48 @@ export const getWords = async ({ page, group }: IGetWordsOptions) => {
   return response;
 };
 
-export const getUserWords = async (userId: string) => {
+export const getAllUserWords = async (userId: string) => {
   const endpoint = `${USERS_ENDPOINT}/${userId}${WORDS_ENDPOINT}`;
   const response = await http.get<IUserWord[]>(endpoint);
+  return response;
+};
+
+export const createUserWord = async ({
+  userId,
+  wordId,
+  difficulty,
+  optional,
+}: IUserWordOptions) => {
+  const endpoint = makeUserWordEndpoint(userId, wordId);
+  const response = await http.post<IUserWord>(endpoint, {
+    difficulty,
+    optional,
+  });
+  return response;
+};
+
+export const getUserWord = async ({ userId, wordId }: IUserWordIDs) => {
+  const endpoint = makeUserWordEndpoint(userId, wordId);
+  const response = await http.get<IUserWord>(endpoint);
+  return response;
+};
+
+export const updateUserWord = async ({
+  userId,
+  wordId,
+  difficulty,
+  optional,
+}: IUserWordOptions) => {
+  const endpoint = makeUserWordEndpoint(userId, wordId);
+  const response = await http.put<IUserWord>(endpoint, {
+    difficulty,
+    optional,
+  });
+  return response;
+};
+
+export const deleteUserWord = async ({ userId, wordId }: IUserWordIDs) => {
+  const endpoint = makeUserWordEndpoint(userId, wordId);
+  const response = await http.get(endpoint);
   return response;
 };

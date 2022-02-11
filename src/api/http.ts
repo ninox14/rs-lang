@@ -24,7 +24,6 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
 
     if (token != null && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log(token, config.headers)
     }
     return config;
   } catch (error) {
