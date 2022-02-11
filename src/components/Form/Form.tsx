@@ -3,8 +3,8 @@ import './Form.scss';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-// eslint-disable-next-line import/named
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useNavigate } from 'react-router-dom';

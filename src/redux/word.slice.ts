@@ -1,5 +1,5 @@
-// eslint-disable-next-line import/named
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { getWords, IGetWordsOptions } from '../api/ApiService';
 
 import { IWord, IWordSlice } from './types/types';
@@ -51,6 +51,7 @@ const wordsSlice = createSlice({
     ) => {
       state.loading = false;
       state.error = action.payload;
+      console.error(action.payload);
     },
     [getTextbookWords.pending.type]: (state) => {
       state.loading = true;
