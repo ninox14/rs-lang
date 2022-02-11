@@ -9,7 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks';
-import { wordsSlice } from '../../redux/word.slice';
+import { setUserId } from '../../redux/word.slice';
 import { loginHandler, registerHandler } from './services';
 import { validationSchema } from './validation';
 import { FomrProps, FormType, FormValues } from './types';
@@ -18,7 +18,6 @@ export const Form: FC<FomrProps> = ({ type }) => {
   const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
 
-  const { setUserId } = wordsSlice.actions;
   const dispatch = useAppDispatch();
 
   const {

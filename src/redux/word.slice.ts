@@ -1,7 +1,8 @@
 // eslint-disable-next-line import/named
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getWords, IGetWordsOptions } from '../api/ApiService';
 
-import { IWordSlice } from './types/types';
+import { IWord, IWordSlice } from './types/types';
 
 export const initialState: IWordSlice = {
   words: [],
@@ -12,7 +13,15 @@ export const initialState: IWordSlice = {
   error: '',
 };
 
-export const wordsSlice = createSlice({
+const getTextbookWords = createAsyncThunk(
+  'words/getTextbookWords',
+  async (options: IGetWordsOptions) => {
+    const response = await getWords(options);
+    return response.data;
+  }
+);
+
+const wordsSlice = createSlice({
   name: 'words',
   initialState,
   reducers: {
@@ -27,6 +36,31 @@ export const wordsSlice = createSlice({
       state.userId = action.payload;
     },
   },
+  extraReducers: {
+    [getTextbookWords.fulfilled.type]: (
+      state,
+      action: PayloadAction<IWord[]>
+    ) => {
+      state.loading = false;
+      state.error = '';
+      state.words = action.payload;
+    },
+    [getTextbookWords.rejected.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    [getTextbookWords.pending.type]: (state) => {
+      state.loading = true;
+      state.error = '';
+    },
+  },
 });
 
-export const reducer = wordsSlice.reducer;
+const { reducer, actions } = wordsSlice;
+
+export const { setPage, setGroup, setUserId } = actions;
+
+export default reducer;

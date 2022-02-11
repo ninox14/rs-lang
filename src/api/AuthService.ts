@@ -2,7 +2,7 @@ import { USERS_ENDPOINT } from './ApiService';
 import { http } from './http';
 import { FormValues } from '../components/Form/types';
 import { store } from '../redux/store';
-import { wordsSlice } from '../redux/word.slice';
+import { setUserId } from '../redux/word.slice';
 
 export const USER_TOKEN_KEY = 'userToken';
 export const USER_REFRESH_TOKEN_KEY = 'userRefreshToken';
@@ -45,7 +45,6 @@ export const getNewTokens = async (userId: string) => {
   return response;
 };
 export const logOut = () => {
-  const { setUserId } = wordsSlice.actions;
   localStorage.removeItem(USER_TOKEN_KEY);
   store.dispatch(setUserId(''));
 };

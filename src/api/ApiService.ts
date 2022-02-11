@@ -5,7 +5,7 @@ import { http } from './http';
 const WORDS_ENDPOINT = '/words';
 export const USERS_ENDPOINT = '/users';
 
-interface IGetWordsOptions {
+export interface IGetWordsOptions {
   page: number;
   group: number;
 }
