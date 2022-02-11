@@ -6,41 +6,13 @@ import Button from '@mui/material/Button';
 // eslint-disable-next-line import/named
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { createUser, signIn } from '../../api/AuthService';
+
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../redux/hooks';
 import { wordsSlice } from '../../redux/word.slice';
-
-interface FomrProps {
-  type: FormType;
-}
-export enum FormType {
-  LOGIN = 'LOGIN',
-  REGISTER = 'REGISTER',
-}
-export interface FormValues {
-  email: string;
-  password: string;
-}
-
-const validationSchema: yup.SchemaOf<FormValues> = yup.object({
-  email: yup
-    .string()
-    .required('Введите e-mail')
-    .email('Введите существующий e-mail')
-    .matches(/^[\w\-]+@[a-z]+.[a-z]+$/im, {
-      message: 'Введите существующий e-mail',
-    }),
-  password: yup
-    .string()
-    .required('Введите пароль')
-    .min(8, 'Пароль должен содержать не менее 8 символов')
-    .matches(/^[a-z\d]+$/im, {
-      message:
-        'Можно использовать только символы латинского алфавита или цифры',
-    }),
-});
+import { loginHandler, registerHandler } from './services';
+import { validationSchema } from './validation';
+import { FomrProps, FormType, FormValues } from './types';
 
 export const Form: FC<FomrProps> = ({ type }) => {
   const [errorMsg, setErrorMsg] = useState('');
@@ -58,40 +30,17 @@ export const Form: FC<FomrProps> = ({ type }) => {
     shouldUseNativeValidation: false,
   });
 
-  const registerHandler = async (data: FormValues) => {
-    try {
-      const response = await createUser(data);
-      dispatch(setUserId(response.data.userId));
-      console.log(response); // To be removed later
-      navigate(-1);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      if (err.data && typeof err.data === 'string') {
-        setErrorMsg(err.data);
-      }
-      console.error(err);
-    }
-  };
-  const loginHandler = async (data: FormValues) => {
-    try {
-      const response = await signIn(data);
-      dispatch(setUserId(response.data.userId));
-      console.log(response); // To be removed later
-      navigate(-1);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    switch (type) {
-      case FormType.LOGIN:
-        await loginHandler(data);
-        break;
-      case FormType.REGISTER:
-        await registerHandler(data);
-        break;
-    }
+    const handler = type === FormType.LOGIN ? loginHandler : registerHandler;
+    await handler(data, (msg, userId) => {
+      if (msg) {
+        setErrorMsg(msg);
+      }
+      if (userId) {
+        dispatch(setUserId(userId));
+        navigate(-1);
+      }
+    });
   };
 
   return (
@@ -99,12 +48,12 @@ export const Form: FC<FomrProps> = ({ type }) => {
       <div className="form__inputs">
         <TextField
           type="email"
-          error={!!errors.email || !!errorMsg}
+          error={!!errors.email || !!errorMsg ? true : false}
           helperText={
             errors.email || errorMsg
               ? errorMsg
                 ? errorMsg
-                : errors.email
+                : errors.email?.message
               : null
           }
           FormHelperTextProps={{ className: 'helper_text' }}

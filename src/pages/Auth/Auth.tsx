@@ -6,7 +6,8 @@ import { ReactComponent as PlaneSvg } from '../../assets/icons/plane.svg';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { Form, FormType } from '../../components/Form/Form';
+import { Form } from '../../components/Form/Form';
+import { FormType } from '../../components/Form/types';
 
 interface TabPanelProps {
   index: number;

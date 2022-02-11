@@ -1,6 +1,6 @@
 import { USERS_ENDPOINT } from './ApiService';
 import { http } from './http';
-import { FormValues } from '../components/Form/Form';
+import { FormValues } from '../components/Form/types';
 import { store } from '../redux/store';
 import { wordsSlice } from '../redux/word.slice';
 
