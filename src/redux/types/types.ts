@@ -13,6 +13,8 @@ export interface IWord {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
+  userWord?: IUserWord;
+  _id?: string;
 }
 
 export interface IWordSlice {
@@ -22,4 +24,30 @@ export interface IWordSlice {
   group: number;
   userId: string;
   error: string;
+}
+
+export interface IUserWord {
+  difficulty: WordDifficulty;
+  optional: IOptional;
+}
+
+export interface IOptional {
+  audiocall: IWordGameStats;
+  sprint: IWordGameStats;
+}
+
+export interface IWordGameStats {
+  right: number;
+  total: number;
+}
+
+export enum WordDifficulty {
+  DEFAULT = 'default',
+  LEARNED = 'learned',
+  HARD = 'hard',
+}
+
+export interface IAggregatedResponse {
+  paginatedResults: IWord[];
+  totalCount: { count: number }[];
 }
