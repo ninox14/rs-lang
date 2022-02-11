@@ -17,3 +17,13 @@ export const groupsLinksData = [
   { id: 5, title: 'C2', path: '/textbook/5/0', isAuthReq: false },
   { id: 6, title: '★', path: '/textbook/6/0', isAuthReq: true },
 ];
+
+export const gamesMenuData = [
+  {
+    id: 0,
+    name: 'audiocall',
+    title: 'Сыграть в Аудиовызов',
+    path: '/games/audiocall',
+  },
+  { id: 1, name: 'sprint', title: 'Сыграть в Спринт', path: '/games/sprint' },
+];
