@@ -7,9 +7,7 @@ export const registerHandler = async (
 ) => {
   try {
     const response = await createUser(data);
-    // dispatch(setUserId(response.data.userId));
     console.log(response); // To be removed later
-    // navigate(-1);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     if (err.data && typeof err.data === 'string') {
@@ -24,10 +22,8 @@ export const loginHandler = async (
 ) => {
   try {
     const response = await signIn(data);
-    // dispatch(setUserId(response.data.userId));
-    callback('', response.data.token);
+    callback('', response.data.userId);
     console.log(response); // To be removed later
-    // navigate(-1);
   } catch (err) {
     console.error(err);
   }
