@@ -8,8 +8,7 @@ import type { SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../redux/hooks';
-import { setUserId } from '../../redux/word.slice';
+
 import { loginHandler, registerHandler } from './services';
 import { validationSchema } from './validation';
 import { FomrProps, FormType, FormValues } from './types';
@@ -17,8 +16,6 @@ import { FomrProps, FormType, FormValues } from './types';
 export const Form: FC<FomrProps> = ({ type }) => {
   const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
-
-  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -31,12 +28,11 @@ export const Form: FC<FomrProps> = ({ type }) => {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const handler = type === FormType.LOGIN ? loginHandler : registerHandler;
-    await handler(data, (msg, userId) => {
+    await handler(data, (msg, isLogin) => {
       if (msg) {
         setErrorMsg(msg);
       }
-      if (userId) {
-        dispatch(setUserId(userId));
+      if (isLogin) {
         navigate(-1);
       }
     });

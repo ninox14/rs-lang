@@ -18,11 +18,11 @@ export const registerHandler = async (
 };
 export const loginHandler = async (
   data: FormValues,
-  callback: (msg: string, userId: string) => void
+  callback: (msg: string, isLogin: boolean) => void
 ) => {
   try {
     const response = await signIn(data);
-    callback('', response.data.userId);
+    callback('', true);
     console.log(response); // To be removed later
   } catch (err) {
     console.error(err);

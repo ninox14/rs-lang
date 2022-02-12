@@ -21,9 +21,14 @@ interface IUserInfo {
 
 export const signIn = async (userData: FormValues) => {
   const response = await http.post<IUserInfo>('/signin', userData);
-  if (response.data.token && response.data.refreshToken) {
-    localStorage.setItem(USER_TOKEN_KEY, response.data.token);
-    localStorage.setItem(USER_REFRESH_TOKEN_KEY, response.data.refreshToken);
+  const {
+    data: { userId, refreshToken, token },
+  } = response;
+  const isThereUserData = userId && refreshToken && token;
+  if (isThereUserData) {
+    store.dispatch(setUserId(userId));
+    localStorage.setItem(USER_TOKEN_KEY, token);
+    localStorage.setItem(USER_REFRESH_TOKEN_KEY, refreshToken);
   }
   return response;
 };
