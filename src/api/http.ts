@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { USER_TOKEN_KEY } from "./AuthService";
+import { store } from "../redux/store";
+import { getNewTokens, USER_TOKEN_KEY } from "./AuthService";
 
 enum StatusCode {
   Unauthorized = 401,
@@ -21,7 +22,6 @@ const headers: Readonly<Record<string, string | boolean>> = {
 const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
   try {
     const token = localStorage.getItem(USER_TOKEN_KEY);
-
     if (token != null && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -103,14 +103,16 @@ class Http {
         break;
       }
       case StatusCode.Unauthorized: {
-        // Maybe try to refresh tokens on handle
-        // const token = localStorage.getItem(USER_TOKEN_KEY);
-        // if (token) {
-          //TODO get user id from store
-          // getNewTokens('123');
-          // error.statusText = ''
-        // }
-        // error.statusText = ''test@mail.ru
+        const { word: { userId } } = store.getState();
+        const prevConfig = error.config;
+        console.log(prevConfig, userId)
+        if (userId) {
+          return getNewTokens(userId).then(() => this.request(prevConfig))
+          .catch(err => {
+            console.error(err, 'Не удалось перезапросить новый токен')
+            return err
+          })
+        }
         break;
       }
       case StatusCode.TooManyRequests: {
