@@ -25,7 +25,7 @@ interface IUserWordIDs {
 type FilterKey = keyof typeof aggregatedWordsFilters;
 
 interface IUserWordOptions extends IUserWord, IUserWordIDs {}
-interface IAggregatedOptions
+export interface IAggregatedOptions
   extends IGetWordsOptions,
     Pick<IUserWordIDs, 'userId'> {
       filter?: FilterKey
