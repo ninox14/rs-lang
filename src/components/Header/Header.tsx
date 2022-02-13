@@ -1,4 +1,3 @@
-import './Header.scss';
 import pages from 'data/pages';
 import session from 'data/session';
 import { ReactComponent as Logo } from 'assets/icons/rs-lang-logo.svg';
@@ -12,7 +11,6 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography,
 } from '@mui/material';
 
 const Header: FC = () => {
@@ -33,63 +31,53 @@ const Header: FC = () => {
         : 'header__button'
       : 'header__button header__button_hidden';
   };
-
   return (
-    <AppBar className="header" position="static">
-      <Container maxWidth="xl" className="header__container">
-        <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, mr: 2, display: 'flex' }}
-          >
+    <AppBar className="header">
+      <Container className="header__container">
+        <Toolbar className="header__wrapper header__toolbar" disableGutters>
+          <Box className="header__logo">
             <Logo />
-          </Typography>
-          <Box
-            sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}
-            className="header__buttons header__buttons_desktop"
-          >
-            {pages.map(({ label, url, visibility }) => (
+          </Box>
+          <Box className="header__wrapper header__buttons header__buttons_desktop">
+            {pages.map(({ label, url, visibility }, index) => (
               <Link
+                key={'headerLinkDesktop' + index}
                 to={session.loggedIn && url === '/auth' ? '#' : url}
                 className={getHeaderBtnClass(url, visibility)}
-                onClick={handleCloseNavMenu}
               >
                 {session.loggedIn && url === '/auth' ? 'Выйти' : label}
               </Link>
             ))}
           </Box>
-          <Box
-            sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}
-            className="header__buttons header__buttons_mobile"
-          >
+          <Box className="header__wrapper header__buttons header__buttons_mobile">
             <Button
               key="Войти"
               className="header__button header__button_brd"
-              sx={{ my: 2, display: 'block' }}
               onClick={handleOpenNavMenu}
             >
               Меню
             </Button>
             <Menu
               id="menu-appbar"
+              className="header__menu header-menu"
               anchorEl={anchorElNav}
               keepMounted
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               onClick={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
             >
-              {pages.map(({ label, url, visibility }) => (
+              {pages.map(({ label, url, visibility }, index) => (
                 <MenuItem
-                  className={visibility ?? true ? '' : 'header__button_hidden'}
+                  className={
+                    visibility ?? true
+                      ? 'header-menu__menu-item'
+                      : 'header__button_hidden'
+                  }
+                  key={'headerMenuItem' + index}
                 >
                   <Link
                     to={session.loggedIn && url === '/auth' ? '/logout' : url}
-                    className="header__button"
+                    className="header-menu__button-wrapper"
                   >
                     <span
                       className={

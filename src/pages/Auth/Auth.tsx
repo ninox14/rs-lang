@@ -1,5 +1,4 @@
 import { FC, useState, SyntheticEvent } from 'react';
-import './Auth.scss';
 
 import { ReactComponent as PlaneSvg } from '../../assets/icons/plane.svg';
 

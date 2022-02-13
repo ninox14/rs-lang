@@ -11,7 +11,7 @@ import { Textbook } from '../../pages/Textbook/Textbook';
 import { WordList } from '../WordList/WordList';
 import { WordPage } from '../WordPage/WordPage';
 
-export const AppRouter: FC = () => {
+const AppRouter: FC = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -33,3 +33,5 @@ export const AppRouter: FC = () => {
     </BrowserRouter>
   );
 };
+
+export default AppRouter;

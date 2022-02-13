@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import './Form.scss';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
