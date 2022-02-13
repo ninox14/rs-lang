@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { IWord, IWordSlice } from './types/types';
+import { WordDifficulty } from './types/types';
+import type { IUserWord, IWord, IWordSlice } from './types/types';
 import {
   getAggregatedWords,
   getWords,
@@ -40,6 +41,16 @@ export const getUserTextbookWords = createAsyncThunk(
       const reshaped = data.paginatedResults.map((word) => {
         if (word._id) {
           word.id = word._id;
+        }
+        if (!word.userWord) {
+          const defaultUserWord: IUserWord = {
+            difficulty: WordDifficulty.DEFAULT,
+            optional: {
+              audiocall: { right: 0, total: 0 },
+              sprint: { right: 0, total: 0 },
+            },
+          };
+          word.userWord = defaultUserWord;
         }
         return word;
       });
