@@ -24,3 +24,7 @@ export const reshapeWordsForUser = (words: IWord[]) => {
   });
   return words;
 };
+
+export const getRandomNumber = (max: number) => {
+  return Math.floor(Math.random() * max);
+};

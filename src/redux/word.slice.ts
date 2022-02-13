@@ -9,7 +9,7 @@ import {
   IGetWordsOptions,
 } from '../api/ApiService';
 import type { IAggregatedOptions } from '../api/ApiService';
-import { reshapeWordsForUser } from '../utils/helpers';
+import { getRandomNumber, reshapeWordsForUser } from '../utils/helpers';
 
 export const AUDIOCALL_WORD_COUNT = 10;
 
@@ -52,8 +52,8 @@ export const getUserTextbookWords = createAsyncThunk(
   }
 );
 
-export const getWordsForAudiocall = createAsyncThunk(
-  'words/getWordsForAudiocall',
+export const getWordsAudiocall = createAsyncThunk(
+  'words/getWordsAudiocall',
   async (options: IAggregatedOptions, { rejectWithValue }) => {
     try {
       const { data } = await getAggregatedWords({
@@ -62,6 +62,19 @@ export const getWordsForAudiocall = createAsyncThunk(
       });
       const reshaped = reshapeWordsForUser(data.paginatedResults);
       return reshaped;
+    } catch (err) {
+      console.error(err);
+      return rejectWithValue('Не удалось загрузить слова для аудиовызова');
+    }
+  }
+);
+
+export const getWordsAudiocallAnon = createAsyncThunk(
+  'words/getWordsAudiocallAnon',
+  async (options: IGetWordsOptions, { rejectWithValue }) => {
+    try {
+      const { data } = await getWords(options);
+      return data.slice(getRandomNumber(data.length - AUDIOCALL_WORD_COUNT));
     } catch (err) {
       console.error(err);
       return rejectWithValue('Не удалось загрузить слова для аудиовызова');
@@ -124,7 +137,7 @@ const wordsSlice = createSlice({
     [getUserTextbookWords.pending.type]: (state) => {
       state.loading = true;
     },
-    [getWordsForAudiocall.fulfilled.type]: (
+    [getWordsAudiocall.fulfilled.type]: (
       state,
       action: PayloadAction<IWord[]>
     ) => {
@@ -132,14 +145,32 @@ const wordsSlice = createSlice({
       state.error = '';
       state.audiocallWords = action.payload;
     },
-    [getWordsForAudiocall.rejected.type]: (
+    [getWordsAudiocall.rejected.type]: (
       state,
       action: PayloadAction<string>
     ) => {
       state.loading = false;
       state.error = action.payload;
     },
-    [getWordsForAudiocall.pending.type]: (state) => {
+    [getWordsAudiocall.pending.type]: (state) => {
+      state.loading = true;
+    },
+    [getWordsAudiocallAnon.fulfilled.type]: (
+      state,
+      action: PayloadAction<IWord[]>
+    ) => {
+      state.loading = false;
+      state.error = '';
+      state.audiocallWords = action.payload;
+    },
+    [getWordsAudiocallAnon.rejected.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    [getWordsAudiocallAnon.pending.type]: (state) => {
       state.loading = true;
     },
   },
