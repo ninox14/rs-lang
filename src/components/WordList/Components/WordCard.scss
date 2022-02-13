@@ -1,0 +1,210 @@
+@import '../../../styles/variables.scss';
+
+.wordcard {
+  max-width: 768px;
+  width: calc(100% - 10px);
+  padding: 20px;
+  border-radius: 15px;
+  border-top: 5px solid var(--color);
+  background-color: $white;
+
+  & p {
+    margin: 0;
+  }
+}
+
+.wordcard-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wordcard-top__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.wordcard-top__heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 15px;
+}
+
+.wordcard__word {
+  margin: 0;
+}
+
+.wordcard__word {
+  font-size: 18px;
+}
+
+.wordcard__trsc {
+  color: $gray;
+}
+
+.wordcard-top__controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.wordcard-top__controls_auth {
+  display: flex;
+  column-gap: 10px;
+}
+
+.wordcard__btn {
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  font-family: inherit;
+  font-size: 14px;
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.btn_expand {
+  width: 27px;
+  height: 11px;
+  transition: 0.5s;
+}
+
+.wordcard__icon_sound,
+.wordcard__icon_check,
+.wordcard__icon_star,
+.wordcard__icon_chart {
+  stroke: $black;
+}
+
+.wordcard-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 20px;
+  column-gap: 20px;
+}
+
+.wordcard-bottom__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  row-gap: 10px;
+}
+
+.wordcard__img {
+  width: 145px;
+  height: 165px;
+  border-radius: 5px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.wordcard__desc {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10px;
+}
+
+.meaning__text,
+.example__text {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  max-width: 470px;
+}
+
+.meaning__title,
+.example__title {
+  font-weight: bold;
+}
+
+.meaning__ru,
+.example__ru {
+  font-style: italic;
+}
+
+.wordcard__popover {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  row-gap: 5px;
+  min-width: 200px;
+
+  & p {
+    margin: 0;
+  }
+}
+
+.popover__title {
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    border-bottom: 3px solid $orange;
+    border-radius: 15px;
+    width: 100%;
+    height: 3px;
+  }
+}
+
+.popover__audiocall,
+.popover__sprint {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popover__score {
+  background-color: $gray;
+  color: $white;
+  border-radius: 50px;
+  padding: 1px 5px;
+}
+
+.btn_expand_opened {
+  transform: rotate(180deg);
+}
+
+.example__title {
+  min-width: 70px;
+}
+
+@media screen and (max-width: 600px) {
+  .wordcard-bottom {
+    flex-direction: column;
+  }
+
+  .wordcard__img {
+    width: 100%;
+    height: 60px;
+  }
+
+  .wordcard__desc {
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .meaning__text,
+  .example__text {
+    max-width: initial;
+  }
+
+  .wordcard-bottom__content {
+    margin-top: 1em;
+  }
+}
+
+.link_to {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: url(../../../assets/icons/sprint.svg);
+  background-size: contain;
+}
