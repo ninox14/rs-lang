@@ -6,7 +6,7 @@ import { USERS_ENDPOINT } from './ApiService';
 
 export const USER_TOKEN_KEY = 'userToken';
 export const USER_REFRESH_TOKEN_KEY = 'userRefreshToken';
-
+export const USER_ID_KEY = 'userId';
 interface IUserData extends FormValues {
   name: string;
 }
@@ -27,6 +27,7 @@ export const signIn = async (userData: FormValues) => {
   const isThereUserData = userId && refreshToken && token;
   if (isThereUserData) {
     store.dispatch(setUserId(userId));
+    localStorage.setItem(USER_ID_KEY, userId);
     localStorage.setItem(USER_TOKEN_KEY, token);
     localStorage.setItem(USER_REFRESH_TOKEN_KEY, refreshToken);
   }
@@ -43,17 +44,20 @@ export const createUser = async (userData: FormValues) => {
 };
 
 export const getNewTokens = async (userId: string) => {
-  const refreshToken = localStorage.getItem(USER_REFRESH_TOKEN_KEY);
-  if (!refreshToken) {
+  const currentRefreshToken = localStorage.getItem(USER_REFRESH_TOKEN_KEY);
+  if (!currentRefreshToken) {
     throw new Error('Forbidden! No refresh token present in localstorage.');
   }
   const endpoint = `${USERS_ENDPOINT}/${userId}/tokens`;
   const response = await http.get<IUserInfo>(endpoint, {
-    transformRequest: (_, headers) => {
-      if (headers) {
-        headers.Authorization = `Bearer ${refreshToken}`;
-      }
-    },
+    transformRequest: [
+      (_, headers) => {
+        if (headers) {
+          headers.Authorization = `Bearer ${currentRefreshToken}`;
+          console.log('transformed header', headers.Authorization);
+        }
+      },
+    ],
   });
   if (response.data.token && response.data.refreshToken) {
     localStorage.setItem(USER_TOKEN_KEY, response.data.token);
@@ -62,7 +66,29 @@ export const getNewTokens = async (userId: string) => {
   return response;
 };
 export const logOut = () => {
+  localStorage.removeItem(USER_ID_KEY);
   localStorage.removeItem(USER_TOKEN_KEY);
   localStorage.removeItem(USER_REFRESH_TOKEN_KEY);
   store.dispatch(setUserId(''));
+};
+// It doesnt return login data despite it being show as a return in swagger docs entity LOL
+// const getUserData = async (userId: string) => {
+//   const endpoint = `${USERS_ENDPOINT}/${userId}`;
+//   const response = await http.get<FormValues>(endpoint);
+//   return response;
+// };
+
+export const relogin = async () => {
+  const userId = localStorage.getItem(USER_ID_KEY);
+  if (userId) {
+    try {
+      const res = await getNewTokens(userId);
+      console.log(res);
+      store.dispatch(setUserId(userId));
+    } catch (err) {
+      console.error('Probably tokens were deleted or expired');
+      console.error(err);
+      logOut();
+    }
+  }
 };

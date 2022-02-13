@@ -1,6 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { store } from "../redux/store";
-import { getNewTokens, USER_TOKEN_KEY } from "./AuthService";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { store } from '../redux/store';
+import { getNewTokens, USER_TOKEN_KEY } from './AuthService';
 
 enum StatusCode {
   Unauthorized = 401,
@@ -24,6 +24,7 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     const token = localStorage.getItem(USER_TOKEN_KEY);
     if (token != null && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log('token injected', config.headers.Authorization); // To be removed later
     }
     return config;
   } catch (error) {
@@ -46,7 +47,9 @@ class Http {
       // withCredentials: true, <- triggers CORS error for some reason
     });
 
-    http.interceptors.request.use(injectToken, (error) => Promise.reject(error));
+    http.interceptors.request.use(injectToken, (error) =>
+      Promise.reject(error)
+    );
 
     http.interceptors.response.use(
       (response) => response,
@@ -60,11 +63,16 @@ class Http {
     return http;
   }
 
-  request<T = unknown, R = AxiosResponse<T>>(config: AxiosRequestConfig): Promise<R> {
+  request<T = unknown, R = AxiosResponse<T>>(
+    config: AxiosRequestConfig
+  ): Promise<R> {
     return this.http.request(config);
   }
 
-  get<T = unknown, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
+  get<T = unknown, R = AxiosResponse<T>>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
     return this.http.get<T, R>(url, config);
   }
 
@@ -84,7 +92,10 @@ class Http {
     return this.http.put<T, R>(url, data, config);
   }
 
-  delete<T = unknown, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
+  delete<T = unknown, R = AxiosResponse<T>>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
     return this.http.delete<T, R>(url, config);
   }
 
@@ -103,15 +114,19 @@ class Http {
         break;
       }
       case StatusCode.Unauthorized: {
-        const { word: { userId } } = store.getState();
+        console.log(error);
+        const {
+          word: { userId },
+        } = store.getState();
         const prevConfig = error.config;
-        console.log(prevConfig, userId)
+        console.log(prevConfig, userId);
         if (userId) {
-          return getNewTokens(userId).then(() => this.request(prevConfig))
-          .catch(err => {
-            console.error(err, 'Не удалось перезапросить новый токен')
-            return err
-          })
+          return getNewTokens(userId)
+            .then(() => this.request(prevConfig))
+            .catch((err) => {
+              console.error(err, 'Не удалось перезапросить новый токен');
+              return err;
+            });
         }
         break;
       }
