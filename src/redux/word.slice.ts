@@ -1,14 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { WordDifficulty } from './types/types';
-import type { IUserWord, IWord, IWordSlice } from './types/types';
+import type { IWord, IWordSlice } from './types/types';
+
 import {
   getAggregatedWords,
   getWords,
   IGetWordsOptions,
 } from '../api/ApiService';
 import type { IAggregatedOptions } from '../api/ApiService';
+import { reshapeWordsForUser } from '../utils/helpers';
 
 export const initialState: IWordSlice = {
   words: [],
@@ -37,23 +38,7 @@ export const getUserTextbookWords = createAsyncThunk(
   async (options: IAggregatedOptions, { rejectWithValue }) => {
     try {
       const { data } = await getAggregatedWords(options);
-
-      const reshaped = data.paginatedResults.map((word) => {
-        if (word._id) {
-          word.id = word._id;
-        }
-        if (!word.userWord) {
-          const defaultUserWord: IUserWord = {
-            difficulty: WordDifficulty.DEFAULT,
-            optional: {
-              audiocall: { right: 0, total: 0 },
-              sprint: { right: 0, total: 0 },
-            },
-          };
-          word.userWord = defaultUserWord;
-        }
-        return word;
-      });
+      const reshaped = reshapeWordsForUser(data.paginatedResults);
       return reshaped;
     } catch (err) {
       console.error(err);
