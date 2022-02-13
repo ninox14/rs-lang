@@ -24,6 +24,7 @@ export interface IWordSlice {
   group: number;
   userId: string;
   error: string;
+  audiocallWords: IWord[];
 }
 
 export interface IUserWord {

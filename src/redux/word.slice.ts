@@ -11,6 +11,8 @@ import {
 import type { IAggregatedOptions } from '../api/ApiService';
 import { reshapeWordsForUser } from '../utils/helpers';
 
+export const AUDIOCALL_WORD_COUNT = 10;
+
 export const initialState: IWordSlice = {
   words: [],
   loading: true,
@@ -18,6 +20,7 @@ export const initialState: IWordSlice = {
   group: 0,
   userId: '',
   error: '',
+  audiocallWords: [],
 };
 
 export const getTextbookWords = createAsyncThunk(
@@ -45,6 +48,23 @@ export const getUserTextbookWords = createAsyncThunk(
       return rejectWithValue(
         'Не удалось получить слова для этого пользователя'
       );
+    }
+  }
+);
+
+export const getWordsForAudiocall = createAsyncThunk(
+  'words/getWordsForAudiocall',
+  async (options: IAggregatedOptions, { rejectWithValue }) => {
+    try {
+      const { data } = await getAggregatedWords({
+        ...options,
+        wordsPerPage: AUDIOCALL_WORD_COUNT,
+      });
+      const reshaped = reshapeWordsForUser(data.paginatedResults);
+      return reshaped;
+    } catch (err) {
+      console.error(err);
+      return rejectWithValue('Не удалось загрузить слова для аудиовызова');
     }
   }
 );
@@ -102,6 +122,24 @@ const wordsSlice = createSlice({
       state.error = action.payload;
     },
     [getUserTextbookWords.pending.type]: (state) => {
+      state.loading = true;
+    },
+    [getWordsForAudiocall.fulfilled.type]: (
+      state,
+      action: PayloadAction<IWord[]>
+    ) => {
+      state.loading = false;
+      state.error = '';
+      state.audiocallWords = action.payload;
+    },
+    [getWordsForAudiocall.rejected.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    [getWordsForAudiocall.pending.type]: (state) => {
       state.loading = true;
     },
   },

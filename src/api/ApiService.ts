@@ -45,6 +45,7 @@ export interface IAggregatedOptions
   extends IGetWordsOptions,
     Pick<IUserWordIDs, 'userId'> {
   filter?: FilterKey;
+  wordsPerPage?: number;
 }
 
 export const getWords = async ({ page, group }: IGetWordsOptions) => {
@@ -105,13 +106,15 @@ export const getAggregatedWords = async ({
   page,
   group,
   filter,
+  wordsPerPage,
 }: IAggregatedOptions) => {
   const endpoint = `${USERS_ENDPOINT}/${userId}${AGGREGATED_ENDPOINT}`;
+  const newWordsPerPage = wordsPerPage ? wordsPerPage : WORDS_PER_PAGE;
   const response = await http.get<IAggregatedResponse>(endpoint, {
     params: {
       group,
       page,
-      wordsPerPage: WORDS_PER_PAGE,
+      wordsPerPage: newWordsPerPage,
       ...(filter ? { filter: aggregatedWordsFilters[filter] } : {}),
     },
   });
