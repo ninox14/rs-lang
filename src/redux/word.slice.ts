@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+
+import { IWord, IWordSlice } from './types/types';
 import {
   getAggregatedWords,
   getWords,
-  IAggregatedOptions,
   IGetWordsOptions,
 } from '../api/ApiService';
-
-import { IWord, IWordSlice } from './types/types';
+import type { IAggregatedOptions } from '../api/ApiService';
 
 export const initialState: IWordSlice = {
   words: [],
@@ -66,6 +66,9 @@ const wordsSlice = createSlice({
     setUserId: (state, action: PayloadAction<string>) => {
       state.userId = action.payload;
     },
+    setErrorMsg: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    },
   },
   extraReducers: {
     [getTextbookWords.fulfilled.type]: (
@@ -110,6 +113,6 @@ const wordsSlice = createSlice({
 
 const { reducer, actions } = wordsSlice;
 
-export const { setPage, setGroup, setUserId } = actions;
+export const { setPage, setGroup, setUserId, setErrorMsg } = actions;
 
 export default reducer;
