@@ -7,6 +7,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { Form } from '../../components/Form/Form';
+import { FormType } from '../../components/Form/types';
 
 interface TabPanelProps {
   index: number;
@@ -56,10 +57,10 @@ export const Auth: FC = () => {
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-            <Form type="login" />
+            <Form type={FormType.LOGIN} />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <Form type="register" />
+            <Form type={FormType.REGISTER} />
           </TabPanel>
         </div>
       </div>
