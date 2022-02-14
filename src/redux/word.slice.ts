@@ -1,17 +1,14 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import type { IWord, IWordSlice } from './types/types';
-
 import {
-  getAggregatedWords,
-  getWords,
-  IGetWordsOptions,
-} from '../api/ApiService';
-import type { IAggregatedOptions } from '../api/ApiService';
-import { getRandomNumber, reshapeWordsForUser } from '../utils/helpers';
-
-export const AUDIOCALL_WORD_COUNT = 10;
+  getTextbookWords,
+  getUserTextbookWords,
+  getTextbookHardWords,
+  getWordsAudiocall,
+  getWordsAudiocallAnon,
+} from './actions';
 
 export const initialState: IWordSlice = {
   words: [],
@@ -21,66 +18,8 @@ export const initialState: IWordSlice = {
   userId: '',
   error: '',
   audiocallWords: [],
+  maxHardWordsPages: 0,
 };
-
-export const getTextbookWords = createAsyncThunk(
-  'words/getTextbookWords',
-  async (options: IGetWordsOptions, { rejectWithValue }) => {
-    try {
-      const response = await getWords(options);
-      return response.data;
-    } catch (err) {
-      console.error(err);
-      return rejectWithValue('Не удалось загрузить слова');
-    }
-  }
-);
-
-export const getUserTextbookWords = createAsyncThunk(
-  'words/getUserTextbookWords',
-  async (options: IAggregatedOptions, { rejectWithValue }) => {
-    try {
-      const { data } = await getAggregatedWords(options);
-      const reshaped = reshapeWordsForUser(data.paginatedResults);
-      return reshaped;
-    } catch (err) {
-      console.error(err);
-      return rejectWithValue(
-        'Не удалось получить слова для этого пользователя'
-      );
-    }
-  }
-);
-
-export const getWordsAudiocall = createAsyncThunk(
-  'words/getWordsAudiocall',
-  async (options: IAggregatedOptions, { rejectWithValue }) => {
-    try {
-      const { data } = await getAggregatedWords({
-        ...options,
-        wordsPerPage: AUDIOCALL_WORD_COUNT,
-      });
-      const reshaped = reshapeWordsForUser(data.paginatedResults);
-      return reshaped;
-    } catch (err) {
-      console.error(err);
-      return rejectWithValue('Не удалось загрузить слова для аудиовызова');
-    }
-  }
-);
-
-export const getWordsAudiocallAnon = createAsyncThunk(
-  'words/getWordsAudiocallAnon',
-  async (options: IGetWordsOptions, { rejectWithValue }) => {
-    try {
-      const { data } = await getWords(options);
-      return data.slice(getRandomNumber(data.length - AUDIOCALL_WORD_COUNT));
-    } catch (err) {
-      console.error(err);
-      return rejectWithValue('Не удалось загрузить слова для аудиовызова');
-    }
-  }
-);
 
 const wordsSlice = createSlice({
   name: 'words',
@@ -97,6 +36,9 @@ const wordsSlice = createSlice({
     },
     setErrorMsg: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
+    },
+    setMaxHardWordsPages: (state, action: PayloadAction<number>) => {
+      state.maxHardWordsPages = action.payload;
     },
   },
   extraReducers: {
@@ -117,6 +59,25 @@ const wordsSlice = createSlice({
       console.error(action.payload);
     },
     [getTextbookWords.pending.type]: (state) => {
+      state.loading = true;
+    },
+    [getTextbookHardWords.fulfilled.type]: (
+      state,
+      action: PayloadAction<IWord[]>
+    ) => {
+      state.loading = false;
+      state.error = '';
+      state.words = action.payload;
+    },
+    [getTextbookHardWords.rejected.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.loading = false;
+      state.error = action.payload;
+      console.error(action.payload);
+    },
+    [getTextbookHardWords.pending.type]: (state) => {
       state.loading = true;
     },
     [getUserTextbookWords.fulfilled.type]: (
@@ -178,6 +139,12 @@ const wordsSlice = createSlice({
 
 const { reducer, actions } = wordsSlice;
 
-export const { setPage, setGroup, setUserId, setErrorMsg } = actions;
+export const {
+  setPage,
+  setGroup,
+  setUserId,
+  setErrorMsg,
+  setMaxHardWordsPages,
+} = actions;
 
 export default reducer;

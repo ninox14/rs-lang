@@ -11,11 +11,13 @@ import { http } from './http';
 const WORDS_ENDPOINT = '/words';
 export const USERS_ENDPOINT = '/users';
 const AGGREGATED_ENDPOINT = '/aggregatedWords';
-export const WORDS_PER_PAGE = 30;
+export const WORDS_PER_PAGE = 20;
 
 const aggregatedWordsFilters = {
-  placeholderKey: 'placeholderValue',
+  onlyHard: `{"$and":[{"userWord.difficulty":"${WordDifficulty.HARD}"}]}`,
 };
+
+type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 type FilterKey = keyof typeof aggregatedWordsFilters;
 export interface IGetWordsOptions {
@@ -42,15 +44,17 @@ interface IGetAndUpdateOptions extends IUserWordIDs {
   action?: UpdateUserWordAction;
 }
 export interface IAggregatedOptions
-  extends IGetWordsOptions,
+  extends PartialBy<IGetWordsOptions, 'group'>,
     Pick<IUserWordIDs, 'userId'> {
   filter?: FilterKey;
   wordsPerPage?: number;
 }
 
-export const getWords = async ({ page, group }: IGetWordsOptions) => {
+export const getWords = async (
+  options: PartialBy<IGetWordsOptions, 'page'>
+) => {
   const response = await http.get<IWord[]>(WORDS_ENDPOINT, {
-    params: { group, page },
+    params: { ...options },
   });
   return response;
 };

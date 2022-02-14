@@ -25,6 +25,7 @@ export interface IWordSlice {
   userId: string;
   error: string;
   audiocallWords: IWord[];
+  maxHardWordsPages: number;
 }
 
 export interface IUserWord {
@@ -51,4 +52,9 @@ export enum WordDifficulty {
 export interface IAggregatedResponse {
   paginatedResults: IWord[];
   totalCount: { count: number }[];
+}
+
+export interface IHardWordsOptions {
+  userId: string;
+  page: number;
 }
