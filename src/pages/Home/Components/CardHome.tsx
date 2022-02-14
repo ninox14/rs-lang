@@ -6,20 +6,26 @@ interface CardsData {
   id?: number;
   title: string;
   iconName: string;
-  desc: string;
+  description: string;
   linkName: string;
   path: string;
 }
 
-export const CardHome: FC<CardsData> = (props) => {
+export const CardHome: FC<CardsData> = ({
+  title,
+  iconName,
+  description,
+  linkName,
+  path,
+}) => {
   return (
     <div className="advantages-card">
-      <div className="advantages-card__title">{props.title}</div>
-      <div className={`advantages-card__icon  icon_${props.iconName}`}></div>
+      <div className="advantages-card__title">{title}</div>
+      <div className={`advantages-card__icon  icon_${iconName}`}></div>
       <div className="advantages-card__desc">
-        {props.desc}
-        <Link className="advantages-card__link" to={props.path}>
-          {props.linkName}
+        {description}
+        <Link className="advantages-card__link" to={path}>
+          {linkName}
         </Link>
       </div>
     </div>

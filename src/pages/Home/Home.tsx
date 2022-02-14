@@ -37,7 +37,7 @@ export const Home: FC = () => {
               key={el.id}
               title={el.title}
               iconName={el.iconName}
-              desc={el.desc}
+              description={el.description}
               linkName={el.linkName}
               path={el.path}
             >
