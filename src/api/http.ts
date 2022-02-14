@@ -115,11 +115,16 @@ class Http {
       }
       case StatusCode.Unauthorized: {
         console.log(error);
+        const prevConfig = error.config;
+        if (prevConfig.url?.includes('tokens')) {
+          break; // brake out of infinite loop
+        }
         const {
           word: { userId },
         } = store.getState();
-        const prevConfig = error.config;
+
         console.log(prevConfig, userId);
+
         if (userId) {
           return getNewTokens(userId)
             .then(() => this.request(prevConfig))
