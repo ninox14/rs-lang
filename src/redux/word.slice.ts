@@ -8,6 +8,8 @@ import {
   getTextbookHardWords,
   getWordsAudiocall,
   getWordsAudiocallAnon,
+  getWordsSprint,
+  getWordsSprintAnon,
 } from './actions';
 
 export const initialState: IWordSlice = {
@@ -17,7 +19,9 @@ export const initialState: IWordSlice = {
   group: 0,
   userId: '',
   error: '',
+  isGameRanFromTextbook: false,
   audiocallWords: [],
+  sptrinWords: [],
   maxHardWordsPages: 0,
 };
 
@@ -39,6 +43,9 @@ const wordsSlice = createSlice({
     },
     setMaxHardWordsPages: (state, action: PayloadAction<number>) => {
       state.maxHardWordsPages = action.payload;
+    },
+    setIsGameRanFromTextbook: (state, action: PayloadAction<boolean>) => {
+      state.isGameRanFromTextbook = action.payload;
     },
   },
   extraReducers: {
@@ -134,6 +141,39 @@ const wordsSlice = createSlice({
     [getWordsAudiocallAnon.pending.type]: (state) => {
       state.loading = true;
     },
+    [getWordsSprint.fulfilled.type]: (
+      state,
+      action: PayloadAction<IWord[]>
+    ) => {
+      state.loading = false;
+      state.error = '';
+      state.audiocallWords = action.payload;
+    },
+    [getWordsSprint.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    [getWordsSprint.pending.type]: (state) => {
+      state.loading = true;
+    },
+    [getWordsSprintAnon.fulfilled.type]: (
+      state,
+      action: PayloadAction<IWord[]>
+    ) => {
+      state.loading = false;
+      state.error = '';
+      state.audiocallWords = action.payload;
+    },
+    [getWordsSprintAnon.rejected.type]: (
+      state,
+      action: PayloadAction<string>
+    ) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    [getWordsSprintAnon.pending.type]: (state) => {
+      state.loading = true;
+    },
   },
 });
 
@@ -145,6 +185,7 @@ export const {
   setUserId,
   setErrorMsg,
   setMaxHardWordsPages,
+  setIsGameRanFromTextbook,
 } = actions;
 
 export default reducer;

@@ -24,7 +24,9 @@ export interface IWordSlice {
   group: number;
   userId: string;
   error: string;
+  isGameRanFromTextbook: boolean;
   audiocallWords: IWord[];
+  sptrinWords: IWord[];
   maxHardWordsPages: number;
 }
 

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { IHardWordsOptions } from './types/types';
+import type { IHardWordsOptions, IWord } from './types/types';
 
 import {
   getAggregatedWords,
@@ -7,7 +7,7 @@ import {
   WORDS_PER_PAGE,
 } from '../api/ApiService';
 import type { IAggregatedOptions, IGetWordsOptions } from '../api/ApiService';
-import { getRandomNumber, reshapeWordsForUser } from '../utils/helpers';
+import { reshapeWordsForUser } from '../utils/helpers';
 import { setMaxHardWordsPages } from './word.slice';
 
 export const AUDIOCALL_WORD_COUNT = 20;
@@ -103,7 +103,7 @@ export const getWordsAudiocallAnon = createAsyncThunk(
   async (options: IGetWordsOptions, { rejectWithValue }) => {
     try {
       const { data } = await getWords(options);
-      return data.slice(getRandomNumber(data.length - AUDIOCALL_WORD_COUNT));
+      return data;
     } catch (err) {
       console.error(err);
       return rejectWithValue('Не удалось загрузить слова для аудиовызова');
@@ -111,20 +111,38 @@ export const getWordsAudiocallAnon = createAsyncThunk(
   }
 );
 
-// export const getWordsSprint = createAsyncThunk(
-//   'words/getWordsAudiocall',
-//   async (options: IAggregatedOptions, { rejectWithValue }) => {
-//     const { page, group } = options;
-//     const pagesToGetFrom: IGetWordsOptions[] = [];
+export const getWordsSprint = createAsyncThunk(
+  'words/getWordsAudiocall',
+  async ({ page, group, userId }: IAggregatedOptions, { rejectWithValue }) => {
+    if (!group) {
+      throw new Error('This should not happend');
+    }
+    const pagesToGetFrom = getPossiblePages({ group, page });
 
-//     try {
-//       const { data } = await getAggregatedWords({
-//         ...options,
-//       });
-//       return data;
-//     } catch (err) {
-//       console.error(err);
-//       return rejectWithValue('');
-//     }
-//   }
-// );
+    try {
+      const words: IWord[] = [];
+      for (const item of pagesToGetFrom) {
+        const { data } = await getAggregatedWords({ ...item, userId });
+        const reshaped = reshapeWordsForUser(data.paginatedResults);
+        words.push(...reshaped);
+      }
+      return words;
+    } catch (err) {
+      console.error(err);
+      return rejectWithValue("Не удалось загрузить слова для сринт'а");
+    }
+  }
+);
+
+export const getWordsSprintAnon = createAsyncThunk(
+  'words/getWordsAudiocallAnon',
+  async (options: IGetWordsOptions, { rejectWithValue }) => {
+    try {
+      const { data } = await getWords(options);
+      return data;
+    } catch (err) {
+      console.error(err);
+      return rejectWithValue("Не удалось загрузить слова для сринт'а");
+    }
+  }
+);
