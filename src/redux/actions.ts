@@ -1,14 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { IHardWordsOptions, IWord } from './types/types';
+import type { IHardWordsOptions, IWord } from 'redux/types/types';
 
 import {
   getAggregatedWords,
   getWords,
   WORDS_PER_PAGE,
 } from '../api/ApiService';
-import type { IAggregatedOptions, IGetWordsOptions } from '../api/ApiService';
-import { reshapeWordsForUser } from '../utils/helpers';
-import { setMaxHardWordsPages } from './word.slice';
+import type { IAggregatedOptions, IGetWordsOptions } from 'api/ApiService';
+import { reshapeWordsForUser } from 'utils/helpers';
+import { setMaxHardWordsPages } from 'redux/word.slice';
 
 export const AUDIOCALL_WORD_COUNT = 20;
 const SPRINT_MAX_PAGE_COUNT = 3;

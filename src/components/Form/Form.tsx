@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react';
-import './Form.scss';
+import 'components/Form/Form.scss';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -9,11 +9,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useNavigate } from 'react-router-dom';
 
-import { loginHandler, registerHandler } from './services';
-import { validationSchema } from './validation';
-import { FomrProps, FormType, FormValues } from './types';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setErrorMsg } from '../../redux/word.slice';
+import { loginHandler, registerHandler } from 'components/Form/services';
+import { validationSchema } from 'components/Form/validation';
+import { FomrProps, FormType, FormValues } from 'components/Form/types';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setErrorMsg } from 'redux/word.slice';
 
 export const Form: FC<FomrProps> = ({ type }) => {
   const errorMsg = useAppSelector((state) => state.word.error);

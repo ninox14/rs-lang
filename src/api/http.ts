@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { store } from '../redux/store';
-import { setErrorMsg } from '../redux/word.slice';
-import { getNewTokens, USER_TOKEN_KEY } from './AuthService';
+import { store } from 'redux/store';
+import { setErrorMsg } from 'redux/word.slice';
+import { getNewTokens, USER_TOKEN_KEY } from 'api/AuthService';
 
 enum StatusCode {
   Unauthorized = 401,

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import type { IWord, IWordSlice } from './types/types';
+import type { IWord, IWordSlice } from 'redux/types/types';
 import {
   getTextbookWords,
   getUserTextbookWords,
@@ -10,7 +10,7 @@ import {
   getWordsAudiocallAnon,
   getWordsSprint,
   getWordsSprintAnon,
-} from './actions';
+} from 'redux/actions';
 
 export const initialState: IWordSlice = {
   words: [],

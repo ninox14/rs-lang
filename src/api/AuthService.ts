@@ -1,8 +1,8 @@
-import { http } from './http';
-import { store } from '../redux/store';
-import { setUserId } from '../redux/word.slice';
-import { FormValues } from '../components/Form/types';
-import { USERS_ENDPOINT } from './ApiService';
+import { http } from 'api/http';
+import { store } from 'redux/store';
+import { setUserId } from 'redux/word.slice';
+import { FormValues } from 'components/Form/types';
+import { USERS_ENDPOINT } from 'api/ApiService';
 
 export const USER_TOKEN_KEY = 'userToken';
 export const USER_REFRESH_TOKEN_KEY = 'userRefreshToken';

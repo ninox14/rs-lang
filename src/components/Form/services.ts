@@ -1,5 +1,5 @@
-import { createUser, signIn } from '../../api/AuthService';
-import { FormValues } from './types';
+import { createUser, signIn } from 'api/AuthService';
+import { FormValues } from 'components/Form/types';
 
 export const registerHandler = async (data: FormValues) => {
   try {

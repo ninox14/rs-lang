@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { FormValues } from './types';
+import { FormValues } from 'components/Form/types';
 
 export const validationSchema: yup.SchemaOf<FormValues> = yup.object({
   email: yup
