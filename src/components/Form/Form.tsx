@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect } from 'react';
 import './Form.scss';
 
 import TextField from '@mui/material/TextField';
@@ -12,10 +12,18 @@ import { useNavigate } from 'react-router-dom';
 import { loginHandler, registerHandler } from './services';
 import { validationSchema } from './validation';
 import { FomrProps, FormType, FormValues } from './types';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setErrorMsg } from '../../redux/word.slice';
 
 export const Form: FC<FomrProps> = ({ type }) => {
-  const [errorMsg, setErrorMsg] = useState('');
+  const errorMsg = useAppSelector((state) => state.word.error);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(setErrorMsg(''));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     register,
@@ -28,15 +36,13 @@ export const Form: FC<FomrProps> = ({ type }) => {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     const handler = type === FormType.LOGIN ? loginHandler : registerHandler;
-    await handler(data, (msg, isLogin) => {
-      if (msg) {
-        setErrorMsg(msg);
-      }
+    await handler(data, (isLogin) => {
       if (isLogin) {
         navigate(-1);
       }
     });
   };
+  const changeHandler = () => dispatch(setErrorMsg(''));
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -58,10 +64,11 @@ export const Form: FC<FomrProps> = ({ type }) => {
           required
           inputProps={{ ...register('email') }}
           fullWidth
+          onChange={changeHandler}
         />
         <TextField
           type="password"
-          error={!!errors.password}
+          error={!!errors.password || !!errorMsg}
           helperText={errors.password ? errors.password.message : null}
           FormHelperTextProps={{ className: 'helper_text' }}
           className="input"
@@ -70,6 +77,7 @@ export const Form: FC<FomrProps> = ({ type }) => {
           required
           inputProps={{ ...register('password') }}
           fullWidth
+          onChange={changeHandler}
         />
       </div>
       <Button type="submit" className="form__button" variant="contained">

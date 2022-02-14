@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { store } from '../redux/store';
+import { setErrorMsg } from '../redux/word.slice';
 import { getNewTokens, USER_TOKEN_KEY } from './AuthService';
 
 enum StatusCode {
@@ -110,7 +111,7 @@ class Http {
         break;
       }
       case StatusCode.Forbidden: {
-        // Handle Forbidden
+        store.dispatch(setErrorMsg('Не правильный e-mail или пароль'));
         break;
       }
       case StatusCode.Unauthorized: {
@@ -129,7 +130,7 @@ class Http {
           return getNewTokens(userId)
             .then(() => this.request(prevConfig))
             .catch((err) => {
-              console.error(err, 'Не удалось перезапросить новый токен');
+              console.error('Не удалось перезапросить новый токен', err);
               return err;
             });
         }
@@ -140,7 +141,10 @@ class Http {
         break;
       }
       case StatusCode.UserExists: {
-        error.data = 'Пользователь с таким e-mail уже существует';
+        // error.data = 'Пользователь с таким e-mail уже существует';
+        store.dispatch(
+          setErrorMsg('Пользователь с таким e-mail уже существует')
+        );
         break;
       }
     }
