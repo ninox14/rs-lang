@@ -6,15 +6,7 @@ import Button from '@mui/material/Button';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
-interface FomrProps {
-  type: 'login' | 'register';
-}
-
-interface FormValues {
-  email: string;
-  password: string;
-}
+import { FormValues, FomrProps } from 'types/rs-lang';
 
 const validationSchema: yup.SchemaOf<FormValues> = yup.object({
   email: yup

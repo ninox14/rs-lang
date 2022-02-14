@@ -1,4 +1,6 @@
-const palette = {
+import { Palette } from 'types/rs-lang';
+
+const palette: Palette = {
   base: {
     white: '#ffffff',
     black: '#000000',
