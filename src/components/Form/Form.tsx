@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import './Form.scss';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -7,15 +6,7 @@ import Button from '@mui/material/Button';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
-interface FomrProps {
-  type: 'login' | 'register';
-}
-
-interface FormValues {
-  email: string;
-  password: string;
-}
+import { FormValues, FomrProps } from './types';
 
 const validationSchema: yup.SchemaOf<FormValues> = yup.object({
   email: yup
@@ -34,7 +25,7 @@ const validationSchema: yup.SchemaOf<FormValues> = yup.object({
         'Можно использовать только символы латинского алфавита или цифры',
     }),
 });
-export const Form: FC<FomrProps> = ({ type }) => {
+const Form: FC<FomrProps> = ({ type }) => {
   const {
     register,
     handleSubmit,
@@ -54,8 +45,10 @@ export const Form: FC<FomrProps> = ({ type }) => {
           type="email"
           error={!!errors.email}
           helperText={errors.email ? errors.email.message : null}
-          FormHelperTextProps={{ className: 'helper_text' }}
-          className="input"
+          FormHelperTextProps={{
+            className: 'helper-text form__input-helper-text',
+          }}
+          className="input form__input"
           label="E-mail"
           variant="outlined"
           required
@@ -66,8 +59,10 @@ export const Form: FC<FomrProps> = ({ type }) => {
           type="password"
           error={!!errors.password}
           helperText={errors.password ? errors.password.message : null}
-          FormHelperTextProps={{ className: 'helper_text' }}
-          className="input"
+          FormHelperTextProps={{
+            className: 'helper-text form__input-helper-text',
+          }}
+          className="input form__input"
           label="Пароль"
           variant="outlined"
           required
@@ -75,9 +70,11 @@ export const Form: FC<FomrProps> = ({ type }) => {
           fullWidth
         />
       </div>
-      <Button type="submit" className="form__button" variant="contained">
+      <Button type="submit" className="button form__button" variant="contained">
         {type === 'login' ? 'Войти' : 'Зарегистрироваться'}
       </Button>
     </form>
   );
 };
+
+export default Form;
