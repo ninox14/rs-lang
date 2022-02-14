@@ -45,8 +45,10 @@ const Form: FC<FomrProps> = ({ type }) => {
           type="email"
           error={!!errors.email}
           helperText={errors.email ? errors.email.message : null}
-          FormHelperTextProps={{ className: 'helper_text' }}
-          className="input"
+          FormHelperTextProps={{
+            className: 'helper-text form__input-helper-text',
+          }}
+          className="input form__input"
           label="E-mail"
           variant="outlined"
           required
@@ -57,8 +59,10 @@ const Form: FC<FomrProps> = ({ type }) => {
           type="password"
           error={!!errors.password}
           helperText={errors.password ? errors.password.message : null}
-          FormHelperTextProps={{ className: 'helper_text' }}
-          className="input"
+          FormHelperTextProps={{
+            className: 'helper-text form__input-helper-text',
+          }}
+          className="input form__input"
           label="Пароль"
           variant="outlined"
           required
@@ -66,7 +70,7 @@ const Form: FC<FomrProps> = ({ type }) => {
           fullWidth
         />
       </div>
-      <Button type="submit" className="form__button" variant="contained">
+      <Button type="submit" className="button form__button" variant="contained">
         {type === 'login' ? 'Войти' : 'Зарегистрироваться'}
       </Button>
     </form>

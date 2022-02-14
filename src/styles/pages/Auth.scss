@@ -1,6 +1,6 @@
 @import "styles/variables/_";
 
-.page_auth {
+.auth {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,43 +15,56 @@
   }
 }
 
-.auth {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 50px;
-  width: 650px;
-  height: 440px;
-  background-color: $light-gray;
-  box-shadow: 0px 4px 4px $shadow-medium;
-  border-radius: 10px;
+.auth__ {
+  &container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px;
+    width: 650px;
+    height: 440px;
+    background-color: $light-gray;
+    box-shadow: 0px 4px 4px $shadow-medium;
+    border-radius: 10px;
+    
+    @include l {
+      justify-content: center;
+    }
 
-  &__form-container {
-    width: 350px;
-    padding: 0 30px;
+    @include s {
+      background-color: $white;
+      box-shadow: none;
+      padding: 0;
+      width: 100%;
+    }
   }
-
-  @include l {
-    justify-content: center;
-
-    &__svg {
+  &svg {
+    @include l {
       display: none;
     }
   }
 
-  @include s {
-    background-color: $white;
-    box-shadow: none;
-    padding: 0;
+  &form-container {
+    width: 350px;
+    padding: 0 30px;
+  }
+
+  &tabs-wrapper {
     width: 100%;
   }
-}
 
-.auth_tabs {
-  & .MuiTabs-flexContainer{
-    justify-content: space-between;
+  &tabs {
+    .MuiTabs-flexContainer{
+      justify-content: space-between;
+    }
+    .MuiTabs-indicator {
+      height: 2px;
+      background-color: $black;
+      border-radius: 3px;
+    }
   }
-  & .MuiTab-root {
+
+  &tab {
     font-family: inherit;
     text-transform: capitalize;
     font-weight: 700;
@@ -65,17 +78,13 @@
     &:hover {
       background-color: $shadow-light;
     }
-  }
-  & .Mui-selected {
-    color: $black!important;
-  }
-  & .MuiTabs-indicator {
-    height: 2px;
-    background-color: $black;
-    border-radius: 3px;
-  }
-}
 
-.tab_panel {
-  height: 100%;
+    &.Mui-selected {
+      color: $black;
+    }
+  }
+  
+  &tab-panel {
+    height: 100%;
+  }
 }

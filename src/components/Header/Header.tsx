@@ -52,7 +52,7 @@ const Header: FC = () => {
           <Box className="header__wrapper header__buttons header__buttons_mobile">
             <Button
               key="Войти"
-              className="header__button header__button_brd"
+              className="button header__button header__button_brd"
               onClick={handleOpenNavMenu}
             >
               Меню

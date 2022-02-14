@@ -17,7 +17,7 @@ const TabPanel: FC<TabPanelProps> = (props) => {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      className="tab_panel"
+      className="auth__tab-panel"
       {...other}
     >
       {value === index && children}
@@ -40,14 +40,18 @@ const Auth: FC = () => {
   };
 
   return (
-    <main className="page page_auth">
-      <div className="auth">
+    <main className="page page_auth auth">
+      <div className="auth__container">
         <PlaneSvg className="auth__svg" />
         <div className="auth__form-container">
-          <Box sx={{ width: '100%' }}>
-            <Tabs className="auth_tabs" value={value} onChange={handleChange}>
-              <Tab label="Вход" {...allyProps(0)} />
-              <Tab label="Регистрация" {...allyProps(1)} />
+          <Box className="auth__tabs-wrapper">
+            <Tabs className="auth__tabs" value={value} onChange={handleChange}>
+              <Tab className="auth__tab" label="Вход" {...allyProps(0)} />
+              <Tab
+                className="auth__tab"
+                label="Регистрация"
+                {...allyProps(1)}
+              />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
