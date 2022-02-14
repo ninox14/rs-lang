@@ -33,7 +33,7 @@ const validationSchema: yup.SchemaOf<FormValues> = yup.object({
         'Можно использовать только символы латинского алфавита или цифры',
     }),
 });
-export const Form: FC<FomrProps> = ({ type }) => {
+const Form: FC<FomrProps> = ({ type }) => {
   const {
     register,
     handleSubmit,
@@ -80,3 +80,5 @@ export const Form: FC<FomrProps> = ({ type }) => {
     </form>
   );
 };
+
+export default Form;

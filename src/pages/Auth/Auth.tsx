@@ -5,7 +5,7 @@ import { ReactComponent as PlaneSvg } from '../../assets/icons/plane.svg';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { Form } from '../../components/Form/Form';
+import Form from '../../components/Form/Form';
 
 interface TabPanelProps {
   index: number;
@@ -36,7 +36,7 @@ const allyProps = (index: number) => {
   };
 };
 
-export const Auth: FC = () => {
+const Auth: FC = () => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
@@ -65,3 +65,5 @@ export const Auth: FC = () => {
     </main>
   );
 };
+
+export default Auth;

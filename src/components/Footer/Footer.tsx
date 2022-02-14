@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { ReactComponent as RSSLogo } from 'assets/icons/rs-school-logo.svg';
 
-export const Footer: FC = () => (
+const Footer: FC = () => (
   <footer className="footer">
     <div className="footer__wrapper">
       <a
@@ -38,3 +38,5 @@ export const Footer: FC = () => (
     </div>
   </footer>
 );
+
+export default Footer;

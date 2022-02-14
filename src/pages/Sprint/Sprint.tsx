@@ -1,3 +1,5 @@
 import { FC } from 'react';
 
-export const Sprint: FC = () => <h1>Sprint</h1>;
+const Sprint: FC = () => <h1>Sprint</h1>;
+
+export default Sprint;
