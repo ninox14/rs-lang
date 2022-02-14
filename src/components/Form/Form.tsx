@@ -22,6 +22,9 @@ export const Form: FC<FomrProps> = ({ type }) => {
 
   useEffect(() => {
     dispatch(setErrorMsg(''));
+    return () => {
+      dispatch(setErrorMsg(''));
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
