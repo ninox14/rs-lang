@@ -6,7 +6,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Form from 'components/Form/Form';
-import { TabPanelProps } from 'types/rs-lang';
+import { TabPanelProps } from './types';
 
 const TabPanel: FC<TabPanelProps> = (props) => {
   const { children, value, index, ...other } = props;

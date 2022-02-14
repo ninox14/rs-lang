@@ -14,20 +14,6 @@ export interface LS {
   nightMode: boolean;
 }
 
-export interface FomrProps {
-  type: 'login' | 'register';
-}
-
-export interface FormValues {
-  email: string;
-  password: string;
-}
-
-export interface TabPanelProps {
-  index: number;
-  value: number;
-}
-
 export interface PaletteSection {
   [key: string]: string;
 }
