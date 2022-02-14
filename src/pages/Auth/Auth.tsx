@@ -1,11 +1,11 @@
 import { FC, useState, SyntheticEvent } from 'react';
 
-import { ReactComponent as PlaneSvg } from '../../assets/icons/plane.svg';
+import { ReactComponent as PlaneSvg } from 'assets/icons/plane.svg';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import Form from '../../components/Form/Form';
+import Form from 'components/Form/Form';
 
 interface TabPanelProps {
   index: number;

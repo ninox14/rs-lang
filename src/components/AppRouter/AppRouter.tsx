@@ -1,15 +1,15 @@
 import { FC } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Audiocall from '../../pages/Audiocall/Audiocall';
-import Auth from '../../pages/Auth/Auth';
-import Games from '../../pages/Games/Games';
-import Home from '../../pages/Home/Home';
-import PageLayout from '../../pages/PageLayout/PageLayout';
-import Sprint from '../../pages/Sprint/Sprint';
-import Team from '../../pages/Team/Team';
-import Textbook from '../../pages/Textbook/Textbook';
-import WordList from '../WordList/WordList';
-import WordPage from '../WordPage/WordPage';
+import Audiocall from 'pages/Audiocall/Audiocall';
+import Auth from 'pages/Auth/Auth';
+import Games from 'pages/Games/Games';
+import Home from 'pages/Home/Home';
+import PageLayout from 'pages/PageLayout/PageLayout';
+import Sprint from 'pages/Sprint/Sprint';
+import Team from 'pages/Team/Team';
+import Textbook from 'pages/Textbook/Textbook';
+import WordList from 'components/WordList/WordList';
+import WordPage from 'components/WordPage/WordPage';
 
 const AppRouter: FC = () => {
   return (
