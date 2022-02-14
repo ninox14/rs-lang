@@ -21,7 +21,7 @@ export const initialState: IWordSlice = {
   error: '',
   isGameRanFromTextbook: false,
   audiocallWords: [],
-  sptrinWords: [],
+  sprintWords: [],
   maxHardWordsPages: 0,
 };
 
@@ -147,7 +147,7 @@ const wordsSlice = createSlice({
     ) => {
       state.loading = false;
       state.error = '';
-      state.audiocallWords = action.payload;
+      state.sprintWords = action.payload;
     },
     [getWordsSprint.rejected.type]: (state, action: PayloadAction<string>) => {
       state.loading = false;
@@ -162,7 +162,7 @@ const wordsSlice = createSlice({
     ) => {
       state.loading = false;
       state.error = '';
-      state.audiocallWords = action.payload;
+      state.sprintWords = action.payload;
     },
     [getWordsSprintAnon.rejected.type]: (
       state,

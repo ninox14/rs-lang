@@ -26,7 +26,7 @@ export interface IWordSlice {
   error: string;
   isGameRanFromTextbook: boolean;
   audiocallWords: IWord[];
-  sptrinWords: IWord[];
+  sprintWords: IWord[];
   maxHardWordsPages: number;
 }
 
