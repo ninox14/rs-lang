@@ -9,7 +9,12 @@ export const Games: FC = () => (
       <h2 className="games__title">Выберите мини-игру:</h2>
       <div className="games__cards-container">
         {CardData.map((el) => (
-          <CardGames key={el.id} type={el.type} name={el.name} desc={el.desc} />
+          <CardGames
+            key={el.id}
+            path={el.path}
+            name={el.name}
+            description={el.description}
+          />
         ))}
       </div>
     </div>

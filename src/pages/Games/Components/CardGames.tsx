@@ -4,20 +4,20 @@ import './CardGames.scss';
 
 interface CardsData {
   id?: number;
-  type: string;
+  path: string;
   name: string;
-  desc: string;
+  description: string;
 }
 
-export const CardGames: FC<CardsData> = (props) => {
+export const CardGames: FC<CardsData> = ({ path, name, description }) => {
   return (
-    <Link className="games-card" to={`/games/${props.type}`}>
+    <Link className="games-card" to={`/games/${path}`}>
       <div className="games-card__heading-container">
         <p className="games-card__subtitle">Мини-игра</p>
-        <h3 className="games-card__title">{props.name}</h3>
+        <h3 className="games-card__title">{name}</h3>
       </div>
-      <div className={`games-card__icon games-card__icon_${props.type}`}></div>
-      <p className="games-card__desc">{props.desc}</p>
+      <div className={`games-card__icon games-card__icon_${path}`}></div>
+      <p className="games-card__desc">{description}</p>
     </Link>
   );
 };
