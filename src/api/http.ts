@@ -111,7 +111,7 @@ class Http {
         break;
       }
       case StatusCode.Forbidden: {
-        store.dispatch(setErrorMsg('Не правильный e-mail или пароль'));
+        store.dispatch(setErrorMsg('Неправильный e-mail или пароль'));
         break;
       }
       case StatusCode.Unauthorized: {
