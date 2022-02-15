@@ -1,10 +1,10 @@
-import { WordDifficulty } from 'redux/types/types';
+import { WordDifficulty } from '../redux/types/types.d';
 import type {
   IAggregatedResponse,
   IOptional,
   IUserWord,
   IWord,
-} from 'redux/types/types';
+} from '../redux/types/types';
 import { makeUserWordEndpoint } from 'utils/helpers';
 import { http } from 'api/http';
 
