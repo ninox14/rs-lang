@@ -9,6 +9,7 @@ import {
 import type { IAggregatedOptions, IGetWordsOptions } from 'api/ApiService';
 import { reshapeWordsForUser } from 'utils/helpers';
 import { setMaxHardWordsPages } from 'redux/word.slice';
+import { RootState } from './store';
 
 export const AUDIOCALL_WORD_COUNT = 20;
 const SPRINT_MAX_PAGE_COUNT = 3;
@@ -51,7 +52,7 @@ export const getUserTextbookWords = createAsyncThunk(
   async (options: IAggregatedOptions, { rejectWithValue }) => {
     try {
       const { data } = await getAggregatedWords(options);
-      const reshaped = reshapeWordsForUser(data.paginatedResults);
+      const reshaped = reshapeWordsForUser(data[0].paginatedResults);
       return reshaped;
     } catch (err) {
       console.error(err);
@@ -70,8 +71,8 @@ export const getTextbookHardWords = createAsyncThunk(
         ...options,
         filter: 'onlyHard',
       });
-      const reshaped = reshapeWordsForUser(data.paginatedResults);
-      const maxPages = Math.floor(data.totalCount[0].count / WORDS_PER_PAGE);
+      const reshaped = reshapeWordsForUser(data[0].paginatedResults);
+      const maxPages = Math.floor(data[0].totalCount[0].count / WORDS_PER_PAGE);
       dispatch(setMaxHardWordsPages(maxPages));
       return reshaped;
     } catch (err) {
@@ -83,13 +84,15 @@ export const getTextbookHardWords = createAsyncThunk(
 
 export const getWordsAudiocall = createAsyncThunk(
   'words/getWordsAudiocall',
-  async (options: IAggregatedOptions, { rejectWithValue }) => {
+  async (options: IAggregatedOptions, { getState, rejectWithValue }) => {
     try {
+      const isFromTextbook = getState() as RootState;
       const { data } = await getAggregatedWords({
         ...options,
         wordsPerPage: AUDIOCALL_WORD_COUNT,
       });
-      const reshaped = reshapeWordsForUser(data.paginatedResults);
+      console.log(isFromTextbook, data);
+      const reshaped = reshapeWordsForUser(data[0].paginatedResults);
       return reshaped;
     } catch (err) {
       console.error(err);
@@ -123,7 +126,7 @@ export const getWordsSprint = createAsyncThunk(
       const words: IWord[] = [];
       for (const item of pagesToGetFrom) {
         const { data } = await getAggregatedWords({ ...item, userId });
-        const reshaped = reshapeWordsForUser(data.paginatedResults);
+        const reshaped = reshapeWordsForUser(data[0].paginatedResults);
         words.push(...reshaped);
       }
       return words;
