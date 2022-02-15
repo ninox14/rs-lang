@@ -1,13 +1,13 @@
 import { FC, useState, SyntheticEvent } from 'react';
 import './Auth.scss';
 
-import { ReactComponent as PlaneSvg } from '../../assets/icons/plane.svg';
+import { ReactComponent as PlaneSvg } from 'assets/icons/plane.svg';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { Form } from '../../components/Form/Form';
-import { FormType } from '../../components/Form/types';
+import { Form } from 'components/Form/Form';
+import { FormType } from '../../components/Form/types.d';
 
 interface TabPanelProps {
   index: number;

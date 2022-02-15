@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { loginHandler, registerHandler } from 'components/Form/services';
 import { validationSchema } from 'components/Form/validation';
-import { FomrProps, FormType, FormValues } from 'components/Form/types';
+import { FomrProps, FormType, FormValues } from './types.d';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setErrorMsg } from 'redux/word.slice';
 
