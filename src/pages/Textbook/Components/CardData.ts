@@ -1,13 +1,4 @@
-interface CardDataInterface {
-  id: number;
-  title: string;
-  desc: string;
-  level: string;
-  path: string;
-  isAuthReq: boolean;
-}
-
-const CardData: CardDataInterface[] = [
+const CardData = [
   {
     id: 0,
     title: 'Раздел 1',
@@ -60,7 +51,7 @@ const CardData: CardDataInterface[] = [
     id: 6,
     title: 'Сложные слова',
     desc: 'слова, отмеченные как сложные',
-    level: '☆',
+    level: '★',
     path: '/textbook/6/0',
     isAuthReq: true,
   },
