@@ -1,40 +1,33 @@
-import { FC } from 'react';
-import './Form.scss';
+import { FC, useEffect } from 'react';
+import 'components/Form/Form.scss';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-// eslint-disable-next-line import/named
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 
-interface FomrProps {
-  type: 'login' | 'register';
-}
+import { useNavigate } from 'react-router-dom';
 
-interface FormValues {
-  email: string;
-  password: string;
-}
+import { loginHandler, registerHandler } from 'components/Form/services';
+import { validationSchema } from 'components/Form/validation';
+import { FomrProps, FormType, FormValues } from './types.d';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setErrorMsg } from 'redux/word.slice';
 
-const validationSchema: yup.SchemaOf<FormValues> = yup.object({
-  email: yup
-    .string()
-    .required('Введите e-mail')
-    .email('Введите существующий e-mail')
-    .matches(/^[\w\-]+@[a-z]+.[a-z]+$/im, {
-      message: 'Введите существующий e-mail',
-    }),
-  password: yup
-    .string()
-    .required('Введите пароль')
-    .min(8, 'Пароль должен содержать не менее 8 символов')
-    .matches(/^[a-z\d]+$/im, {
-      message:
-        'Можно использовать только символы латинского алфавита или цифры',
-    }),
-});
 export const Form: FC<FomrProps> = ({ type }) => {
+  const errorMsg = useAppSelector((state) => state.word.error);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(setErrorMsg(''));
+    return () => {
+      dispatch(setErrorMsg(''));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -44,16 +37,29 @@ export const Form: FC<FomrProps> = ({ type }) => {
     shouldUseNativeValidation: false,
   });
 
-  // TODO: Onsubmit for api
-  const onSubmit: SubmitHandler<FormValues> = () => {};
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    const handler = type === FormType.LOGIN ? loginHandler : registerHandler;
+    await handler(data, (isLogin) => {
+      if (isLogin) {
+        navigate(-1);
+      }
+    });
+  };
+  const changeHandler = () => dispatch(setErrorMsg(''));
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="form__inputs">
         <TextField
           type="email"
-          error={!!errors.email}
-          helperText={errors.email ? errors.email.message : null}
+          error={!!errors.email || !!errorMsg ? true : false}
+          helperText={
+            errors.email || errorMsg
+              ? errorMsg
+                ? errorMsg
+                : errors.email?.message
+              : null
+          }
           FormHelperTextProps={{ className: 'helper_text' }}
           className="input"
           label="E-mail"
@@ -61,10 +67,11 @@ export const Form: FC<FomrProps> = ({ type }) => {
           required
           inputProps={{ ...register('email') }}
           fullWidth
+          onChange={changeHandler}
         />
         <TextField
           type="password"
-          error={!!errors.password}
+          error={!!errors.password || !!errorMsg}
           helperText={errors.password ? errors.password.message : null}
           FormHelperTextProps={{ className: 'helper_text' }}
           className="input"
@@ -73,10 +80,11 @@ export const Form: FC<FomrProps> = ({ type }) => {
           required
           inputProps={{ ...register('password') }}
           fullWidth
+          onChange={changeHandler}
         />
       </div>
       <Button type="submit" className="form__button" variant="contained">
-        {type === 'login' ? 'Войти' : 'Зарегистрироваться'}
+        {type === FormType.LOGIN ? 'Войти' : 'Зарегистрироваться'}
       </Button>
     </form>
   );

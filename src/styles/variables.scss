@@ -16,6 +16,7 @@ $peach: #ffa587;
 $orange: #ff7e53;
 $purple: #889bff;
 $pink: #f063af;
+$red: #f06363;
 
 $error-red: #d32f2f;
 
@@ -34,3 +35,13 @@ $sprint-bg: linear-gradient(
   #105620 68.59%,
   #659500 94.02%
 );
+
+$l: 768px;
+$s: 360px;
+
+@mixin l {
+  @media screen and (max-width: $l) { @content; }
+}
+@mixin s {
+  @media screen and (max-width: $s) { @content; }
+}
