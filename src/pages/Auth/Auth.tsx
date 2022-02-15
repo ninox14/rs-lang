@@ -1,12 +1,18 @@
 import { FC, useState, SyntheticEvent } from 'react';
+import './Auth.scss';
 
 import { ReactComponent as PlaneSvg } from 'assets/icons/plane.svg';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import Form from 'components/Form/Form';
-import { TabPanelProps } from './types';
+import { Form } from 'components/Form/Form';
+import { FormType } from '../../components/Form/types.d';
+
+interface TabPanelProps {
+  index: number;
+  value: number;
+}
 
 const TabPanel: FC<TabPanelProps> = (props) => {
   const { children, value, index, ...other } = props;
@@ -17,7 +23,7 @@ const TabPanel: FC<TabPanelProps> = (props) => {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      className="auth__tab-panel"
+      className="tab_panel"
       {...other}
     >
       {value === index && children}
@@ -32,7 +38,7 @@ const allyProps = (index: number) => {
   };
 };
 
-const Auth: FC = () => {
+export const Auth: FC = () => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
@@ -40,30 +46,24 @@ const Auth: FC = () => {
   };
 
   return (
-    <main className="page page_auth auth">
-      <div className="auth__container">
+    <main className="page page_auth">
+      <div className="auth">
         <PlaneSvg className="auth__svg" />
         <div className="auth__form-container">
-          <Box className="auth__tabs-wrapper">
-            <Tabs className="auth__tabs" value={value} onChange={handleChange}>
-              <Tab className="auth__tab" label="Вход" {...allyProps(0)} />
-              <Tab
-                className="auth__tab"
-                label="Регистрация"
-                {...allyProps(1)}
-              />
+          <Box sx={{ width: '100%' }}>
+            <Tabs className="auth_tabs" value={value} onChange={handleChange}>
+              <Tab label="Вход" {...allyProps(0)} />
+              <Tab label="Регистрация" {...allyProps(1)} />
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-            <Form type="login" />
+            <Form type={FormType.LOGIN} />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <Form type="register" />
+            <Form type={FormType.REGISTER} />
           </TabPanel>
         </div>
       </div>
     </main>
   );
 };
-
-export default Auth;
