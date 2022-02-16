@@ -17,7 +17,7 @@ const AuthorCard: FC<Author> = (props) => {
     <div className="team__author-card author-card">
       <img
         src={picture}
-        alt={nickname + '’s profile picture.'}
+        alt={`${nickname} ’s profile picture.`}
         className="author-card__avatar"
       />
       <a href={github} className="author-card__github">
