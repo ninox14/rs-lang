@@ -1,5 +1,7 @@
 import { FC } from 'react';
 
-export const Team: FC = (props) => {
+const Team: FC = () => {
   return <h1>Teams</h1>;
 };
+
+export default Team;
