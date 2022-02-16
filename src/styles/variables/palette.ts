@@ -11,7 +11,7 @@ const palette: Palette = {
     cardsGray: '#edf0f4',
     bgGray: '#f3f3f3',
     neutralGray: '#c1ccdb',
-    gray: '#583c3c',
+    gray: '#3C4758',
   },
 
   secondary: {

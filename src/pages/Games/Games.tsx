@@ -3,7 +3,7 @@ import CardData from 'pages/Games/Components/CardData';
 import { CardGames } from 'pages/Games/Components/CardGames';
 import './Games.scss';
 
-export const Games: FC = () => (
+const Games: FC = () => (
   <main className="page page_games">
     <div className="games-content">
       <h2 className="games__title">Выберите мини-игру:</h2>

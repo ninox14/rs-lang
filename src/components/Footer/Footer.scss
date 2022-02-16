@@ -1,0 +1,34 @@
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+  padding: 10px 15px;
+
+  @media all and (max-width: 460px) {
+    flex-direction: column;
+    row-gap: 30px;
+  }
+}
+
+.footer__logo-wrapper,
+.team-list {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.team-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer__logo {
+  display: inline-block;
+  width: 65px;
+  height: 24px;
+  background-image: url(../../assets/icons/rs-school-logo.svg);
+  background-size: contain;
+}
