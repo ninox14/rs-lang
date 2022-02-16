@@ -43,7 +43,7 @@ interface IGetAndUpdateOptions extends IUserWordIDs {
   difficulty?: WordDifficulty;
   game?: GameKey;
   action?: UpdateUserWordAction;
-  corectInRow?: number;
+  correctInRow?: number;
 }
 export interface IAggregatedOptions
   extends PartialBy<IGetWordsOptions, 'group'>, // it is partial coz of fetching only hard textbook.
@@ -156,7 +156,7 @@ export const getAndUpdateUserWord = async ({
   difficulty,
   action,
   game,
-  corectInRow,
+  correctInRow,
 }: IGetAndUpdateOptions) => {
   try {
     const wordExists = (word: IUserWord) => {
@@ -165,7 +165,7 @@ export const getAndUpdateUserWord = async ({
           game,
           action,
           word.optional,
-          corectInRow
+          correctInRow
         );
       }
       const newDifficulty = difficulty ? difficulty : word.difficulty;
@@ -184,7 +184,7 @@ export const getAndUpdateUserWord = async ({
       };
       const newDifficulty = difficulty ? difficulty : WordDifficulty.DEFAULT;
       if (game && action) {
-        optional = updateGameScore(game, action, optional, corectInRow);
+        optional = updateGameScore(game, action, optional, correctInRow);
       }
       return createUserWord({
         userId,

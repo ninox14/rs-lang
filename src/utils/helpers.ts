@@ -29,3 +29,8 @@ export const reshapeWordsForUser = (words: IWord[]) => {
 export const getRandomNumber = (max: number) => {
   return Math.floor(Math.random() * max);
 };
+
+export const getTodaysDate = () => {
+  const date = new Date();
+  return date.toLocaleDateString('en-GB', { dateStyle: 'short' });
+};
