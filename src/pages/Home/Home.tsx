@@ -4,7 +4,7 @@ import CardData from './Components/CardData';
 import { Link } from 'react-router-dom';
 import './Home.scss';
 
-export const Home: FC = () => {
+const Home: FC = () => {
   return (
     <main className="page page_home">
       <div className="home-intro">
@@ -49,3 +49,5 @@ export const Home: FC = () => {
     </main>
   );
 };
+
+export default Home;
