@@ -1,0 +1,153 @@
+@import "styles/variables/_";
+
+.header {
+  background-color: $white;
+  color: $black;
+  box-shadow: none;
+  position: static;
+  height: 40px;
+}
+
+.header__ {
+  &wrapper {
+    min-height: 0;
+    height: 40px;
+  }
+
+  &container {
+    padding: 0 15px;
+    max-width: none;
+  }
+  
+  &toolbar {
+    gap: 2em;
+  }
+
+  &logo {
+    flex-grow: 1;
+  }
+
+  &buttons {
+    gap: 25px;
+    align-items: center;
+    flex-grow: 0;
+
+    &_desktop {
+      display: flex;
+
+      @include l {
+        display: none;
+      }
+    }
+
+    &_mobile {
+      display: none;
+
+      @include l {
+        display: flex;
+      }
+    }
+  }
+
+  &button {
+    margin: 0;
+    color: $black;
+    font-size: 14px;
+    padding: 6px 0;
+    line-height: initial;
+    text-transform: none;
+
+    &:hover {
+      color: $accent-blue;
+    }
+
+    &_brd {
+      font-weight: bold;
+      border: solid 2px $blue;
+      border-radius: 10px;
+      padding: 6px 24px;
+    }
+
+    &_red {
+      border-color: $error-red;
+    
+      &:hover {
+        color: $error-red;
+      }
+    }
+
+    &_hidden {
+      display: none !important;
+    }
+  }
+}
+
+.header-menu {
+  background: $shadow-medium;
+  top: 40px;
+  transition: none;
+  display: none;
+
+  @include l {
+    display: block;
+  }
+
+  &[aria-hidden] {
+    visibility: hidden;
+  }
+
+  * {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .MuiPopover-paper {
+    top: 0 !important;
+    left: initial !important;
+    max-height: none !important;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    max-width: 360px;
+    width: 100%;
+    box-shadow: none;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    @include s {
+      bottom: initial !important;
+      height: 360px !important;
+      max-width: none;
+    }
+  }
+}
+
+.header-menu__ {
+  &menu-item {
+    font-size: 18px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    line-height: initial;
+    padding: 0;
+
+    &:hover {
+      background-color: transparent;
+
+      .header__button {
+        color: $accent-blue;
+
+        &_red {
+          color: $error-red;
+        }
+      }
+    }
+  }
+
+  &button-wrapper {
+    padding: 14px 0;
+  }
+}

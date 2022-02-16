@@ -20,3 +20,5 @@ export const Games: FC = () => (
     </div>
   </main>
 );
+
+export default Games;
