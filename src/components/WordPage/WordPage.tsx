@@ -1,6 +1,6 @@
 import { createTheme, SpeedDialAction, ThemeProvider } from '@mui/material';
 import SpeedDial from '@mui/material/SpeedDial';
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import {
   gamesMenuData,
@@ -13,6 +13,8 @@ import { ReactComponent as SprintLogo } from '../../assets/icons/sprint.svg';
 import { ReactComponent as PuzzleIcon } from '../../assets/icons/card-puzzle.svg';
 
 import './WordPage.scss';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setGroup } from 'redux/word.slice';
 
 const gamesMenuIcons = [
   <AudiocallLogo className="games-menu__logo_audiocall"></AudiocallLogo>,
@@ -49,8 +51,19 @@ const SpeedDealTheme = createTheme({
 });
 
 const WordPage: FC = () => {
+  const isLogged = !!useAppSelector((state) => state.word.userId);
+
   const groupId = Number(useParams().groupId || '0');
-  const isLogged = true;
+  const [currentGroup, setCurrentGroup] = useState(0);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(setGroup(Number(groupId)));
+  }, [dispatch, groupId]);
+
+  function handleGroupSwitch(value: number) {
+    setCurrentGroup(value);
+  }
 
   return (
     <div

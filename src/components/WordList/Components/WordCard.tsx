@@ -205,7 +205,11 @@ export const WordCard: FC<CardWordInterface> = ({
       </div>
       <Collapse in={expanded}>
         <div className="wordcard-bottom">
-          <img className="wordcard__img" src={`/${image}`} alt={word} />
+          <img
+            className="wordcard__img"
+            src={`https://rs-lang-team-34.herokuapp.com/${image}`}
+            alt={word}
+          />
 
           <div className="wordcard-bottom__content">
             <div className="wordcard__desc wordcard__meaning">
