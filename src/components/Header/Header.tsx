@@ -1,5 +1,4 @@
 import pages from 'data/pages';
-import session from 'data/session';
 import { ReactComponent as Logo } from 'assets/icons/rs-lang-logo.svg';
 import { useState, FC, FormEvent, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
@@ -12,25 +11,30 @@ import {
   MenuItem,
   Toolbar,
 } from '@mui/material';
+import { useAppSelector } from 'redux/hooks';
+import { logOut } from 'api/AuthService';
 
 const Header: FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<Element>();
+  const isLoggedIn = !!useAppSelector((state) => state.word.userId);
   const handleOpenNavMenu = (event: FormEvent): void => {
     setAnchorElNav(event.currentTarget);
   };
   const handleCloseNavMenu = (): void => {
     setAnchorElNav(undefined);
   };
-  const loginBtnClass: string = session.loggedIn
+  const loginBtnClass: string = isLoggedIn
     ? 'header__button header__button_brd header__button_red'
     : 'header__button header__button_brd';
   const getHeaderBtnUrl = (url: string, visibility?: boolean): string => {
     return visibility ?? true
       ? url === '/auth'
-        ? session.loggedIn
+        ? isLoggedIn
           ? '#'
           : url
         : url
+      : isLoggedIn
+      ? url
       : '/auth';
   };
   return (
@@ -47,8 +51,9 @@ const Header: FC = () => {
                   key={'headerLinkDesktop' + index}
                   to={getHeaderBtnUrl(url, visibility)}
                   className={url === '/auth' ? loginBtnClass : 'header__button'}
+                  onClick={isLoggedIn && url === '/auth' ? logOut : undefined}
                 >
-                  {session.loggedIn && url === '/auth' ? 'Выйти' : label}
+                  {isLoggedIn && url === '/auth' ? 'Выйти' : label}
                 </Link>
               )
             )}
@@ -79,13 +84,16 @@ const Header: FC = () => {
                     <Link
                       to={getHeaderBtnUrl(url, visibility)}
                       className="header-menu__button-wrapper"
+                      onClick={
+                        isLoggedIn && url === '/auth' ? logOut : undefined
+                      }
                     >
                       <span
                         className={
                           url === '/auth' ? loginBtnClass : 'header__button'
                         }
                       >
-                        {session.loggedIn && url === '/auth' ? 'Выйти' : label}
+                        {isLoggedIn && url === '/auth' ? 'Выйти' : label}
                       </span>
                     </Link>
                   </MenuItem>
