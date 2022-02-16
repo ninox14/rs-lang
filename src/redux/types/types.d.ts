@@ -1,5 +1,5 @@
-import { IAggregatedOptions } from 'api/ApiService';
-
+import type { IAggregatedOptions } from 'api/ApiService';
+import type { IStatsAll } from 'components/StatsContext/StatsContext';
 export interface IWord {
   id: string;
   group: number;
@@ -67,4 +67,9 @@ export interface IHardWordsOptions {
 export interface IUserWordsActionOptions
   extends Omit<IAggregatedOptions, 'group'> {
   group: number;
+}
+
+export interface IStatisticsResponse {
+  learnedWords: number;
+  optional: IStatsAll;
 }

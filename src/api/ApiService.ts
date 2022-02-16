@@ -1,4 +1,4 @@
-import { WordDifficulty } from '../redux/types/types.d';
+import { IStatisticsResponse, WordDifficulty } from '../redux/types/types.d';
 import type {
   IAggregatedResponse,
   IOptional,
@@ -7,10 +7,12 @@ import type {
 } from '../redux/types/types';
 import { makeUserWordEndpoint } from 'utils/helpers';
 import { http } from 'api/http';
+import { IStatsAll } from 'components/StatsContext/types.d';
 
 const WORDS_ENDPOINT = '/words';
 export const USERS_ENDPOINT = '/users';
 const AGGREGATED_ENDPOINT = '/aggregatedWords';
+const STATS_ENDPOINT = '/statistics';
 export const WORDS_PER_PAGE = 20;
 
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -25,14 +27,18 @@ interface IUserWordIDs {
   wordId: string;
 }
 
-enum UpdateUserWordAction {
+interface IStatisticsOptions extends Pick<IUserWordIDs, 'userId'> {
+  stats: IStatsAll;
+}
+
+export enum UpdateUserWordAction {
   CORRECT,
   INCORRECT,
 }
 
 interface IUserWordOptions extends IUserWord, IUserWordIDs {}
 
-type GameKey = keyof Omit<IOptional, 'correctInRow'>;
+export type GameKey = keyof Omit<IOptional, 'correctInRow'>;
 interface IGetAndUpdateOptions extends IUserWordIDs {
   difficulty?: WordDifficulty;
   game?: GameKey;
@@ -110,7 +116,6 @@ export const getAggregatedWords = async ({
 }: IAggregatedOptions) => {
   const endpoint = `${USERS_ENDPOINT}/${userId}${AGGREGATED_ENDPOINT}`;
   const newWordsPerPage = wordsPerPage ? wordsPerPage : WORDS_PER_PAGE;
-  // const filterQuery = filter ?
   const response = await http.get<IAggregatedResponse[]>(endpoint, {
     params: {
       group,
@@ -196,4 +201,24 @@ export const getAndUpdateUserWord = async ({
   } catch (err) {
     console.error(err);
   }
+};
+
+export const getUserStatistics = async ({
+  userId,
+}: Pick<IUserWordIDs, 'userId'>) => {
+  const endpoint = `${USERS_ENDPOINT}/${userId}${STATS_ENDPOINT}`;
+  const response = await http.get<IStatisticsResponse>(endpoint);
+  return response;
+};
+
+export const updateUserStatistics = async ({
+  userId,
+  stats,
+}: IStatisticsOptions) => {
+  const endpoint = `${USERS_ENDPOINT}/${userId}${STATS_ENDPOINT}`;
+  const response = await http.put<IStatisticsResponse>(endpoint, {
+    learnedWords: 1337,
+    optional: stats,
+  });
+  return response;
 };
