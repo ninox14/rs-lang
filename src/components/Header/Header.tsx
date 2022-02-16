@@ -1,7 +1,7 @@
 import pages from 'data/pages';
 import session from 'data/session';
 import { ReactComponent as Logo } from 'assets/icons/rs-lang-logo.svg';
-import { useState, FC, FormEvent } from 'react';
+import { useState, FC, FormEvent, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import {
   AppBar,
@@ -24,12 +24,14 @@ const Header: FC = () => {
   const loginBtnClass: string = session.loggedIn
     ? 'header__button header__button_brd header__button_red'
     : 'header__button header__button_brd';
-  const getHeaderBtnClass = (url: string, visibility?: boolean): string => {
+  const getHeaderBtnUrl = (url: string, visibility?: boolean): string => {
     return visibility ?? true
       ? url === '/auth'
-        ? loginBtnClass
-        : 'header__button'
-      : 'header__button header__button_hidden';
+        ? session.loggedIn
+          ? '#'
+          : url
+        : url
+      : '/auth';
   };
   return (
     <AppBar className="header">
@@ -39,15 +41,17 @@ const Header: FC = () => {
             <Logo />
           </Box>
           <Box className="header__wrapper header__buttons header__buttons_desktop">
-            {pages.map(({ label, url, visibility }, index) => (
-              <Link
-                key={'headerLinkDesktop' + index}
-                to={session.loggedIn && url === '/auth' ? '#' : url}
-                className={getHeaderBtnClass(url, visibility)}
-              >
-                {session.loggedIn && url === '/auth' ? 'Выйти' : label}
-              </Link>
-            ))}
+            {pages.map(
+              ({ label, url, visibility }, index): ReactElement => (
+                <Link
+                  key={'headerLinkDesktop' + index}
+                  to={getHeaderBtnUrl(url, visibility)}
+                  className={url === '/auth' ? loginBtnClass : 'header__button'}
+                >
+                  {session.loggedIn && url === '/auth' ? 'Выйти' : label}
+                </Link>
+              )
+            )}
           </Box>
           <Box className="header__wrapper header__buttons header__buttons_mobile">
             <Button
@@ -66,29 +70,27 @@ const Header: FC = () => {
               onClose={handleCloseNavMenu}
               onClick={handleCloseNavMenu}
             >
-              {pages.map(({ label, url, visibility }, index) => (
-                <MenuItem
-                  className={
-                    visibility ?? true
-                      ? 'header-menu__menu-item'
-                      : 'header__button_hidden'
-                  }
-                  key={'headerMenuItem' + index}
-                >
-                  <Link
-                    to={session.loggedIn && url === '/auth' ? '/logout' : url}
-                    className="header-menu__button-wrapper"
+              {pages.map(
+                ({ label, url, visibility }, index): ReactElement => (
+                  <MenuItem
+                    className={'header-menu__menu-item'}
+                    key={'headerMenuItem' + index}
                   >
-                    <span
-                      className={
-                        url === '/auth' ? loginBtnClass : 'header__button'
-                      }
+                    <Link
+                      to={getHeaderBtnUrl(url, visibility)}
+                      className="header-menu__button-wrapper"
                     >
-                      {session.loggedIn && url === '/auth' ? 'Выйти' : label}
-                    </span>
-                  </Link>
-                </MenuItem>
-              ))}
+                      <span
+                        className={
+                          url === '/auth' ? loginBtnClass : 'header__button'
+                        }
+                      >
+                        {session.loggedIn && url === '/auth' ? 'Выйти' : label}
+                      </span>
+                    </Link>
+                  </MenuItem>
+                )
+              )}
             </Menu>
           </Box>
         </Toolbar>
