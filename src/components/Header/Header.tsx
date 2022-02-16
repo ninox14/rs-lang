@@ -48,7 +48,7 @@ const Header: FC = () => {
             {pages.map(
               ({ label, url, visibility }, index): ReactElement => (
                 <Link
-                  key={'headerLinkDesktop' + index}
+                  key={`headerLinkDesktop${index}`}
                   to={getHeaderBtnUrl(url, visibility)}
                   className={url === '/auth' ? loginBtnClass : 'header__button'}
                   onClick={isLoggedIn && url === '/auth' ? logOut : undefined}
@@ -79,7 +79,7 @@ const Header: FC = () => {
                 ({ label, url, visibility }, index): ReactElement => (
                   <MenuItem
                     className={'header-menu__menu-item'}
-                    key={'headerMenuItem' + index}
+                    key={`headerMenuItem${index}`}
                   >
                     <Link
                       to={getHeaderBtnUrl(url, visibility)}
