@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { CardTextbook } from 'pages/Textbook/Components/CardTextbook';
+import CardTextbook from 'pages/Textbook/Components/CardTextbook';
 import CardData from 'pages/Textbook/Components/CardData';
 import './Textbook.scss';
 import { useAppSelector } from 'redux/hooks';

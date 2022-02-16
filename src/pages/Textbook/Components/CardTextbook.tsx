@@ -9,7 +9,7 @@ interface CardsData {
   path: string;
 }
 
-export const CardTextbook: FC<CardsData> = (props) => {
+const CardTextbook: FC<CardsData> = (props) => {
   return (
     <Link className="textbook-card" to={props.path}>
       <h3 className="textbook-card__level">{props.level}</h3>
@@ -20,3 +20,5 @@ export const CardTextbook: FC<CardsData> = (props) => {
     </Link>
   );
 };
+
+export default CardTextbook;
