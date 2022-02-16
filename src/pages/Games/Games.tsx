@@ -1,9 +1,24 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import CardData from 'pages/Games/Components/CardData';
+import { CardGames } from 'pages/Games/Components/CardGames';
+import './Games.scss';
 
 export const Games: FC = () => (
-  <>
-    <Link to="/games/sprint"> Спринт </Link>
-    <Link to="/games/audiocall"> Аудиовызов </Link>
-  </>
+  <main className="page page_games">
+    <div className="games-content">
+      <h2 className="games__title">Выберите мини-игру:</h2>
+      <div className="games__cards-container">
+        {CardData.map((el) => (
+          <CardGames
+            key={el.id}
+            path={el.path}
+            name={el.name}
+            description={el.description}
+          />
+        ))}
+      </div>
+    </div>
+  </main>
 );
+
+export default Games;

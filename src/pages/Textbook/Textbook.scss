@@ -1,0 +1,50 @@
+.page_textbook {
+  display: flex;
+  justify-content: center;
+  min-height: calc(100vh - 84px);
+
+  @media all and (min-width: 1140px) {
+    align-items: center;
+  }
+}
+
+.textbook-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 1140px;
+  width: calc(100% - 40px);
+
+  @media all and (max-width: 1140px) {
+    align-items: center;
+    margin-top: 60px;
+  }
+
+  @media all and (max-width: 768px) {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+}
+
+.textbook__title {
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.textbook__cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  row-gap: 30px;
+  column-gap: 25px;
+
+  @media all and (max-width: 1140px) {
+    justify-content: center;
+  }
+
+  @media all and (max-width: 768px) {
+    row-gap: 20px;
+  }
+}

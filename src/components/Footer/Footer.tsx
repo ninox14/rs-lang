@@ -3,7 +3,7 @@ import TeamData from './Components/TeamData';
 import { FooterLink } from './Components/FooterLink';
 import './Footer.scss';
 
-export const Footer: FC = () => (
+const Footer: FC = () => (
   <footer className="footer">
     <div className="footer__logo-wrapper">
       <a
@@ -21,3 +21,5 @@ export const Footer: FC = () => (
     </ul>
   </footer>
 );
+
+export default Footer;

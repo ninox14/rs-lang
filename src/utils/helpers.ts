@@ -1,5 +1,5 @@
-import { USERS_ENDPOINT } from '../api/ApiService';
-import { WordDifficulty } from '../redux/types/types';
+import { USERS_ENDPOINT } from 'api/ApiService';
+import { WordDifficulty } from '../redux/types/types.d';
 import type { IUserWord, IWord } from '../redux/types/types';
 
 export const makeUserWordEndpoint = (userId: string, wordId: string) =>

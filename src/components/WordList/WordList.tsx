@@ -1,3 +1,5 @@
 import { FC } from 'react';
 
-export const WordList: FC = () => <div>wordlist</div>;
+const WordList: FC = () => <div>wordlist</div>;
+
+export default WordList;
