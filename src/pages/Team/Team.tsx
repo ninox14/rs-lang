@@ -9,15 +9,17 @@ export const Team: FC = () => {
       <div className="team__container">
         <h1 className="page__header team__header">Над проектом работали</h1>
         <div className="team__cards-container">
-          {authors.map((author: Author): ReactElement => (
-            <AuthorCard
-              name={author.name}
-              nickname={author.nickname}
-              github={author.github}
-              picture={author.picture}
-              role={author.role}
-            />
-          ))}
+          {authors.map(
+            (author: Author): ReactElement => (
+              <AuthorCard
+                name={author.name}
+                nickname={author.nickname}
+                github={author.github}
+                picture={author.picture}
+                role={author.role}
+              />
+            )
+          )}
         </div>
       </div>
     </main>
