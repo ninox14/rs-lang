@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import TeamData from './Components/TeamData';
-import { FooterLink } from './Components/FooterLink';
+import FooterLink from './Components/FooterLink';
 import './Footer.scss';
 
 const Footer: FC = () => (

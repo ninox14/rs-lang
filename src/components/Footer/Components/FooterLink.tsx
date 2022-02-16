@@ -5,7 +5,7 @@ interface FooterLinkInterface {
   name: string;
 }
 
-export const FooterLink: FC<FooterLinkInterface> = ({ link, name }) => (
+const FooterLink: FC<FooterLinkInterface> = ({ link, name }) => (
   <a
     href={link}
     target="_blank"
@@ -15,3 +15,5 @@ export const FooterLink: FC<FooterLinkInterface> = ({ link, name }) => (
     {name}
   </a>
 );
+
+export default FooterLink;
