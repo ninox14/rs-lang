@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { CardTextbook } from './Components/CardTextbook';
-import CardData from './Components/CardData';
+import { CardTextbook } from 'pages/Textbook/Components/CardTextbook';
+import CardData from 'pages/Textbook/Components/CardData';
 import './Textbook.scss';
 import { useAppSelector } from 'redux/hooks';
 
-export const Textbook: FC = () => {
+const Textbook: FC = () => {
   const isLogged = useAppSelector((state) => state.word.userId);
   return (
     <main className="page page_textbook">
@@ -40,3 +40,5 @@ export const Textbook: FC = () => {
     </main>
   );
 };
+
+export default Textbook;
