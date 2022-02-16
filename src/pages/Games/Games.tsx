@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import CardData from './Components/CardData';
-import { CardGames } from './Components/CardGames';
+import CardData from 'pages/Games/Components/CardData';
+import { CardGames } from 'pages/Games/Components/CardGames';
 import './Games.scss';
 
 export const Games: FC = () => (
