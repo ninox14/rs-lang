@@ -1,5 +1,4 @@
 import { FC, useEffect } from 'react';
-import 'components/Form/Form.scss';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -10,12 +9,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 
 import { loginHandler, registerHandler } from 'components/Form/services';
-import { validationSchema } from 'components/Form/validation';
+import validationSchema from 'components/Form/validation';
 import { FomrProps, FormType, FormValues } from './types.d';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setErrorMsg } from 'redux/word.slice';
 
-export const Form: FC<FomrProps> = ({ type }) => {
+const Form: FC<FomrProps> = ({ type }) => {
   const errorMsg = useAppSelector((state) => state.word.error);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -60,8 +59,10 @@ export const Form: FC<FomrProps> = ({ type }) => {
                 : errors.email?.message
               : null
           }
-          FormHelperTextProps={{ className: 'helper_text' }}
-          className="input"
+          FormHelperTextProps={{
+            className: 'helper-text form__input-helper-text',
+          }}
+          className="input form__input"
           label="E-mail"
           variant="outlined"
           required
@@ -73,8 +74,10 @@ export const Form: FC<FomrProps> = ({ type }) => {
           type="password"
           error={!!errors.password || !!errorMsg}
           helperText={errors.password ? errors.password.message : null}
-          FormHelperTextProps={{ className: 'helper_text' }}
-          className="input"
+          FormHelperTextProps={{
+            className: 'helper-text form__input-helper-text',
+          }}
+          className="input form__input"
           label="Пароль"
           variant="outlined"
           required
@@ -83,9 +86,11 @@ export const Form: FC<FomrProps> = ({ type }) => {
           onChange={changeHandler}
         />
       </div>
-      <Button type="submit" className="form__button" variant="contained">
+      <Button type="submit" className="button form__button" variant="contained">
         {type === FormType.LOGIN ? 'Войти' : 'Зарегистрироваться'}
       </Button>
     </form>
   );
 };
+
+export default Form;
