@@ -13,13 +13,8 @@ export const USERS_ENDPOINT = '/users';
 const AGGREGATED_ENDPOINT = '/aggregatedWords';
 export const WORDS_PER_PAGE = 20;
 
-const aggregatedWordsFilters = {
-  onlyHard: `{"$and":[{"userWord.difficulty":"${WordDifficulty.HARD}"}]}`,
-};
-
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-type FilterKey = keyof typeof aggregatedWordsFilters;
 export interface IGetWordsOptions {
   page: number;
   group: number;
@@ -44,9 +39,9 @@ interface IGetAndUpdateOptions extends IUserWordIDs {
   action?: UpdateUserWordAction;
 }
 export interface IAggregatedOptions
-  extends PartialBy<IGetWordsOptions, 'group'>,
+  extends PartialBy<IGetWordsOptions, 'group'>, // it is partial coz of fetching only hard textbook.
     Pick<IUserWordIDs, 'userId'> {
-  filter?: FilterKey;
+  filter?: string;
   wordsPerPage?: number;
 }
 
@@ -114,12 +109,13 @@ export const getAggregatedWords = async ({
 }: IAggregatedOptions) => {
   const endpoint = `${USERS_ENDPOINT}/${userId}${AGGREGATED_ENDPOINT}`;
   const newWordsPerPage = wordsPerPage ? wordsPerPage : WORDS_PER_PAGE;
-  const response = await http.get<IAggregatedResponse>(endpoint, {
+  // const filterQuery = filter ?
+  const response = await http.get<IAggregatedResponse[]>(endpoint, {
     params: {
       group,
       page,
       wordsPerPage: newWordsPerPage,
-      ...(filter ? { filter: aggregatedWordsFilters[filter] } : {}),
+      ...(filter ? { filter } : {}),
     },
   });
   return response;

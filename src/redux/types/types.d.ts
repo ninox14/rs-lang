@@ -1,3 +1,5 @@
+import { IAggregatedOptions } from 'api/ApiService';
+
 export interface IWord {
   id: string;
   group: number;
@@ -59,4 +61,9 @@ export interface IAggregatedResponse {
 export interface IHardWordsOptions {
   userId: string;
   page: number;
+}
+
+export interface IUserWordsActionOptions
+  extends Omit<IAggregatedOptions, 'group'> {
+  group: number;
 }
