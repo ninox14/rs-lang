@@ -17,6 +17,7 @@ const aggregatedWordsFilters = {
   onlyHard: `{"$and":[{"userWord.difficulty":"${WordDifficulty.HARD}"}]}`,
 };
 
+// eslint-disable-next-line prettier/prettier
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 type FilterKey = keyof typeof aggregatedWordsFilters;

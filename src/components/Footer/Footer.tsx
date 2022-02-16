@@ -1,17 +1,19 @@
 import { FC } from 'react';
-import './Footer.scss';
+import { ReactComponent as RSSLogo } from 'assets/icons/rs-school-logo.svg';
 
-export const Footer: FC = () => (
+const Footer: FC = () => (
   <footer className="footer">
-    <div className="footer__logo-wrapper">
+    <div className="footer__wrapper">
       <a
         href="https://rs.school/js/"
         target="_blank"
-        className="footer__logo"
-      ></a>
+        className="footer__logo-link"
+      >
+        <RSSLogo className="footer__logo" />
+      </a>
       <span className="footer__year">© 2022</span>
     </div>
-    <div className="footer__links-wrapper">
+    <div className="footer__wrapper">
       <a
         href="https://github.com/ninox14"
         target="_blank"
@@ -36,3 +38,5 @@ export const Footer: FC = () => (
     </div>
   </footer>
 );
+
+export default Footer;

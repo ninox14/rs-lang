@@ -1,5 +1,5 @@
-import { Pages } from '../types/rs-lang';
-import session from './session';
+import { Pages } from 'types/rs-lang';
+import session from 'data/session';
 
 const pages: Pages = [
   {

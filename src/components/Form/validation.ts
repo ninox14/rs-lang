@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import { FormValues } from 'components/Form/types';
 
-export const validationSchema: yup.SchemaOf<FormValues> = yup.object({
+const validationSchema: yup.SchemaOf<FormValues> = yup.object({
   email: yup
     .string()
     .required('Введите e-mail')
@@ -18,3 +18,5 @@ export const validationSchema: yup.SchemaOf<FormValues> = yup.object({
         'Можно использовать только символы латинского алфавита или цифры',
     }),
 });
+
+export default validationSchema;
