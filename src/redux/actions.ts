@@ -91,7 +91,6 @@ export const getWordsAudiocall = createAsyncThunk(
         ...options,
         wordsPerPage: AUDIOCALL_WORD_COUNT,
       });
-      console.log(isFromTextbook, data);
       const reshaped = reshapeWordsForUser(data[0].paginatedResults);
       return reshaped;
     } catch (err) {
@@ -115,7 +114,7 @@ export const getWordsAudiocallAnon = createAsyncThunk(
 );
 
 export const getWordsSprint = createAsyncThunk(
-  'words/getWordsAudiocall',
+  'words/getWordsSprint',
   async ({ page, group, userId }: IAggregatedOptions, { rejectWithValue }) => {
     if (!group) {
       throw new Error('This should not happend');
@@ -138,7 +137,7 @@ export const getWordsSprint = createAsyncThunk(
 );
 
 export const getWordsSprintAnon = createAsyncThunk(
-  'words/getWordsAudiocallAnon',
+  'words/getWordsSprintAnon',
   async (options: IGetWordsOptions, { rejectWithValue }) => {
     try {
       const { data } = await getWords(options);
