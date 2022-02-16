@@ -16,6 +16,7 @@ export const reshapeWordsForUser = (words: IWord[]) => {
         optional: {
           audiocall: { right: 0, total: 0 },
           sprint: { right: 0, total: 0 },
+          correctInRow: 0,
         },
       };
       word.userWord = defaultUserWord;

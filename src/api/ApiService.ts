@@ -32,11 +32,12 @@ enum UpdateUserWordAction {
 
 interface IUserWordOptions extends IUserWord, IUserWordIDs {}
 
-type GameKey = keyof IOptional;
+type GameKey = keyof Omit<IOptional, 'correctInRow'>;
 interface IGetAndUpdateOptions extends IUserWordIDs {
   difficulty?: WordDifficulty;
   game?: GameKey;
   action?: UpdateUserWordAction;
+  corectInRow?: number;
 }
 export interface IAggregatedOptions
   extends PartialBy<IGetWordsOptions, 'group'>, // it is partial coz of fetching only hard textbook.
@@ -122,14 +123,18 @@ export const getAggregatedWords = async ({
 };
 
 const updateGameScore = (
-  game: keyof IOptional,
+  game: keyof Omit<IOptional, 'correctInRow'>,
   action: UpdateUserWordAction,
-  optional: IOptional
+  optional: IOptional,
+  correctInRow?: number
 ) => {
   switch (action) {
     case UpdateUserWordAction.CORRECT: {
       optional[game].right += 1;
       optional[game].total += 1;
+      if (typeof correctInRow === 'number') {
+        optional.correctInRow = correctInRow;
+      }
       break;
     }
     case UpdateUserWordAction.INCORRECT: {
@@ -146,11 +151,17 @@ export const getAndUpdateUserWord = async ({
   difficulty,
   action,
   game,
+  corectInRow,
 }: IGetAndUpdateOptions) => {
   try {
     const wordExists = (word: IUserWord) => {
       if (game && action) {
-        word.optional = updateGameScore(game, action, word.optional);
+        word.optional = updateGameScore(
+          game,
+          action,
+          word.optional,
+          corectInRow
+        );
       }
       const newDifficulty = difficulty ? difficulty : word.difficulty;
       return updateUserWord({
@@ -164,10 +175,11 @@ export const getAndUpdateUserWord = async ({
       let optional: IOptional = {
         audiocall: { right: 0, total: 0 },
         sprint: { right: 0, total: 0 },
+        correctInRow: 0,
       };
       const newDifficulty = difficulty ? difficulty : WordDifficulty.DEFAULT;
       if (game && action) {
-        optional = updateGameScore(game, action, optional);
+        optional = updateGameScore(game, action, optional, corectInRow);
       }
       return createUserWord({
         userId,

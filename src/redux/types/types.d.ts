@@ -40,6 +40,7 @@ export interface IUserWord {
 export interface IOptional {
   audiocall: IWordGameStats;
   sprint: IWordGameStats;
+  correctInRow: number;
 }
 
 export interface IWordGameStats {
