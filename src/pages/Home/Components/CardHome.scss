@@ -1,0 +1,71 @@
+@import 'styles/variables/_';
+
+.advantages-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 300px;
+  height: 400px;
+  padding: 50px 25px;
+  text-align: center;
+  border-radius: 25px;
+  user-select: none;
+  transition: 0.5s;
+
+  &:nth-child(1) {
+    background-color: $yellow;
+  }
+
+  &:nth-child(2) {
+    background-color: $blue;
+  }
+
+  &:nth-child(3) {
+    background-color: $green;
+  }
+
+  &__title {
+    font-size: 20px;
+  }
+
+  &__desc {
+    font-size: 18px;
+  }
+
+  &__link {
+    font-weight: bold;
+  }
+
+  &__icon {
+    width: 108px;
+    height: 108px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  @media all and (max-width: 1140px) {
+    height: 335px;
+  }
+}
+
+.advantages-card:hover {
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
+
+  & .advantages-card__link {
+    text-decoration: underline;
+  }
+}
+
+.icon_chart {
+  background-image: url('../../../assets/icons/main-chart.svg');
+}
+
+.icon_bulb {
+  background-image: url('../../../assets/icons/bulb.svg');
+}
+
+.icon_puzzle {
+  background-image: url('../../../assets/icons/main-puzzle.svg');
+}

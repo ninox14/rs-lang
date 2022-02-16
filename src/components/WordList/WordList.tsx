@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { WordCard } from './Components/WordCard';
 import { CardWordData } from './Components/WordCardData';
 
-export const WordList: FC = () => {
+const WordList: FC = () => {
   return (
     <div className="wordlist-container">
       <div className="wordlist-cards">
@@ -23,3 +23,5 @@ export const WordList: FC = () => {
     </div>
   );
 };
+
+export default WordList;

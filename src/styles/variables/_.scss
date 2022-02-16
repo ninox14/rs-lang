@@ -5,7 +5,7 @@ $light-gray: #f9fbfc;
 $cards-gray: #edf0f4;
 $bg-gray: #f3f3f3;
 $neutral-gray: #c1ccdb;
-$gray: #583c3c;
+$gray: #3C4758;
 
 $light-blue: #8cd9ff;
 $blue: #40c0ff;
@@ -34,3 +34,16 @@ $sprint-bg: linear-gradient(
   #105620 68.59%,
   #659500 94.02%
 );
+
+$shadow-light: #0000000a;
+$shadow-medium: #0005;
+
+$l: 768px;
+$s: 460px;
+
+@mixin l {
+  @media screen and (max-width: $l) { @content; }
+}
+@mixin s {
+  @media screen and (max-width: $s) { @content; }
+}

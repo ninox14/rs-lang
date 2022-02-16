@@ -48,7 +48,7 @@ const SpeedDealTheme = createTheme({
   },
 });
 
-export const WordPage: FC = () => {
+const WordPage: FC = () => {
   const groupId = Number(useParams().groupId || '0');
   const isLogged = true;
 
@@ -127,3 +127,5 @@ export const WordPage: FC = () => {
     </div>
   );
 };
+
+export default WordPage;
