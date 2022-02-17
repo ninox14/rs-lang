@@ -13,11 +13,6 @@ import { IStatsAll, IStatsContext, IStatsContextProviderProps } from './types';
 import type { SaveStatsCallback } from './types';
 
 const statsContextDefaults: IStatsContext = {
-  // game: '',
-  // correct: [],
-  // wrong: [],
-  // addCorrect: ([]) => {},
-  // addWrong: ([]) => {},
   saveStatistics: async ({ correct: [], wrong: [] }) => {},
   getStatistics: async () => pickStatsToUpdate(),
 };
@@ -76,11 +71,10 @@ export const StatsProvider: FC<IStatsContextProviderProps> = ({
           userId,
           stats: statsToUpdate,
         });
-        // console.log(learnedWords, statsToUpdate);
 
-        console.log(resp);
+        console.log(resp); // to be removed later
       } catch (err) {
-        console.error(err);
+        console.error(err); // to be removed later
         dispatch(
           setErrorMsg('Не получилось сохранить статистику пользователя')
         );
@@ -92,7 +86,6 @@ export const StatsProvider: FC<IStatsContextProviderProps> = ({
     return () => {
       dispatch(setErrorMsg(''));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
