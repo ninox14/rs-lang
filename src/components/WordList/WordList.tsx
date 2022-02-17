@@ -6,6 +6,7 @@ import {
 } from 'redux/actions';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { WordCard } from './Components/WordCard';
+import './WordList.scss';
 
 const WordList: FC = () => {
   const user = useAppSelector((state) => state.word.userId);

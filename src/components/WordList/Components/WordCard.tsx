@@ -12,6 +12,7 @@ import { ReactComponent as ChartIcon } from '../../../assets/icons/card-chart.sv
 import { ReactComponent as CheckIcon } from '../../../assets/icons/svg-check.svg';
 
 import './WordCard.scss';
+import { useAppSelector } from 'redux/hooks';
 
 enum Difficulty {
   Default = 'default',
@@ -55,6 +56,8 @@ export const WordCard: FC<CardWordInterface> = ({
   textExample,
   textExampleTranslate,
 }) => {
+  const isLogged = !!useAppSelector((state) => state.word.userId);
+
   // collapse
   const [expanded, setExpanded] = useState(false);
   const handleCardExpand = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -98,8 +101,12 @@ export const WordCard: FC<CardWordInterface> = ({
           <p className="wordcard__trsc">{transcription}</p>
           <p className="wordcard__trnsl">{wordTranslate}</p>
         </div>
-        <div className="wordcard-top__controls">
-          <div className="wordcard-top__controls_auth">
+        <div
+          className={`wordcard-top__controls-wrapper ${
+            isLogged ? 'wordcard-top_auth' : ''
+          }`}
+        >
+          <div className="wordcard-top__controls">
             <CardTooltip
               title="Отметить как изученное"
               disableInteractive
@@ -107,14 +114,18 @@ export const WordCard: FC<CardWordInterface> = ({
               TransitionProps={{ timeout: 600 }}
             >
               <button
-                className={`wordcard__btn btn_learned ${
-                  difficulty === Difficulty.Learned ? 'btn_learned_active' : ''
-                }`}
+                className="wordcard__btn btn_learned"
                 onClick={() => {
                   handleDifficulty('learned');
                 }}
               >
-                <CheckIcon className="wordcard__icon_check" />
+                <CheckIcon
+                  className={`wordcard__icon_check ${
+                    difficulty === Difficulty.Learned
+                      ? 'wordcard__icon_check_active'
+                      : ''
+                  }`}
+                />
               </button>
             </CardTooltip>
 
@@ -125,14 +136,18 @@ export const WordCard: FC<CardWordInterface> = ({
               TransitionProps={{ timeout: 600 }}
             >
               <button
-                className={`wordcard__btn btn_hard ${
-                  difficulty === Difficulty.Hard ? 'btn_hard_active' : ''
-                }`}
+                className="wordcard__btn btn_hard "
                 onClick={() => {
                   handleDifficulty('hard');
                 }}
               >
-                <StarIcon className="wordcard__icon_star" />
+                <StarIcon
+                  className={`wordcard__icon_star ${
+                    difficulty === Difficulty.Hard
+                      ? 'wordcard__icon_star_active'
+                      : ''
+                  }`}
+                />
               </button>
             </CardTooltip>
             <CardTooltip
@@ -155,6 +170,7 @@ export const WordCard: FC<CardWordInterface> = ({
               open={open}
               anchorEl={anchorEl}
               onClose={handlePopoverClose}
+              disableScrollLock
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center',

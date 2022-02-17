@@ -43,15 +43,23 @@
   color: $gray;
 }
 
-.wordcard-top__controls {
+.wordcard-top__controls-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-end;
 }
 
-.wordcard-top__controls_auth {
+.wordcard-top_auth {
+  justify-content: space-between;
+}
+
+.wordcard-top_auth .wordcard-top__controls {
   display: flex;
+}
+
+.wordcard-top__controls {
+  display: none;
   column-gap: 10px;
 }
 
@@ -79,6 +87,15 @@
 .wordcard__icon_star,
 .wordcard__icon_chart {
   stroke: $black;
+  transition: 0.5s;
+}
+
+
+.wordcard__icon_check_active {
+  stroke: $green;
+}
+.wordcard__icon_star_active {
+  stroke: $purple;
 }
 
 .wordcard-bottom {
