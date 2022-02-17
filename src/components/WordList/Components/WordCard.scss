@@ -13,6 +13,14 @@
   }
 }
 
+.wordcard_hidden {
+  height: 0;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  transition: 0.2s;
+}
+
 .wordcard-top {
   display: flex;
   justify-content: space-between;
@@ -48,6 +56,7 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
+  flex-grow: 2;
 }
 
 .wordcard-top_auth {
@@ -64,6 +73,9 @@
 }
 
 .wordcard__btn {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
   width: 25px;
   height: 25px;
   padding: 0;
@@ -77,9 +89,15 @@
 }
 
 .btn_expand {
-  width: 27px;
-  height: 11px;
+  width: 100%;
+}
+
+.icon_expand {
   transition: 0.5s;
+}
+
+.btn_expand_opened .icon_expand {
+  transform: rotate(180deg);
 }
 
 .wordcard__icon_sound,
@@ -89,7 +107,6 @@
   stroke: $black;
   transition: 0.5s;
 }
-
 
 .wordcard__icon_check_active {
   stroke: $green;
@@ -124,7 +141,6 @@
 
 .wordcard__desc {
   display: flex;
-  justify-content: space-between;
   column-gap: 10px;
 }
 
@@ -165,7 +181,7 @@
     position: absolute;
     bottom: -3px;
     left: 0;
-    border-bottom: 3px solid $orange;
+    border-bottom: 3px solid $gray;
     border-radius: 15px;
     width: 100%;
     height: 3px;
@@ -184,10 +200,6 @@
   color: $white;
   border-radius: 50px;
   padding: 1px 5px;
-}
-
-.btn_expand_opened {
-  transform: rotate(180deg);
 }
 
 .example__title {
