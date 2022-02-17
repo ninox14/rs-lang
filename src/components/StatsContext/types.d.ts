@@ -37,6 +37,7 @@ export type SaveStatsCallback = (options: ISaveStatsOptions) => Promise<void>;
 
 export interface IStatsContext {
   saveStatistics: SaveStatsCallback;
+  getStatistics: () => Promise<IStatsAll>;
 }
 
 export interface IStatsContextProviderProps {

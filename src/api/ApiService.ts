@@ -201,11 +201,7 @@ export const getAndUpdateUserWord = async ({
     };
     const response = await getUserWord({ userId, wordId }).then(
       () => wordExists(),
-      (err) => {
-        wordDoesntExist();
-        console.log('tried to create word that doesnt exist');
-        console.error(err);
-      }
+      () => wordDoesntExist()
     );
     return response;
   } catch (err) {

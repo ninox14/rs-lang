@@ -1,5 +1,5 @@
 import { getUserStatistics, updateUserStatistics } from 'api/ApiService';
-import { createContext, FC, useContext } from 'react';
+import { createContext, FC, useContext, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setErrorMsg } from 'redux/word.slice';
 import {
@@ -19,6 +19,7 @@ const statsContextDefaults: IStatsContext = {
   // addCorrect: ([]) => {},
   // addWrong: ([]) => {},
   saveStatistics: async ({ correct: [], wrong: [] }) => {},
+  getStatistics: async () => pickStatsToUpdate(),
 };
 const StatsContext = createContext(statsContextDefaults);
 
@@ -29,12 +30,14 @@ export const StatsProvider: FC<IStatsContextProviderProps> = ({
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.word.userId);
 
-  const getStatistics = async (): Promise<IStatsAll | undefined> => {
+  const getStatistics = async (): Promise<IStatsAll> => {
     try {
       const { data } = await getUserStatistics({ userId });
-      return data.optional;
+
+      return pickStatsToUpdate(data.optional);
     } catch (err) {
       console.error(err);
+      return pickStatsToUpdate();
     }
   };
 
@@ -52,8 +55,9 @@ export const StatsProvider: FC<IStatsContextProviderProps> = ({
           game,
         });
         const newWords = countNewWords({ correct, wrong });
-        const currentStatistics = await getStatistics();
-        let statsToUpdate = pickStatsToUpdate(currentStatistics);
+        // const currentStatistics = await getStatistics();
+        // let statsToUpdate = pickStatsToUpdate(currentStatistics);
+        let statsToUpdate = await getStatistics();
         statsToUpdate = updateDailyStats({
           maxInRow,
           correctCount: correct.length,
@@ -84,8 +88,18 @@ export const StatsProvider: FC<IStatsContextProviderProps> = ({
     }
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch(setErrorMsg(''));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <StatsContext.Provider value={{ saveStatistics }} children={children} />
+    <StatsContext.Provider
+      value={{ saveStatistics, getStatistics }}
+      children={children}
+    />
   );
 };
 
