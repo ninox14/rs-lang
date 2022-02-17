@@ -3,66 +3,16 @@ import { IOptional, WordDifficulty } from 'redux/types/types.d';
 import { getTodaysDate } from 'utils/helpers';
 import {
   IGetNewUserWordStatsOptions,
+  ILongTerm,
+  ISaveStatsOptions,
   // ISaveStatsOptions,
   ISaveUserWordStatsOptions,
   ISendUpdateRequestsOptions,
   IStatsAll,
   IStatsDaily,
-  IUpdateStatsOptions,
+  IUpdateDailyStatsOptions,
+  IUpdateLongTernStatsOptions,
 } from './types';
-export const getDefaultDailyStats = (): IStatsDaily => ({
-  date: getTodaysDate(),
-  newWords: 0,
-  learned: 0,
-  games: {
-    audiocall: {
-      percentage: { total: 0, right: 0 },
-      newWords: 0,
-      maxChain: 0,
-    },
-    sprint: {
-      percentage: { total: 0, right: 0 },
-      newWords: 0,
-      maxChain: 0,
-    },
-  },
-});
-
-export const getDefaultAllStats = (): IStatsAll => ({
-  longTerm: [{ date: getTodaysDate(), learned: 0, newWords: 0 }],
-  dailyStats: getDefaultDailyStats(),
-});
-
-export const isWordNew = (optional: IOptional): boolean => {
-  if (optional.correctInRow) {
-    return false;
-  }
-  if (optional.audiocall.total === 0 && optional.sprint.total === 0) {
-    return true;
-  }
-  return false;
-};
-
-export const updateDailyStats = ({
-  maxInRow,
-  correct,
-  wrong,
-  userId,
-  game,
-  stats,
-}: IUpdateStatsOptions) => {
-  let newWords = 0;
-  wrong.forEach((word) => {
-    if (word.userWord && isWordNew(word.userWord.optional)) {
-      newWords += 1;
-    }
-  });
-  correct.forEach((word) => {
-    if (word.userWord && isWordNew(word.userWord.optional)) {
-      newWords += 1;
-    }
-  });
-};
 
 const getNewUserWordStats = ({
   userWord,
@@ -75,7 +25,7 @@ const getNewUserWordStats = ({
 
   if (action === UpdateUserWordAction.CORRECT) {
     newCorrectInRow = optional.correctInRow + 1;
-
+    console.log('new ', newCorrectInRow, ' optional ', optional.correctInRow);
     // Checking if word should become learned
     const isPromotedFromDefault =
       difficulty === WordDifficulty.DEFAULT && newCorrectInRow === 3;
@@ -128,7 +78,7 @@ export const sendUpdateRequests = async ({
         action,
       });
       learned += learnedWords;
-      const resp = await getAndUpdateUserWord({
+      await getAndUpdateUserWord({
         userId,
         wordId: id,
         difficulty,
@@ -161,6 +111,121 @@ export const saveUserWordStats = async ({
     userId,
     game,
   });
-  console.log(learned, unlearned);
   return learned + unlearned;
+};
+
+export const getDefaultDailyStats = (): IStatsDaily => ({
+  date: getTodaysDate(),
+  newWords: 0,
+  learned: 0,
+  games: {
+    audiocall: {
+      percentage: { total: 0, right: 0 },
+      newWords: 0,
+      maxChain: 0,
+    },
+    sprint: {
+      percentage: { total: 0, right: 0 },
+      newWords: 0,
+      maxChain: 0,
+    },
+  },
+});
+
+export const getDefaultAllStats = (): IStatsAll => ({
+  longTerm: { [getTodaysDate()]: { learned: 0, newWords: 0 } },
+  dailyStats: getDefaultDailyStats(),
+});
+
+export const isWordNew = (optional: IOptional): boolean => {
+  if (optional.correctInRow) {
+    return false;
+  }
+  if (optional.audiocall.total === 0 && optional.sprint.total === 0) {
+    return true;
+  }
+  return false;
+};
+
+export const countNewWords = ({
+  correct,
+  wrong,
+}: Omit<ISaveStatsOptions, 'maxInRow'>) => {
+  let newWords = 0;
+  wrong.forEach((word) => {
+    if (word.userWord && isWordNew(word.userWord.optional)) {
+      newWords += 1;
+    }
+  });
+  correct.forEach((word) => {
+    if (word.userWord && isWordNew(word.userWord.optional)) {
+      newWords += 1;
+    }
+  });
+  return newWords;
+};
+export const pickStatsToUpdate = (currentStatistics?: IStatsAll) => {
+  if (!currentStatistics) {
+    return getDefaultAllStats();
+  } else {
+    const today = getTodaysDate();
+    if (currentStatistics.dailyStats.date !== today) {
+      currentStatistics.dailyStats = getDefaultDailyStats();
+    }
+    return currentStatistics;
+  }
+};
+
+export const updateDailyStats = ({
+  maxInRow,
+  correctCount,
+  wrongCount,
+  game,
+  stats,
+  learned,
+  newWords,
+}: IUpdateDailyStatsOptions) => {
+  const newMaxChain =
+    stats.dailyStats.games[game].maxChain > maxInRow
+      ? stats.dailyStats.games[game].maxChain
+      : maxInRow;
+  stats.dailyStats.learned += learned;
+  stats.dailyStats.newWords += newWords;
+  stats.dailyStats.games[game].maxChain = newMaxChain;
+  stats.dailyStats.games[game].percentage.right += correctCount;
+  stats.dailyStats.games[game].percentage.total += correctCount + wrongCount;
+  return stats;
+};
+
+export const updateLongTern = ({
+  newWords,
+  learned,
+  stats,
+}: IUpdateLongTernStatsOptions) => {
+  const todaysDate = getTodaysDate();
+  const newLongTermStats: ILongTerm = {
+    newWords,
+    learned,
+  };
+  let totalLearned = 0;
+  for (const date in stats.longTerm) {
+    if (date === todaysDate) {
+      newLongTermStats.learned += stats.longTerm[date].learned;
+      newLongTermStats.newWords += stats.longTerm[date].newWords;
+      delete stats.longTerm[date];
+    } else {
+      totalLearned += stats.longTerm[date].learned;
+    }
+  }
+
+  // if (item.date === todaysDate) {
+  //   newLongTermStats.learned += item.learned;
+  //   newLongTermStats.newWords += item.newWords;
+  //   stats.longTerm.splice(index, 1);
+  // } else {
+  //   totalLearned += item.learned;
+  // }
+  newLongTermStats.learned += totalLearned;
+  stats.longTerm[todaysDate] = newLongTermStats;
+  return stats;
 };

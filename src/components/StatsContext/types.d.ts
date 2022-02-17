@@ -16,9 +16,14 @@ export interface IStatsDaily {
   // percentage: number;
   games: IGamesStats;
 }
+export interface ILongTerm {
+  // date: string;
+  learned: number;
+  newWords: number;
+}
 
 export interface IStatsAll {
-  longTerm: { date: string; learned: number; newWords: number }[];
+  longTerm: { [date: string]: ILongTerm };
   // longTerm: { date: string; learned: number; newWords: number };
   dailyStats: IStatsDaily;
 }
@@ -31,11 +36,6 @@ export interface ISaveStatsOptions {
 export type SaveStatsCallback = (options: ISaveStatsOptions) => Promise<void>;
 
 export interface IStatsContext {
-  // game: string;
-  // correct: IWord[];
-  // wrong: IWord[];
-  // addCorrect: (words: IWord[]) => void;
-  // addWrong: (words: IWord[]) => void;
   saveStatistics: SaveStatsCallback;
 }
 
@@ -61,9 +61,16 @@ export interface ISendUpdateRequestsOptions {
   userId: string;
 }
 
-export interface IUpdateStatsOptions
-  extends ISaveStatsOptions,
-    IStatsContextProviderProps {
+export interface IUpdateDailyStatsOptions extends IStatsContextProviderProps {
   stats: IStatsAll;
-  userId: string;
+  learned: number;
+  newWords: number;
+  maxInRow: number;
+  correctCount: number;
+  wrongCount: number;
+}
+export interface IUpdateLongTernStatsOptions {
+  learned: number;
+  newWords: number;
+  stats: IStatsAll;
 }
