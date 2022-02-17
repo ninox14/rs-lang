@@ -46,8 +46,10 @@ interface IGetAndUpdateOptions extends IUserWordIDs {
   correctInRow?: number;
 }
 export interface IAggregatedOptions
-  extends PartialBy<IGetWordsOptions, 'group'>, // it is partial coz of fetching only hard textbook.
-    Pick<IUserWordIDs, 'userId'> {
+  // extends PartialBy<IGetWordsOptions, 'group'>, // it is partial coz of fetching only hard textbook.
+  extends Partial<IGetWordsOptions> {
+  // it is partial coz of fetching only hard textbook.
+  userId: string;
   filter?: string;
   wordsPerPage?: number;
 }

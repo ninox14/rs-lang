@@ -22,10 +22,9 @@ const maxPageIndex = 29;
 
 const aggregatedWordsFilters = {
   onlyHard: `{"$and":[{"userWord.difficulty":"${WordDifficulty.HARD}"}]}`,
-  notLearned: ({ page, group }: IGetWordsOptions) =>
-    `{"$and":[{"$or":[{"userWord.difficulty":"${WordDifficulty.HARD}"},{"userWord.difficulty":"${WordDifficulty.DEFAULT}"},{"userWord":null}]},{"page":${page}},{"group":${group}}]}`,
-  defaultFilter: ({ page, group }: IGetWordsOptions) =>
-    `{"$and":[{"page":"${page}"},{"group":${group}}]}`,
+  notLearned: ({ page }: { page: number }) =>
+    `{"$and":[{"$or":[{"userWord.difficulty":"${WordDifficulty.HARD}"},{"userWord.difficulty":"${WordDifficulty.DEFAULT}"},{"userWord":null}]},{"page":${page}}]}`,
+  defaultFilter: ({ page }: { page: number }) => `{"$and":[{"page":${page}}]}`,
 };
 
 const getPossiblePages = ({ group, page }: IGetWordsOptions) => {
@@ -64,10 +63,11 @@ export const getUserTextbookWords = createAsyncThunk(
   'words/getUserTextbookWords',
   async (options: IUserWordsActionOptions, { rejectWithValue }) => {
     try {
-      const { page, group } = options;
-      const filter = aggregatedWordsFilters.defaultFilter({ page, group });
-      const { data } = await getAggregatedWords({ ...options, filter });
+      const { page, group, userId } = options;
+      const filter = aggregatedWordsFilters.defaultFilter({ page });
+      const { data } = await getAggregatedWords({ userId, group, filter });
       const reshaped = reshapeWordsForUser(data[0].paginatedResults);
+      console.log(data[0].paginatedResults);
       return reshaped;
     } catch (err) {
       console.error(err);
@@ -101,15 +101,17 @@ export const getWordsAudiocall = createAsyncThunk(
   'words/getWordsAudiocall',
   async (options: IUserWordsActionOptions, { getState, rejectWithValue }) => {
     try {
-      const { page, group } = options;
+      const { page, group, userId } = options;
       const {
         word: { isGameRanFromTextbook },
       } = getState() as RootState;
       const filter = isGameRanFromTextbook
-        ? aggregatedWordsFilters.notLearned({ page, group })
-        : aggregatedWordsFilters.defaultFilter({ page, group });
+        ? aggregatedWordsFilters.notLearned({ page })
+        : aggregatedWordsFilters.defaultFilter({ page });
+
       const { data } = await getAggregatedWords({
-        ...options,
+        group,
+        userId,
         wordsPerPage: AUDIOCALL_WORD_COUNT,
         filter,
       });
@@ -147,11 +149,16 @@ export const getWordsSprint = createAsyncThunk(
       const {
         word: { isGameRanFromTextbook },
       } = getState() as RootState;
-      const filter = isGameRanFromTextbook
-        ? aggregatedWordsFilters.notLearned({ page, group })
-        : aggregatedWordsFilters.defaultFilter({ page, group });
+
       for (const item of pagesToGetFrom) {
-        const { data } = await getAggregatedWords({ ...item, userId, filter });
+        const filter = isGameRanFromTextbook
+          ? aggregatedWordsFilters.notLearned({ page: item.page })
+          : aggregatedWordsFilters.defaultFilter({ page: item.page });
+        const { data } = await getAggregatedWords({
+          group: item.group,
+          userId,
+          filter,
+        });
         const reshaped = reshapeWordsForUser(data[0].paginatedResults);
         words.push(...reshaped);
       }
