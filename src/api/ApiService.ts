@@ -32,8 +32,8 @@ interface IStatisticsOptions extends Pick<IUserWordIDs, 'userId'> {
 }
 
 export enum UpdateUserWordAction {
-  CORRECT,
-  INCORRECT,
+  CORRECT = 'correct',
+  INCORRECT = 'wrong',
 }
 
 interface IUserWordOptions extends IUserWord, IUserWordIDs {}
@@ -43,7 +43,8 @@ interface IGetAndUpdateOptions extends IUserWordIDs {
   difficulty?: WordDifficulty;
   game?: GameKey;
   action?: UpdateUserWordAction;
-  correctInRow?: number;
+  correctInRow: number;
+  userWord: IUserWord;
 }
 export interface IAggregatedOptions
   // extends PartialBy<IGetWordsOptions, 'group'>, // it is partial coz of fetching only hard textbook.
@@ -133,19 +134,21 @@ const updateGameScore = (
   game: keyof Omit<IOptional, 'correctInRow'>,
   action: UpdateUserWordAction,
   optional: IOptional,
-  correctInRow?: number
+  correctInRow: number
 ) => {
   switch (action) {
     case UpdateUserWordAction.CORRECT: {
       optional[game].right += 1;
       optional[game].total += 1;
-      if (typeof correctInRow === 'number') {
-        optional.correctInRow = correctInRow;
-      }
+      // if (typeof correctInRow === 'number') {
+      //   optional.correctInRow = correctInRow;
+      // }
+      optional.correctInRow = correctInRow;
       break;
     }
     case UpdateUserWordAction.INCORRECT: {
       optional[game].total += 1;
+      optional.correctInRow = correctInRow;
       break;
     }
   }
@@ -158,24 +161,25 @@ export const getAndUpdateUserWord = async ({
   difficulty,
   action,
   game,
+  userWord,
   correctInRow,
 }: IGetAndUpdateOptions) => {
   try {
-    const wordExists = (word: IUserWord) => {
+    const wordExists = () => {
       if (game && action) {
-        word.optional = updateGameScore(
+        userWord.optional = updateGameScore(
           game,
           action,
-          word.optional,
+          userWord.optional,
           correctInRow
         );
       }
-      const newDifficulty = difficulty ? difficulty : word.difficulty;
+      const newDifficulty = difficulty ? difficulty : userWord.difficulty;
       return updateUserWord({
         userId,
         wordId,
         difficulty: newDifficulty,
-        optional: word.optional,
+        optional: { ...userWord.optional },
       });
     };
     const wordDoesntExist = () => {
@@ -196,8 +200,12 @@ export const getAndUpdateUserWord = async ({
       });
     };
     const response = await getUserWord({ userId, wordId }).then(
-      (result) => wordExists(result.data),
-      wordDoesntExist
+      () => wordExists(),
+      (err) => {
+        wordDoesntExist();
+        console.log('tried to create word that doesnt exist');
+        console.error(err);
+      }
     );
     return response;
   } catch (err) {

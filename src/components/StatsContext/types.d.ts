@@ -19,12 +19,15 @@ export interface IStatsDaily {
 
 export interface IStatsAll {
   longTerm: { date: string; learned: number; newWords: number }[];
+  // longTerm: { date: string; learned: number; newWords: number };
   dailyStats: IStatsDaily;
 }
 export interface ISaveStatsOptions {
   correct: IWord[];
   wrong: IWord[];
+  maxInRow: number;
 }
+
 export type SaveStatsCallback = (options: ISaveStatsOptions) => Promise<void>;
 
 export interface IStatsContext {
@@ -40,8 +43,8 @@ export interface IStatsContextProviderProps {
   game: GameKey;
 }
 
-export interface ISaveUserStatsOptions
-  extends ISaveStatsOptions,
+export interface ISaveUserWordStatsOptions
+  extends Omit<ISaveStatsOptions, 'maxInRow'>,
     IStatsContextProviderProps {
   userId: string;
 }
@@ -55,5 +58,12 @@ export interface ISendUpdateRequestsOptions {
   action: UpdateUserWordAction;
   game: GameKey;
   words: IWord[];
+  userId: string;
+}
+
+export interface IUpdateStatsOptions
+  extends ISaveStatsOptions,
+    IStatsContextProviderProps {
+  stats: IStatsAll;
   userId: string;
 }

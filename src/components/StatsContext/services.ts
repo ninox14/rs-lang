@@ -1,13 +1,14 @@
 import { getAndUpdateUserWord, UpdateUserWordAction } from 'api/ApiService';
-import { IOptional, IWord, WordDifficulty } from 'redux/types/types';
+import { IOptional, WordDifficulty } from 'redux/types/types.d';
 import { getTodaysDate } from 'utils/helpers';
 import {
   IGetNewUserWordStatsOptions,
-  ISaveStatsOptions,
-  ISaveUserStatsOptions,
+  // ISaveStatsOptions,
+  ISaveUserWordStatsOptions,
   ISendUpdateRequestsOptions,
   IStatsAll,
   IStatsDaily,
+  IUpdateStatsOptions,
 } from './types';
 export const getDefaultDailyStats = (): IStatsDaily => ({
   date: getTodaysDate(),
@@ -42,17 +43,39 @@ export const isWordNew = (optional: IOptional): boolean => {
   return false;
 };
 
-export const countStatistics = () => [];
+export const updateDailyStats = ({
+  maxInRow,
+  correct,
+  wrong,
+  userId,
+  game,
+  stats,
+}: IUpdateStatsOptions) => {
+  let newWords = 0;
+  wrong.forEach((word) => {
+    if (word.userWord && isWordNew(word.userWord.optional)) {
+      newWords += 1;
+    }
+  });
+  correct.forEach((word) => {
+    if (word.userWord && isWordNew(word.userWord.optional)) {
+      newWords += 1;
+    }
+  });
+};
 
 const getNewUserWordStats = ({
   userWord,
   action,
 }: IGetNewUserWordStatsOptions) => {
+  let learnedWords = 0;
   let newDifficulty: WordDifficulty;
   let newCorrectInRow: number;
   const { difficulty, optional } = userWord;
+
   if (action === UpdateUserWordAction.CORRECT) {
     newCorrectInRow = optional.correctInRow + 1;
+
     // Checking if word should become learned
     const isPromotedFromDefault =
       difficulty === WordDifficulty.DEFAULT && newCorrectInRow === 3;
@@ -63,15 +86,30 @@ const getNewUserWordStats = ({
       : isPromotedFromHard
       ? WordDifficulty.LEARNED
       : difficulty;
-    return { difficulty: newDifficulty, correctInRow: newCorrectInRow };
+
+    if (isPromotedFromDefault || isPromotedFromHard) {
+      learnedWords += 1;
+    }
+
+    console.log(newDifficulty, newCorrectInRow, newDifficulty);
+    return {
+      difficulty: newDifficulty,
+      correctInRow: newCorrectInRow,
+      learnedWords,
+    };
   } else {
     newCorrectInRow = 0;
     // Check if were learned before to decide if it should be forgotten
-    newDifficulty =
-      difficulty === WordDifficulty.LEARNED
-        ? WordDifficulty.DEFAULT
-        : difficulty;
-    return { difficulty: newDifficulty, correctInRow: newCorrectInRow };
+    const isUnlearned = difficulty === WordDifficulty.LEARNED;
+    newDifficulty = isUnlearned ? WordDifficulty.DEFAULT : difficulty;
+    if (isUnlearned) {
+      learnedWords -= 1;
+    }
+    return {
+      difficulty: newDifficulty,
+      correctInRow: newCorrectInRow,
+      learnedWords,
+    };
   }
 };
 
@@ -81,24 +119,28 @@ export const sendUpdateRequests = async ({
   game,
   userId,
 }: ISendUpdateRequestsOptions) => {
+  let learned = 0;
   for (const word of words) {
     const { id, userWord } = word;
     if (userWord) {
-      const { difficulty, correctInRow } = getNewUserWordStats({
+      const { difficulty, correctInRow, learnedWords } = getNewUserWordStats({
         userWord,
         action,
       });
+      learned += learnedWords;
       const resp = await getAndUpdateUserWord({
         userId,
         wordId: id,
         difficulty,
         action,
         game,
+        userWord: JSON.parse(JSON.stringify(userWord)), //WHY I HAVE TO DO THIS ??????
         correctInRow,
       });
-      console.log('Updated ', action, resp); // To be removed later
+      console.log('Updated ', action, userWord); // To be removed later
     }
   }
+  return learned;
 };
 
 export const saveUserWordStats = async ({
@@ -106,17 +148,19 @@ export const saveUserWordStats = async ({
   wrong,
   userId,
   game,
-}: ISaveUserStatsOptions) => {
-  await sendUpdateRequests({
+}: ISaveUserWordStatsOptions) => {
+  const learned = await sendUpdateRequests({
     words: correct,
     action: UpdateUserWordAction.CORRECT,
     userId,
     game,
   });
-  await sendUpdateRequests({
+  const unlearned = await sendUpdateRequests({
     words: wrong,
     action: UpdateUserWordAction.INCORRECT,
     userId,
     game,
   });
+  console.log(learned, unlearned);
+  return learned + unlearned;
 };
