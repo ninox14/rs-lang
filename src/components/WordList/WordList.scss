@@ -1,14 +1,59 @@
+@import 'styles/variables/_.scss';
+
 .wordlist-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 }
 
 .wordlist-cards {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+}
+
+.word-cards-loader {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  background-color: #7f7f7f12;
+  user-select: none;
+  pointer-events: none;
+}
+
+.loader__circle {
+  position: fixed;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+  width: 80px;
+  height: 80px;
+  border: 10px solid var(--color);
+  border-top: 10px solid $black;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  transition: all 0.5s ease-out;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.word-cards-loader_active {
+  display: block;
+
+  & + .wordlist__pagination {
+    pointer-events: none;
+  }
 }
 
 .wordlist__pagination {

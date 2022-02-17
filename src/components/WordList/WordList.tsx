@@ -60,6 +60,13 @@ const WordList: FC = () => {
 
   return (
     <div className="wordlist-container">
+      <div
+        className={`word-cards-loader ${
+          isLoading ? 'word-cards-loader_active' : ''
+        }`}
+      >
+        <div className="loader__circle"></div>
+      </div>
       <Pagination
         className="wordlist__pagination"
         count={maxPageNumber}
