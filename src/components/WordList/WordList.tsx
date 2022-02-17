@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { PaginationItem } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   getTextbookHardWords,
@@ -8,15 +9,19 @@ import {
   getUserTextbookWords,
 } from 'redux/actions';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { setPage } from 'redux/word.slice';
 import { WordCard } from './Components/WordCard';
 import './WordList.scss';
+import GameMenu from './Components/GameMenu/GameMenu';
+import { setPage } from 'redux/word.slice';
+import { WordDifficulty } from 'redux/types/types';
 
 const WordList: FC = () => {
   const user = useAppSelector((state) => state.word.userId);
   const page = useAppSelector((state) => state.word.page);
   const group = useAppSelector((state) => state.word.group);
   const dispatch = useAppDispatch();
+  const [isHardPage, setIsHardPage] = useState(false);
+  const hardGroupId = 6;
 
   const groupType = 'default';
 
@@ -25,20 +30,35 @@ const WordList: FC = () => {
   useEffect(() => {
     if (!user) {
       dispatch(getTextbookWords({ group: group, page: page }));
+      setIsHardPage(false);
     } else {
-      if (group === 6) {
+      if (group === hardGroupId) {
+        console.log('fetch for hard');
         dispatch(getTextbookHardWords({ userId: user, page: page }));
+        setIsHardPage(true);
       } else {
         dispatch(
           getUserTextbookWords({ userId: user, group: group, page: page })
         );
+        setIsHardPage(false);
       }
     }
-  }, [page, group, dispatch, user]);
+  }, [user, group, page]);
 
   const words = useAppSelector((state) => state.word.words);
 
   const isLoading = useAppSelector((state) => state.word.loading);
+
+  const isLearned = useMemo(() => {
+    if (!user) {
+      return false;
+    } else {
+      return words.every(
+        (word) =>
+          word.userWord && word.userWord.difficulty !== WordDifficulty.DEFAULT
+      );
+    }
+  }, [words]);
 
   // pagination
   const navigate = useNavigate();
@@ -50,7 +70,6 @@ const WordList: FC = () => {
   const maxPageNumber = groupType === 'default' ? 30 : maxHardPageNumber;
 
   function handlePageSwitch(event: React.ChangeEvent<unknown>, value: number) {
-    setPaginationPage(value);
     navigate(`/textbook/${group}/${value - 1}`, { replace: true });
   }
 
@@ -94,13 +113,20 @@ const WordList: FC = () => {
             image={el.image}
             textMeaning={el.textMeaning}
             textExample={el.textExample}
-            transcription={el.transcription}
-            wordTranslate={el.wordTranslate}
             textMeaningTranslate={el.textMeaningTranslate}
             textExampleTranslate={el.textExampleTranslate}
+            transcription={el.transcription}
+            wordTranslate={el.wordTranslate}
           />
         ))}
       </div>
+      <GameMenu
+        isHardPage={isHardPage}
+        isLearned={isLearned}
+        userId={user}
+        groupId={group}
+        pageId={page}
+      />
     </div>
   );
 };

@@ -1,69 +1,26 @@
-import { createTheme, SpeedDialAction, ThemeProvider } from '@mui/material';
-import SpeedDial from '@mui/material/SpeedDial';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import {
-  gamesMenuData,
-  groupsColorThemes,
-  groupsLinksData,
-} from './Components/WordPageData';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setGroup, setPage } from 'redux/word.slice';
 
-import { ReactComponent as AudiocallLogo } from '../../assets/icons/headphones.svg';
-import { ReactComponent as SprintLogo } from '../../assets/icons/sprint.svg';
-import { ReactComponent as PuzzleIcon } from '../../assets/icons/card-puzzle.svg';
+import { groupsColorThemes, groupsLinksData } from './Components/WordPageData';
 
 import './WordPage.scss';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { setGroup } from 'redux/word.slice';
-
-const gamesMenuIcons = [
-  <AudiocallLogo className="games-menu__logo_audiocall"></AudiocallLogo>,
-  <SprintLogo className="games-menu__logo_sprint"></SprintLogo>,
-];
-
-const SpeedDealTheme = createTheme({
-  components: {
-    MuiSpeedDialAction: {
-      styleOverrides: {
-        fab: {
-          width: '45px',
-          height: '45px',
-          '&.games-menu__btn_audiocall': {
-            backgroundColor: '#8cd9ff',
-          },
-          '&.games-menu__btn_sprint': {
-            backgroundColor: '#ffa587',
-          },
-        },
-        staticTooltipLabel: {
-          backgroundColor: '#3C4758',
-          color: '#FFFFFF',
-          fontSize: 14,
-          fontFamily: 'inherit',
-          minWidth: '180px',
-          textAlign: 'center',
-          justifyContent: 'center',
-          padding: '4px 10px',
-        },
-      },
-    },
-  },
-});
 
 const WordPage: FC = () => {
-  const isLogged = !!useAppSelector((state) => state.word.userId);
-
-  const groupId = Number(useParams().groupId || '0');
-  const [currentGroup, setCurrentGroup] = useState(0);
-
   const dispatch = useAppDispatch();
+  const isLogged = !!useAppSelector((state) => state.word.userId);
+  const groupId = Number(useParams().groupId || '0');
+  const pageId = Number(useParams().pageId || '0');
+
   useEffect(() => {
     dispatch(setGroup(Number(groupId)));
-  }, [dispatch, groupId]);
+    dispatch(setPage(0));
+  }, [groupId]);
 
-  function handleGroupSwitch(value: number) {
-    setCurrentGroup(value);
-  }
+  useEffect(() => {
+    dispatch(setPage(pageId));
+  }, [pageId]);
 
   return (
     <div
@@ -89,53 +46,6 @@ const WordPage: FC = () => {
           })}
         </div>
         <Outlet />
-        <ThemeProvider theme={SpeedDealTheme}>
-          <SpeedDial
-            ariaLabel="Mini-games"
-            className="games-menu"
-            icon={<PuzzleIcon />}
-            sx={{
-              position: 'fixed',
-              bottom: 50,
-              right: 50,
-            }}
-            FabProps={{
-              sx: {
-                backgroundColor: 'var(--color)',
-                boxShadow: 1,
-                ':hover': {
-                  boxShadow: 3,
-                  backgroundColor: 'var(--color)',
-                },
-              },
-            }}
-          >
-            {gamesMenuData.map((el) => (
-              <SpeedDialAction
-                key={el.id}
-                className={`games-menu__btn games-menu__btn_${el.name}`}
-                tooltipOpen
-                tooltipTitle={el.title}
-                FabProps={{
-                  sx: {
-                    boxShadow: 0,
-                    ':hover': {
-                      boxShadow: 3,
-                    },
-                  },
-                }}
-                icon={
-                  <Link
-                    className={`games-menu__link games-menu__link_${el.name}`}
-                    to={`${el.path}`}
-                  >
-                    {gamesMenuIcons[el.id]}
-                  </Link>
-                }
-              ></SpeedDialAction>
-            ))}
-          </SpeedDial>
-        </ThemeProvider>
       </div>
     </div>
   );
