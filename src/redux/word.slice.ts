@@ -82,6 +82,7 @@ const wordsSlice = createSlice({
     ) => {
       state.loading = false;
       state.error = action.payload;
+      state.words = [];
       console.error(action.payload);
     },
     [getTextbookHardWords.pending.type]: (state) => {

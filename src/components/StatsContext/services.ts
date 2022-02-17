@@ -5,7 +5,6 @@ import {
   IGetNewUserWordStatsOptions,
   ILongTerm,
   ISaveStatsOptions,
-  // ISaveStatsOptions,
   ISaveUserWordStatsOptions,
   ISendUpdateRequestsOptions,
   IStatsAll,

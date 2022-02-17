@@ -50,8 +50,6 @@ export const StatsProvider: FC<IStatsContextProviderProps> = ({
           game,
         });
         const newWords = countNewWords({ correct, wrong });
-        // const currentStatistics = await getStatistics();
-        // let statsToUpdate = pickStatsToUpdate(currentStatistics);
         let statsToUpdate = await getStatistics();
         statsToUpdate = updateDailyStats({
           maxInRow,
