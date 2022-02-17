@@ -43,7 +43,7 @@ interface IGetAndUpdateOptions extends IUserWordIDs {
   difficulty?: WordDifficulty;
   game?: GameKey;
   action?: UpdateUserWordAction;
-  correctInRow: number;
+  correctInRow?: number;
   userWord: IUserWord;
 }
 export interface IAggregatedOptions
@@ -166,7 +166,7 @@ export const getAndUpdateUserWord = async ({
 }: IGetAndUpdateOptions) => {
   try {
     const wordExists = () => {
-      if (game && action) {
+      if (game && action && correctInRow) {
         userWord.optional = updateGameScore(
           game,
           action,
@@ -189,7 +189,7 @@ export const getAndUpdateUserWord = async ({
         correctInRow: 0,
       };
       const newDifficulty = difficulty ? difficulty : WordDifficulty.DEFAULT;
-      if (game && action) {
+      if (game && action && correctInRow) {
         optional = updateGameScore(game, action, optional, correctInRow);
       }
       return createUserWord({
