@@ -1,4 +1,7 @@
 .wordlist-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   
 }
 
@@ -6,4 +9,8 @@
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+}
+
+.wordlist__pagination {
+  padding-bottom: 30px;
 }
