@@ -12,6 +12,7 @@
 html {
   scroll-behavior: smooth;
   height: 100%;
+  display: flex;
 }
 
 body {
@@ -25,7 +26,6 @@ body {
   color: $black;
 }
 
-html,
 body,
 #root,
 .app {
