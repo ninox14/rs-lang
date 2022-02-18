@@ -1,4 +1,3 @@
-import type { AnyAction } from '@reduxjs/toolkit';
 import { GameKey, IGetWordsOptions } from 'api/ApiService';
 import { createContext, FC, useEffect, useState } from 'react';
 import {
@@ -42,10 +41,6 @@ const contextDefaults: IGameContext = {
   pickDifficulty: (difficulty) => {},
 };
 
-interface IFetchWordsOptions {
-  action: () => AnyAction;
-  // actionOptions: IUserWordsActionOptions | IGetWordsOptions;
-}
 interface IGameContextProps {
   game: GameKey;
 }
@@ -64,28 +59,18 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
 
   const [gameState, setGameState] = useState<GameState>(GameState.INITIAL);
   const [gameWords, setGameWords] = useState<IWord[]>([]);
+  const [maxRounds, setMaxRounds] = useState(99999);
 
   const initializeWords = () => {
     switch (game) {
       case 'audiocall': {
         setGameWords(audicallWords);
+        setMaxRounds(audicallWords.length);
         break;
       }
       case 'sprint': {
         setGameWords(sprintWords);
-        break;
-      }
-    }
-  };
-
-  const fetchWords = ({ action }: IFetchWordsOptions) => {
-    switch (game) {
-      case 'audiocall': {
-        appDispatch(action());
-        break;
-      }
-      case 'sprint': {
-        appDispatch(action());
+        setMaxRounds(sprintWords.length);
         break;
       }
     }
@@ -137,6 +122,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
         }
       }
     }
+    setGameState(GameState.COUNTDOWN);
   };
 
   useEffect(() => {
@@ -153,3 +139,22 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
 
   return <GameContext.Provider value={contextDefaults} children={children} />;
 };
+
+// tried to optimize but faiiled :(
+// const fetchWords = ({ action }: IFetchWordsOptions) => {
+//   switch (game) {
+//     case 'audiocall': {
+//       appDispatch(action());
+//       break;
+//     }
+//     case 'sprint': {
+//       appDispatch(action());
+//       break;
+//     }
+//   }
+// };
+
+// interface IFetchWordsOptions {
+//   action: () => AnyAction;
+//   // actionOptions: IUserWordsActionOptions | IGetWordsOptions;
+// }
