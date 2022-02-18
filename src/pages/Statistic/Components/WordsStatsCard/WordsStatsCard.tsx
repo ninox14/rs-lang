@@ -1,13 +1,13 @@
 import { GameKey } from 'api/ApiService';
-import { useStats } from 'components/StatsContext/StatsContext';
-import { IGameStats } from 'components/StatsContext/types.d';
-import { FC, useEffect, useState } from 'react';
+import { IGameStats, IStatsDaily } from 'components/StatsContext/types';
+import { FC } from 'react';
 import './WordsStatsCard.scss';
 
 interface IStatsKeys {
   type: 'newWords' | 'learned' | 'percentage';
   className: string;
   description: string;
+  stats: IStatsDaily | null;
 }
 
 function getPercent(games: Record<GameKey, IGameStats>): number {
@@ -23,32 +23,19 @@ function getPercent(games: Record<GameKey, IGameStats>): number {
   return average;
 }
 
-const WordsStatsCard: FC<IStatsKeys> = ({ className, description, type }) => {
-  const { getStatistics } = useStats();
-  const [stats, setStats] = useState(0);
-  const [percent, setPercent] = useState(0);
-
-  useEffect(() => {
-    const getStats = async () => {
-      const data = await getStatistics();
-
-      let gameData;
-      if (type !== 'percentage') {
-        gameData = data.dailyStats[type];
-        setStats(gameData);
-      } else {
-        gameData = getPercent(data.dailyStats.games);
-        setPercent(gameData);
-      }
-    };
-    getStats();
-  }, []);
-
+const WordsStatsCard: FC<IStatsKeys> = ({
+  className,
+  description,
+  type,
+  stats,
+}) => {
+  let percentage = 0;
+  if (stats) {
+    percentage = getPercent(stats.games);
+  }
   return (
     <div className={`words-stats__item words-stats__${className}`}>
-      <span className="words-count">
-        {type === 'percentage' ? `${percent}%` : stats}
-      </span>
+      <span className="words-count">{type === 'percentage' ? `${0}%` : 0}</span>
       {description}
     </div>
   );
