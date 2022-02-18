@@ -4,15 +4,15 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import MusicOffIcon from '@mui/icons-material/MusicOff';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
+
 import './Sprint.scss';
 import StartScreen from './StartScreen/StartScreen';
 import { Link } from 'react-router-dom';
 import Countdown from './Countdown/Countdown';
+import GameScreen from './GameScreen/GameScreen';
 
 const Sprint: FC = () => {
-  const gameMode = 'countdown';
+  const gameMode = 'game';
   const isFullscreen = true;
   return (
     <main className="page page_sprint">
@@ -39,7 +39,9 @@ const Sprint: FC = () => {
           </div>
         ) : null} */}
 
-        {gameMode === 'countdown' ? <Countdown /> : null}
+        {/* {gameMode === 'countdown' ? <Countdown /> : null} */}
+
+        {gameMode === 'game' ? <GameScreen /> : null}
       </div>
     </main>
   );
