@@ -24,7 +24,6 @@ const Form: FC<FomrProps> = ({ type }) => {
     return () => {
       dispatch(setErrorMsg(''));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {
