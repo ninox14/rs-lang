@@ -1,0 +1,273 @@
+@import 'styles/variables/_';
+
+html {
+  height: 100%;
+  display: flex;
+}
+
+body,
+#root,
+.app {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+// debug
+
+svg {
+  display: inline-block;
+}
+
+.button {
+  cursor: pointer;
+}
+
+.audiocall {
+  font-size: 18px;
+  background: $audiocall-bg;
+  color: $white;
+  fill: currentColor;
+  flex-grow: 1;
+}
+
+.audiocall__ {
+  &container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 21px;
+    padding: 50px;
+    min-height: 100%;
+
+    &_home {
+      text-align: center;
+    }
+
+    &_round {
+      padding: 170px 50px 70px;
+      gap: 40px;
+    }
+  }
+
+  &fixed-controls {
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 170px;
+  }
+
+  &controls-button svg {
+    height: 48px;
+    width: 48px;
+  }
+
+  &content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &game-header {
+    margin: 20px 0 0;
+    font-size: 64px;
+    font-weight: bold;
+  }
+  &game-desc {
+    font-size: 16px;
+    font-style: italic;
+  }
+
+  &difficulty-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px 0 40px;
+  }
+
+  &difficulty-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  &difficulty-button {
+    height: 50px;
+    width: 50px;
+    border: 2px solid;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      color: $black;
+    }
+
+    &:nth-child(1) {
+      border-color: $light-blue;
+      &:hover {
+        background: $light-blue;
+      }
+    }
+    &:nth-child(2) {
+      border-color: $blue;
+      &:hover {
+        background: $blue;
+      }
+    }
+    &:nth-child(3) {
+      border-color: $yellow;
+      &:hover {
+        background: $yellow;
+      }
+    }
+    &:nth-child(4) {
+      border-color: $green;
+      &:hover {
+        background: $green;
+      }
+    }
+    &:nth-child(5) {
+      border-color: $peach;
+      &:hover {
+        background: $peach;
+      }
+    }
+    &:nth-child(6) {
+      border-color: $orange;
+      &:hover {
+        background: $orange;
+      }
+    }
+  }
+
+  &homepage-buttons {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+  &homepage-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 140px;
+    border: 2px solid $white;
+    border-radius: 5px;
+
+    &:hover {
+      background: $white;
+      color: $black;
+    }
+  }
+
+  &speaker-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 3px;
+    border-radius: 50%;
+
+    &_big {
+      height: 130px;
+      width: 130px;
+
+      svg {
+        height: 107px;
+        width: 107px;
+      }
+    }
+
+    &_small svg {
+      height: 34px;
+      width: 34px;
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  &options {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: center;
+    gap: 25px 20px;
+    flex-grow: 1;
+    text-transform: uppercase;
+  }
+
+  &option {
+    font-size: 18px;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+
+    &-index {
+      display: flex;
+      justify-content: center;
+      font-size: 14px;
+      height: 20px;
+      width: 20px;
+      border: 1px solid;
+      border-radius: 50%;
+    }
+  }
+
+  &round-button {
+    .button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+      width: 157px;
+      border: 2px solid;
+      border-radius: 5px;
+    }
+  }
+
+  &answer {
+    color: $orange;
+
+    &_correct {
+      color: $green;
+    }
+  }
+
+  &word-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &word-image {
+    height: 76px;
+    width: 76px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+  }
+
+  &word {
+    font-size: 36px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-transform: lowercase;
+  }
+}
