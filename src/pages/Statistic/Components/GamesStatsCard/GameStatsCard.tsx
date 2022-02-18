@@ -11,7 +11,9 @@ interface IGameStatsCard {
 const GameStatsCard: FC<IGameStatsCard> = ({ className, name, stats }) => {
   let percentage = 0;
   if (stats) {
-    percentage = (stats?.percentage.right * 100) / stats?.percentage.total || 0;
+    percentage = Math.floor(
+      (stats?.percentage.right * 100) / stats?.percentage.total || 0
+    );
   }
 
   return (

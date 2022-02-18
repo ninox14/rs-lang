@@ -20,7 +20,7 @@ function getPercent(games: Record<GameKey, IGameStats>): number {
   const sprintPercent = (sprintRight * 100) / sprintTotal;
 
   const average = (audiocallPercent + sprintPercent) / 2 || 0;
-  return average;
+  return Math.floor(average);
 }
 
 const WordsStatsCard: FC<IStatsKeys> = ({
@@ -33,9 +33,20 @@ const WordsStatsCard: FC<IStatsKeys> = ({
   if (stats) {
     percentage = getPercent(stats.games);
   }
+
+  let count = 0;
+  if (stats) {
+    if (type === 'learned') {
+      count = stats.learned;
+    } else if (type === 'newWords') {
+      count = stats.newWords;
+    } else {
+      count = percentage;
+    }
+  }
   return (
     <div className={`words-stats__item words-stats__${className}`}>
-      <span className="words-count">{type === 'percentage' ? `${0}%` : 0}</span>
+      <span className="words-count">{count}</span>
       {description}
     </div>
   );
