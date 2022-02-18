@@ -9,9 +9,10 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import './Sprint.scss';
 import StartScreen from './StartScreen/StartScreen';
 import { Link } from 'react-router-dom';
+import Countdown from './Countdown/Countdown';
 
 const Sprint: FC = () => {
-  const gameMode = 'start-screen';
+  const gameMode = 'countdown';
   const isFullscreen = true;
   return (
     <main className="page page_sprint">
@@ -27,16 +28,18 @@ const Sprint: FC = () => {
         </div>
       </div>
       <div className="sprint-content">
-        {gameMode === 'start-screen' ? <StartScreen /> : null}
+        {/* {gameMode === 'start-screen' ? <StartScreen /> : null}
         {gameMode === 'start-screen' ? (
           <div className="sprint__controls-container">
-            {/* link to? where? title? back? */}
             <Link to={'/'} className="sprint__btn_title btn__to-textbook">
-              Выйти
+              // link to? where? title? back?
+               Выйти
             </Link>
             <button className="sprint__btn_title  btn__start">Начать</button>
           </div>
-        ) : null}
+        ) : null} */}
+
+        {gameMode === 'countdown' ? <Countdown /> : null}
       </div>
     </main>
   );
