@@ -32,5 +32,5 @@ export const getRandomNumber = (max: number) => {
 
 export const getTodaysDate = () => {
   const date = new Date();
-  return date.toLocaleDateString('en-GB', { dateStyle: 'short' });
+  return date.toLocaleDateString('en-US', { dateStyle: 'short' });
 };
