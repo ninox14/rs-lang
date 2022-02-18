@@ -137,6 +137,27 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sprintWords, audicallWords]);
 
+  // actions on game state changes
+  useEffect(() => {
+    switch (gameState) {
+      case GameState.INITIAL: {
+        break;
+      }
+      case GameState.COUNTDOWN: {
+        break;
+      }
+      case GameState.CORRECT: {
+        break;
+      }
+      case GameState.WRONG: {
+        break;
+      }
+      case GameState.RESULTS: {
+        break;
+      }
+    }
+  }, [gameState]);
+
   return <GameContext.Provider value={contextDefaults} children={children} />;
 };
 
