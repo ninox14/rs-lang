@@ -10,9 +10,10 @@ import StartScreen from './StartScreen/StartScreen';
 import { Link } from 'react-router-dom';
 import Countdown from './Countdown/Countdown';
 import GameScreen from './GameScreen/GameScreen';
+import EndScreen from './EndScreen/EndScreen';
 
 const Sprint: FC = () => {
-  const gameMode = 'game';
+  const gameMode = 'end';
   const isFullscreen = true;
   return (
     <main className="page page_sprint">
@@ -41,7 +42,8 @@ const Sprint: FC = () => {
 
         {/* {gameMode === 'countdown' ? <Countdown /> : null} */}
 
-        {gameMode === 'game' ? <GameScreen /> : null}
+        {/* {gameMode === 'game' ? <GameScreen /> : null} */}
+        {gameMode === 'end' ? <EndScreen /> : null}
       </div>
     </main>
   );

@@ -1,0 +1,131 @@
+@import 'styles/variables/_.scss';
+
+.end-card {
+  display: flex;
+  flex-direction: column;
+  background-color: $light-gray;
+  border-radius: 10px;
+  width: 600px;
+  height: 550px;
+  color: $black;
+}
+
+.end-card__tabs {
+  display: flex;
+  width: 100%;
+}
+
+.end-card__tabs-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.end-card__tab {
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 400;
+  color: $black;
+  padding: 0;
+  height: 40px;
+  z-index: 5;
+}
+
+.sprint__tab-panel {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.panel-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 30px 50px;
+}
+
+.panel-result__title {
+  font-size: 24px;
+}
+
+.panel-result__btns {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  column-gap: 40px;
+}
+
+.panel-result__btn {
+  width: 200px;
+  height: 50px;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: inherit;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+}
+
+.panel-result__exit {
+  background-color: $orange;
+}
+
+.panel-result__replay {
+  background-color: $light-blue;
+}
+
+.panel-words {
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.panel-words::-webkit-scrollbar {
+  width: 8px;
+}
+
+.panel-words::-webkit-scrollbar-thumb {
+  background-color: $gray;
+}
+
+.panel-words::-webkit-scrollbar-track {
+  background-color: $light-gray;
+}
+
+.panel-words__heading {
+  width: 100%;
+  padding: 2px 40px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  margin-top: 30px;
+}
+
+.panel-words__repeat {
+  & .panel-words__heading {
+    border-bottom: 3px solid $orange;
+  }
+
+  & .panel-words__words-count {
+    background-color: $orange;
+  }
+}
+
+.panel-words__known {
+  & .panel-words__heading {
+    border-bottom: 3px solid $green;
+  }
+
+  & .panel-words__words-count {
+    background-color: $green;
+  }
+}
+
+.panel-words__words-count {
+  border-radius: 20px;
+  padding: 1px 5px;
+  margin-left: 10px;
+}
