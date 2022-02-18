@@ -128,6 +128,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   useEffect(() => {
     if (isRanFromTextBook) {
       initializeWords();
+      setGameState(GameState.COUNTDOWN); // to start game right after loading
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
