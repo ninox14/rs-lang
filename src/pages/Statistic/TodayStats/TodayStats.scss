@@ -1,0 +1,31 @@
+@import 'styles/variables/_';
+
+.stats_today {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  row-gap: 30px;
+}
+
+.stats_today__words-stats {
+  display: flex;
+  justify-content: space-between;
+  max-width: 750px;
+  width: calc(100% - 20px);
+}
+
+.stats_today__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.stats_today__games-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 900px;
+  width: calc(100% - 20px);
+}

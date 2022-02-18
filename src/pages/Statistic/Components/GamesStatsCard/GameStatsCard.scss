@@ -1,0 +1,50 @@
+@import 'styles/variables/_';
+
+.games-stats-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: center;
+  row-gap: 30px;
+  min-width: 410px;
+  border-radius: 15px;
+  background-color: $cards-gray;
+}
+
+.games-stats-card__title {
+  position: relative;
+  width: 60%;
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 5px solid $white;
+  font-size: 18px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.game-stats-card_audiocall .games-stats-card__title {
+  border-bottom-color: $yellow;
+}
+
+.game-stats-card_sprint .games-stats-card__title {
+  border-bottom-color: $green;
+}
+
+.game-stats-card__item {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 10px;
+}
+
+.game-count {
+  min-width: 15%;
+  font-size: 18px;
+  text-align: start;
+}
+
+.game-stats-card__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  width: 100%;
+}
