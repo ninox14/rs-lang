@@ -1,3 +1,5 @@
+import { createTheme } from '@mui/material/styles';
+
 export const groupsColorThemes = [
   'lightblue',
   'blue',
@@ -18,7 +20,14 @@ export const groupsLinksData = [
   { id: 6, title: '★', path: '/textbook/6/0', isAuthReq: true },
 ];
 
-export const gamesMenuData = [
+interface IGamesMenuData {
+  id: number;
+  name: 'audiocall' | 'sprint';
+  title: string;
+  path: string;
+}
+
+export const gamesMenuData: IGamesMenuData[] = [
   {
     id: 0,
     name: 'audiocall',
@@ -27,3 +36,32 @@ export const gamesMenuData = [
   },
   { id: 1, name: 'sprint', title: 'Сыграть в Спринт', path: '/games/sprint' },
 ];
+
+export const GameMenuTheme = createTheme({
+  components: {
+    MuiSpeedDialAction: {
+      styleOverrides: {
+        fab: {
+          width: '45px',
+          height: '45px',
+          '&.games-menu__btn_audiocall': {
+            backgroundColor: '#8cd9ff',
+          },
+          '&.games-menu__btn_sprint': {
+            backgroundColor: '#ffa587',
+          },
+        },
+        staticTooltipLabel: {
+          backgroundColor: '#3C4758',
+          color: '#FFFFFF',
+          fontSize: 14,
+          fontFamily: 'inherit',
+          minWidth: '180px',
+          textAlign: 'center',
+          justifyContent: 'center',
+          padding: '4px 10px',
+        },
+      },
+    },
+  },
+});

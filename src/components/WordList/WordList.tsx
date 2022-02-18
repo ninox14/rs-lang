@@ -27,12 +27,12 @@ const WordList: FC = () => {
 
   const [isHardPage, setIsHardPage] = useState(false);
 
-  const maxHardPageNumber = useAppSelector((state) => {
-    if (state.word.maxHardWordsPages === 0) {
-      return 1;
-    }
-    return state.word.maxHardWordsPages;
-  });
+  // const maxHardPageNumber = useAppSelector((state) => {
+  //   if (state.word.maxHardWordsPages === 0) {
+  //     return 1;
+  //   }
+  //   return state.word.maxHardWordsPages;
+  // });
 
   const navigate = useNavigate();
 
@@ -98,28 +98,32 @@ const WordList: FC = () => {
       >
         <div className="loader__circle"></div>
       </div>
-      <Pagination
-        className={`wordlist__pagination ${
-          isLearned ? 'wordlist__pagination_learned' : ''
-        }`}
-        count={isHardPage ? maxHardPageNumber : maxPageCount}
-        page={page + 1}
-        onChange={handlePageSwitch}
-        renderItem={(item) => (
-          <PaginationItem
-            className="pagination_item"
-            sx={{
-              '&.Mui-selected': {
-                backgroundColor: 'var(--color)',
-              },
-              '& .MuiTouchRipple-ripple .MuiTouchRipple-child': {
-                backgroundColor: 'var(--color)',
-              },
-            }}
-            {...item}
-          />
-        )}
-      />
+      {!isHardPage ? (
+        <Pagination
+          className={`wordlist__pagination ${
+            isLearned ? 'wordlist__pagination_learned' : ''
+          }`}
+          // count={isHardPage ? maxHardPageNumber : maxPageCount}
+          count={maxPageCount}
+          page={page + 1}
+          onChange={handlePageSwitch}
+          renderItem={(item) => (
+            <PaginationItem
+              className="pagination_item"
+              sx={{
+                '&.Mui-selected': {
+                  backgroundColor: 'var(--color)',
+                },
+                '& .MuiTouchRipple-ripple .MuiTouchRipple-child': {
+                  backgroundColor: 'var(--color)',
+                },
+              }}
+              {...item}
+            />
+          )}
+        />
+      ) : null}
+
       <div className="wordlist-cards">
         {isNoWords ? (
           <div className="wordslist-cards__tip">
@@ -133,6 +137,7 @@ const WordList: FC = () => {
           return (
             <WordCard
               key={el.word}
+              id={el.id}
               wordId={el.id}
               word={el.word}
               transcription={el.transcription}
