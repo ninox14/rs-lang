@@ -1,0 +1,88 @@
+@import 'styles/variables/_.scss';
+
+.options-difficulty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.options-difficulty__title {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.options-difficulty__controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  column-gap: 30px;
+  row-gap: 20px;
+  max-width: 500px;
+
+  @media all and (max-width: 600px) {
+    max-width: 230px;
+  }
+}
+
+.options-difficulty__btn {
+  background-color: transparent;
+  border-radius: 5px;
+  border: solid 2px $white;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  font-size: 18px;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: 0.5s;
+
+  &:hover {
+    color: $black;
+  }
+}
+
+.options-difficulty__btn:nth-child(1) {
+  border-color: $light-blue;
+
+  &:hover {
+    background-color: $light-blue;
+  }
+}
+.options-difficulty__btn:nth-child(2) {
+  border-color: $blue;
+
+  &:hover {
+    background-color: $blue;
+  }
+}
+.options-difficulty__btn:nth-child(3) {
+  border-color: $yellow;
+
+  &:hover {
+    background-color: $yellow;
+  }
+}
+.options-difficulty__btn:nth-child(4) {
+  border-color: $green;
+
+  &:hover {
+    background-color: $green;
+  }
+}
+.options-difficulty__btn:nth-child(5) {
+  border-color: $peach;
+
+  &:hover {
+    background-color: $peach;
+  }
+}
+.options-difficulty__btn:nth-child(6) {
+  border-color: $orange;
+
+  &:hover {
+    background-color: $orange;
+  }
+}
