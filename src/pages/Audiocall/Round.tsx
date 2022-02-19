@@ -3,28 +3,54 @@ import Button from 'components/AudiocallPage/Button';
 import FullscreenButton from 'components/AudiocallPage/Fullscreen';
 import { FC, ReactElement, useState } from 'react';
 import audiocallData from './testData';
+import { GamePage, IGamePageProps } from './types.d';
 
-const AudiocallRound: FC = () => {
+const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
+  const { changePage, changeAudioSrc, saveResults, roundResults } =
+    gamePageProps;
+
   const data = audiocallData.rounds;
+
   const [round, setRound] = useState<number>(0);
   const [answer, setAnswer] = useState<string>();
   // const [audioSrc, setAudioSrc] = useState<string>();
+
   const nextRound = () => {
     if (round < data.length - 1) {
       setRound(round + 1);
       setAnswer(undefined);
+      if (changeAudioSrc) changeAudioSrc(data[0].audio);
+    } else {
+      if (changePage) changePage(GamePage.Statistics);
     }
   };
   const checkAnswer = (word: string): void => {
     setAnswer(word);
+    if (saveResults && roundResults)
+      saveResults([
+        ...roundResults,
+        {
+          word,
+          correct: word === data[round].answer,
+          translation: data[round].word,
+          audio: data[round].audio,
+        },
+      ]);
   };
-  // const audio = new Audio();
+
+  if (changeAudioSrc && round < 1 && answer === undefined)
+    changeAudioSrc(data[0].audio);
 
   return (
     <div className="audiocall__container audiocall__container_round">
       <div className="audiocall__fixed-controls">
         <div className="audiocall__fixed-controls_left">
-          <div className="button audiocall__controls-button">
+          <div
+            className="button audiocall__controls-button"
+            onClick={() => {
+              if (changePage) changePage(GamePage.Home);
+            }}
+          >
             <CloseSharp />
           </div>
         </div>

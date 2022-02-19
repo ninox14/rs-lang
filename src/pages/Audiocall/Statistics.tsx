@@ -3,30 +3,35 @@ import { FC, ReactElement, SyntheticEvent, useState } from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
 import FullscreenButton from 'components/AudiocallPage/Fullscreen';
 import { VolumeUp } from '@mui/icons-material';
+import { GamePage, IGamePageProps } from './types.d';
+import Button from 'components/AudiocallPage/Button';
 
-const AudiocallStatistics: FC = () => {
+const AudiocallStatistics: FC<IGamePageProps> = ({ gamePageProps }) => {
+  const { roundResults, changePage, changeAudioSrc } = gamePageProps;
+
   const [tabIndex, setTabIndex] = useState(0);
+
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
+    setTabIndex(newValue);
+  };
+
   const allyProps = (index: number) => {
     return {
       id: `audiocall-statistics-tab-${index}`,
       'aria-controls': `audiocall-statistics-tabpanel-${index}`,
     };
   };
-  const handleChange = (event: SyntheticEvent, newValue: number) => {
-    setTabIndex(newValue);
-  };
-
-  const chart = 85;
-
-  const answers = [
-    { correct: true, word: 'hurr', translation: 'хурр' },
-    { correct: false, word: 'durr', translation: 'дурр' },
-    { correct: true, word: 'purr', translation: 'пурр' },
-    { correct: false, word: 'kurr', translation: 'курр' },
-    { correct: true, word: 'furr', translation: 'фурр' },
-  ];
+  const answers = roundResults ?? [];
   const correctAnswers = answers.filter((answer) => answer.correct);
   const wrongAnswers = answers.filter((answer) => !answer.correct);
+  const rate = (correctAnswers.length / answers.length) * 100;
+  const chart = isNaN(rate) ? 0 : rate;
+  const resultTitle =
+    rate > 85
+      ? 'Отличный результат!'
+      : rate > 50
+      ? 'Хороший результат!'
+      : 'Стоит повторить!';
 
   return (
     <div className="audiocall__container audiocall__container_statistics">
@@ -53,7 +58,7 @@ const AudiocallStatistics: FC = () => {
         </Box>
         <TabPanel value={tabIndex} index={0}>
           <div className="panel-result audiocall__panel-result">
-            <p className="panel-result__title">Отличный результат!</p>
+            <p className="panel-result__title">{resultTitle}</p>
             <div className="panel-result__chart-container">
               <div
                 className="panel-result__chart"
@@ -66,12 +71,17 @@ const AudiocallStatistics: FC = () => {
               </div>
             </div>
             <div className="panel-result__btns">
-              <button className="panel-result__btn panel-result__exit">
+              <Button className="panel-result__btn panel-result__exit" url="..">
                 Выйти
-              </button>
-              <button className="panel-result__btn panel-result__replay">
+              </Button>
+              <Button
+                className="panel-result__btn panel-result__replay"
+                onClick={() => {
+                  if (changePage) changePage(GamePage.Home);
+                }}
+              >
                 Сыграть еще раз
-              </button>
+              </Button>
             </div>
           </div>
         </TabPanel>
@@ -86,8 +96,14 @@ const AudiocallStatistics: FC = () => {
               </div>
               <div className="panel-words__words">
                 {correctAnswers.map(
-                  (answer): ReactElement => (
-                    <div className="panel-words__item">
+                  (answer, index): ReactElement => (
+                    <div
+                      className="panel-words__item"
+                      key={`knownWord${index}`}
+                      onClick={() => {
+                        if (changeAudioSrc) changeAudioSrc(answer.audio);
+                      }}
+                    >
                       <VolumeUp />
                       <span className="panel-words__word">
                         {answer.word}
@@ -106,8 +122,14 @@ const AudiocallStatistics: FC = () => {
               </div>
               <div className="panel-words__words">
                 {wrongAnswers.map(
-                  (answer): ReactElement => (
-                    <div className="panel-words__item">
+                  (answer, index): ReactElement => (
+                    <div
+                      className="panel-words__item"
+                      key={`repeatWord${index}`}
+                      onClick={() => {
+                        if (changeAudioSrc) changeAudioSrc(answer.audio);
+                      }}
+                    >
                       <VolumeUp />
                       <span className="panel-words__word">
                         {answer.word}

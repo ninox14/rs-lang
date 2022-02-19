@@ -107,6 +107,29 @@ svg {
     justify-content: center;
     align-items: center;
 
+    &_selected {
+      color: $black;
+
+      &:nth-child(1) {
+        background: $light-blue;
+      }
+      &:nth-child(2) {
+        background: $blue;
+      }
+      &:nth-child(3) {
+        background: $yellow;
+      }
+      &:nth-child(4) {
+        background: $green;
+      }
+      &:nth-child(5) {
+        background: $peach;
+      }
+      &:nth-child(6) {
+        background: $orange;
+      }
+    }
+
     &:hover {
       color: $black;
     }
@@ -165,8 +188,17 @@ svg {
     border-radius: 5px;
 
     &:hover {
-      background: $white;
       color: $black;
+
+      &:nth-child(1) {
+        background: $orange;
+        border-color: $orange;
+      }
+
+      &:nth-child(2) {
+        background: $green;
+        border-color: $green;
+      }
     }
   }
 
@@ -255,8 +287,8 @@ svg {
   }
 
   &word-image {
-    height: 76px;
-    width: 76px;
+    height: 77px;
+    width: 77px;
     background-size: cover;
     background-position: center;
     border-radius: 50%;
@@ -402,6 +434,7 @@ svg {
     line-height: 50px;
     border: 0;
     cursor: pointer;
+    text-align: center;
     text-transform: uppercase;
     border-radius: 5px;
   }
