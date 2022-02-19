@@ -13,7 +13,6 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
 
   const [round, setRound] = useState<number>(0);
   const [answer, setAnswer] = useState<string>();
-  // const [audioSrc, setAudioSrc] = useState<string>();
 
   const nextRound = () => {
     if (round < data.length - 1) {
@@ -30,9 +29,9 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
       saveResults([
         ...roundResults,
         {
-          word,
+          word: data[round].word,
           correct: word === data[round].answer,
-          translation: data[round].word,
+          translation: data[round].answer,
           audio: data[round].audio,
         },
       ]);
