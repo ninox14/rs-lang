@@ -1,5 +1,5 @@
 import { GameKey, IGetWordsOptions } from 'api/ApiService';
-import { createContext, FC, useEffect, useState } from 'react';
+import { createContext, FC, useContext, useEffect, useState } from 'react';
 import {
   getWordsAudiocall,
   getWordsAudiocallAnon,
@@ -61,6 +61,8 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   const [gameWords, setGameWords] = useState<IWord[]>([]);
   const [maxRounds, setMaxRounds] = useState(99999);
 
+  // Function that sets words from react store to state of this component
+  // for you to pop words from this state to put it as a question
   const initializeWords = () => {
     switch (game) {
       case 'audiocall': {
@@ -76,6 +78,9 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     }
   };
 
+  // Exported pick difficulty callback that dispatches actions
+  // to get words for loged in user or for Anon user and sets
+  // them as a word array for questions
   const pickDifficulty = (difficulty: number) => {
     if (userId) {
       switch (game) {
@@ -125,6 +130,9 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     setGameState(GameState.COUNTDOWN);
   };
 
+  // After loading get words that were already fetched and sets them as a questions
+  // For that to work you need to dispatch(getSprintWords or getAudiocallWords) right
+  // befor navigating user to this page
   useEffect(() => {
     if (isRanFromTextBook) {
       initializeWords();
@@ -133,12 +141,16 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // This needed to actually track changes in redux store
+  // example: after executing pickDifficulty redux gets new words and;
+  // this useEffect executes to set them as words for questions
   useEffect(() => {
     initializeWords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sprintWords, audicallWords]);
 
-  // actions on game state changes
+  // This should execute services or make something happend on change of the
+  // game state
   useEffect(() => {
     switch (gameState) {
       case GameState.INITIAL: {
@@ -159,8 +171,13 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     }
   }, [gameState]);
 
+  // You should put everything you want to give access to for child components
+  // shape of value prop defined in IGameContex interface
   return <GameContext.Provider value={contextDefaults} children={children} />;
 };
+
+// This gives an access to things you put in value
+export const useGame = () => useContext(GameContext);
 
 // tried to optimize but faiiled :(
 // const fetchWords = ({ action }: IFetchWordsOptions) => {
