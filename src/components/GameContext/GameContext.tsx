@@ -29,6 +29,7 @@ interface IGameContext {
   correct: IWord[];
   wrong: IWord[];
   gameState: GameState;
+  countDown: number;
   giveAnswerAudiocall: (answer: string) => void;
   giveAnswerSprint: (asnwer: boolean) => void;
   pickDifficulty: (difficulty: number) => void;
@@ -58,6 +59,7 @@ const contextDefaults: IGameContext = {
   correct: [],
   wrong: [],
   gameState: GameState.INITIAL,
+  countDown: 0,
   giveAnswerAudiocall: () => {},
   giveAnswerSprint: () => {},
   pickDifficulty: () => {},
@@ -88,6 +90,9 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   const [countDown, setCountdown] = useState(0);
   const [question, setQuestion] = useState<IWord>(wordDefaults);
   const [answers, setAnswers] = useState<string[]>([]);
+
+  // const [isCountdownStarted, setIsCountdownStarted] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   const [round, setRound] = useState(0);
 
@@ -160,10 +165,6 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     setGameState(GameState.COUNTDOWN);
   };
 
-  const setCurrentQuestion = () => {
-    setQuestion(gameWords[round]);
-  };
-
   const progressGame = () => {
     if (round < gameWords.length - 1) {
       setRound((state) => state + 1);
@@ -208,7 +209,10 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     while (pickedAnswers.length < maxAnswersAudiocall) {
       const index = getRandomNumber(gameWords.length);
       const pickedWord = gameWords[index];
-      if (pickedWord.wordTranslate !== currentWord) {
+      if (
+        pickedWord.wordTranslate !== currentWord &&
+        pickedAnswers.indexOf(currentWord) !== -1
+      ) {
         pickedAnswers.push(pickedWord.wordTranslate);
       } else {
         continue;
@@ -233,6 +237,10 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
       }
     }
     setAnswers(answer);
+  };
+
+  const setCurrentQuestion = () => {
+    setQuestion(gameWords[round]);
   };
 
   // After loading get words that were already fetched and sets them as a questions
@@ -262,16 +270,13 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
         break;
       }
       case GameState.COUNTDOWN: {
-        setCountdown(5);
+        setIsGameStarted(true);
+        setCountdown(3);
+
         break;
       }
       case GameState.QUESTION: {
         setCurrentQuestion();
-        if (game === 'audiocall') {
-          getNewAnswersAudiocall();
-        } else {
-          getNewAnswerSprint();
-        }
         break;
       }
       case GameState.CORRECT: {
@@ -281,17 +286,30 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
         break;
       }
       case GameState.RESULTS: {
+        setIsGameStarted(false);
         break;
       }
     }
   }, [gameState]);
 
   useEffect(() => {
-    if (countDown > 0) {
-      console.log(countDown);
+    if (isGameStarted) {
+      if (game === 'audiocall') {
+        getNewAnswersAudiocall();
+      } else {
+        getNewAnswerSprint();
+      }
+    }
+  }, [question]);
+
+  useEffect(() => {
+    if (countDown > 0 && isGameStarted) {
       setTimeout(() => setCountdown((state) => state - 1), 1000);
     } else {
-      setGameState(GameState.QUESTION);
+      console.log('inside countdown');
+      if (isGameStarted) {
+        setGameState(GameState.QUESTION);
+      }
     }
   }, [countDown]);
 
@@ -300,6 +318,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   return (
     <GameContext.Provider
       value={{
+        countDown,
         correct: correctArray,
         wrong: wrongtArray,
         question: question,
@@ -318,22 +337,3 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
 
 // This gives an access to things you put in value
 export const useGame = () => useContext(GameContext);
-
-// tried to optimize but faiiled :(
-// const fetchWords = ({ action }: IFetchWordsOptions) => {
-//   switch (game) {
-//     case 'audiocall': {
-//       appDispatch(action());
-//       break;
-//     }
-//     case 'sprint': {
-//       appDispatch(action());
-//       break;
-//     }
-//   }
-// };
-
-// interface IFetchWordsOptions {
-//   action: () => AnyAction;
-//   // actionOptions: IUserWordsActionOptions | IGetWordsOptions;
-// }
