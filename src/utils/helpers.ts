@@ -16,6 +16,7 @@ export const reshapeWordsForUser = (words: IWord[]) => {
         optional: {
           audiocall: { right: 0, total: 0 },
           sprint: { right: 0, total: 0 },
+          correctInRow: 0,
         },
       };
       word.userWord = defaultUserWord;
@@ -27,4 +28,17 @@ export const reshapeWordsForUser = (words: IWord[]) => {
 
 export const getRandomNumber = (max: number) => {
   return Math.floor(Math.random() * max);
+};
+
+export const getTodaysDate = () => {
+  const date = new Date();
+  return date.toLocaleDateString('en-US', { dateStyle: 'short' });
+};
+
+export const shuffle = <T>(array: T[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 };
