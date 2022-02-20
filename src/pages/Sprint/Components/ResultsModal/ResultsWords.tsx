@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { ReactComponent as AudioIcon } from 'assets/icons/card-volume.svg';
+import { useGame } from 'components/GameContext/GameContext';
 
 interface IWord {
   sound: string;
@@ -21,11 +22,10 @@ const Word: FC<IWord> = ({ sound, word, translate }) => {
 };
 
 const ResultsWords: FC = () => {
-  const word = 'immense';
+  const { correct, wrong } = useGame();
 
-  const rightCount = 10;
-  const wrongCount = 10;
-  const translate = 'находящихся под угрозой исчезновения';
+  const rightCount = correct.length;
+  const wrongCount = wrong.length;
 
   return (
     <div className="results-words">
@@ -35,7 +35,13 @@ const ResultsWords: FC = () => {
           <span className="results-words__words-count">{rightCount}</span>
         </div>
         <div className="results-words__words">
-          <Word sound={''} word={word} translate={translate} />
+          {correct.map((word) => (
+            <Word
+              sound={`${word.audio}`}
+              word={word.word}
+              translate={word.wordTranslate}
+            />
+          ))}
         </div>
       </div>
       <div className="results-words__repeat">
@@ -45,7 +51,13 @@ const ResultsWords: FC = () => {
         </div>
         <div className="results-words__words">
           <div className="results-words__words">
-            <Word sound={''} word={word} translate={translate} />
+            {wrong.map((word) => (
+              <Word
+                sound={`${word.audio}`}
+                word={word.word}
+                translate={word.wordTranslate}
+              />
+            ))}
           </div>
         </div>
       </div>
