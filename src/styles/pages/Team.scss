@@ -1,0 +1,80 @@
+@import "styles/variables/_";
+
+.author-card {
+  background: $cards-gray;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24.5px;
+  flex-shrink: 1;
+  padding: 30px 30px 20px;
+  border-radius: 10px;
+}
+
+.author-card__ {
+  &avatar {
+    max-width: 150px;
+    max-height: 150px;
+  }
+
+  &github {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.team {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+
+  @include s {
+   padding: 40px 20px; 
+  }
+}
+
+.team__ {
+  &container {
+    max-width: 1070px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+
+    @include l {
+      align-items: center;
+    }
+
+    @include s {
+     gap: 40px; 
+    }
+  }
+
+  &header {
+    font-size: 18px;
+    text-transform: uppercase;
+  }
+
+  &cards-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    
+    @include l {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 60px;
+    }
+
+    @include s {
+     gap: 40px; 
+    }
+  }
+}
