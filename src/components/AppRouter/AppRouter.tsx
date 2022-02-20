@@ -10,6 +10,8 @@ import Team from 'pages/Team/Team';
 import Textbook from 'pages/Textbook/Textbook';
 import WordList from 'components/WordList/WordList';
 import WordPage from 'components/WordPage/WordPage';
+import { GameProvider } from 'components/GameContext/GameContext';
+import { StatsProvider } from 'components/StatsContext/StatsContext';
 
 const AppRouter: FC = () => {
   return (
@@ -28,7 +30,16 @@ const AppRouter: FC = () => {
           <Route path="games" element={<Games />} />
         </Route>
         <Route path="/games/audiocall" element={<Audiocall />} />
-        <Route path="/games/sprint" element={<Sprint />} />
+        <Route
+          path="/games/sprint"
+          element={
+            <StatsProvider game="sprint">
+              <GameProvider game="sprint">
+                <Sprint />
+              </GameProvider>
+            </StatsProvider>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

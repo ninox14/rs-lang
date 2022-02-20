@@ -3,12 +3,20 @@ import './EndScreen.scss';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { GameState, useGame } from 'components/GameContext/GameContext';
+import { useNavigate } from 'react-router-dom';
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
+
+interface IEndscreenProps {
+  points: number;
+}
+
+// const pointsToCompare = {}
 
 const TabPanel: FC<TabPanelProps> = (props) => {
   const { children, value, index, ...other } = props;
@@ -48,7 +56,9 @@ const TabsTheme = createTheme({
   },
 });
 
-const EndScreen: FC = () => {
+const EndScreen: FC<IEndscreenProps> = ({ points }) => {
+  const navigate = useNavigate();
+  const { wrong, correct, handleGameStateChange } = useGame();
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -93,13 +103,19 @@ const EndScreen: FC = () => {
         </div>
         <TabPanel value={value} index={0}>
           <div className="panel-result">
-            <p className="panel-result__title">Отличный результат!</p>
+            <p className="panel-result__title">Отличный результат! {points}</p>
             <div className="panel-result__chart"></div>
             <div className="panel-result__btns">
-              <button className="panel-result__btn panel-result__exit">
+              <button
+                className="panel-result__btn panel-result__exit"
+                onClick={() => navigate(-1)}
+              >
                 Выйти
               </button>
-              <button className="panel-result__btn panel-result__replay">
+              <button
+                className="panel-result__btn panel-result__replay"
+                onClick={() => handleGameStateChange(GameState.INITIAL)}
+              >
                 Сыграть еще раз
               </button>
             </div>
@@ -110,18 +126,25 @@ const EndScreen: FC = () => {
             <div className="panel-words__known">
               <div className="panel-words__heading">
                 <span className="panel-words__subtitle">Знаю</span>
-                <span className="panel-words__words-count">10</span>
+                <span className="panel-words__words-count">
+                  {correct.length}
+                </span>
               </div>
               <div className="panel-words__words">
-                <div className="panel-words__word">
-                  immense - находящихся под угрозой исчезновения
-                </div>
+                {correct.map((word) => (
+                  <div className="panel-words__word">{`${word.word} - ${word.wordTranslate}`}</div>
+                ))}
               </div>
             </div>
             <div className="panel-words__repeat">
               <div className="panel-words__heading">
                 <span className="panel-words__subtitle">Надо повторить</span>
-                <span className="panel-words__words-count">10</span>
+                <span className="panel-words__words-count">{wrong.length}</span>
+              </div>
+              <div className="panel-words__words">
+                {wrong.map((word) => (
+                  <div className="panel-words__word">{`${word.word} - ${word.wordTranslate}`}</div>
+                ))}
               </div>
             </div>
           </div>

@@ -4,7 +4,15 @@ import './StartScreen.scss';
 
 import { ReactComponent as SprintLogo } from 'assets/icons/sprint.svg';
 
-const StartScreen: FC = () => {
+interface IStartProps {
+  handleDifficultyChange: (newDifficulty: number) => void;
+  difficulty: number | null;
+}
+
+const StartScreen: FC<IStartProps> = ({
+  handleDifficultyChange,
+  difficulty,
+}) => {
   const isFromTextbook = true;
   return (
     <div className="sprint_start-screen">
@@ -14,7 +22,11 @@ const StartScreen: FC = () => {
         Твоя задача как можно быстрее определить правильно ли указан перевод
         слова. Управлять можно как кнопками, так и стрелками на клавиатуре.
       </p>
-      <DifficultyButtons isFromTextbook={isFromTextbook} />
+      <DifficultyButtons
+        handleDifficultyChange={handleDifficultyChange}
+        isFromTextbook={isFromTextbook}
+        difficulty={difficulty}
+      />
     </div>
   );
 };

@@ -5,16 +5,28 @@ const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
 interface IDifficultyButtons {
   isFromTextbook: boolean;
+  handleDifficultyChange: (newDifficulty: number) => void;
+  difficulty: number | null;
 }
 
-const DifficultyButtons: FC<IDifficultyButtons> = ({ isFromTextbook }) => {
+const DifficultyButtons: FC<IDifficultyButtons> = ({
+  handleDifficultyChange,
+  difficulty,
+  isFromTextbook,
+}) => {
   if (isFromTextbook) {
     return (
       <div className="options-difficulty">
         <p className="options-difficulty__title">Выбери сложность:</p>
         <div className="options-difficulty__controls">
-          {levels.map((el) => (
-            <button key={el} className="options-difficulty__btn">
+          {levels.map((el, index) => (
+            <button
+              key={el}
+              onClick={() => handleDifficultyChange(index)}
+              className={`options-difficulty__btn ${
+                index === difficulty && 'active'
+              }`}
+            >
               {el}
             </button>
           ))}

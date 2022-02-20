@@ -47,4 +47,9 @@
   border: 3px solid $white;
   cursor: pointer;
   transition: 0.5s;
+
+  &:disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 }

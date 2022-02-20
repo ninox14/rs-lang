@@ -39,6 +39,10 @@
   cursor: pointer;
   transition: 0.5s;
 
+  &.active {
+    color: $black;
+  }
+
   &:hover {
     color: $black;
   }
@@ -47,12 +51,20 @@
 .options-difficulty__btn:nth-child(1) {
   border-color: $light-blue;
 
+  &.active {
+    background-color: $light-blue;
+  }
+
   &:hover {
     background-color: $light-blue;
   }
 }
 .options-difficulty__btn:nth-child(2) {
   border-color: $blue;
+
+  &.active {
+    background-color: $blue;
+  }
 
   &:hover {
     background-color: $blue;
@@ -61,12 +73,20 @@
 .options-difficulty__btn:nth-child(3) {
   border-color: $yellow;
 
+  &.active {
+    background-color: $yellow;
+  }
+
   &:hover {
     background-color: $yellow;
   }
 }
 .options-difficulty__btn:nth-child(4) {
   border-color: $green;
+
+  &.active {
+    background-color: $green;
+  }
 
   &:hover {
     background-color: $green;
@@ -75,12 +95,20 @@
 .options-difficulty__btn:nth-child(5) {
   border-color: $peach;
 
+  &.active {
+    background-color: $peach;
+  }
+
   &:hover {
     background-color: $peach;
   }
 }
 .options-difficulty__btn:nth-child(6) {
   border-color: $orange;
+
+  &.active {
+    background-color: $orange;
+  }
 
   &:hover {
     background-color: $orange;

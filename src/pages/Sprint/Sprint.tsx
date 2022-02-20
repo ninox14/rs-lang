@@ -1,7 +1,5 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import FullscreenIcon from '@mui/icons-material/Fullscreen';
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import MusicOffIcon from '@mui/icons-material/MusicOff';
 
@@ -11,39 +9,76 @@ import { Link } from 'react-router-dom';
 import Countdown from './Countdown/Countdown';
 import GameScreen from './GameScreen/GameScreen';
 import EndScreen from './EndScreen/EndScreen';
+import { GameState, useGame } from 'components/GameContext/GameContext';
+import FullscreenButton from './Components/FullScreen/FullScreen';
 
 const Sprint: FC = () => {
-  const gameMode = 'end';
-  const isFullscreen = true;
+  const { gameState, pickDifficulty } = useGame();
+  const [difficulty, setDifficulty] = useState<null | number>(null);
+  const [points, setPoints] = useState(0);
+
+  useEffect(() => {
+    if (gameState === GameState.INITIAL) {
+      setDifficulty(null);
+    }
+  }, [gameState]);
+
+  // const isFullscreen = true;
+  const isQuestionOnScreen =
+    gameState === GameState.QUESTION ||
+    gameState === GameState.CORRECT ||
+    gameState === GameState.WRONG;
+
+  const handleDifficultyChange = (newDifficulty: number) => {
+    setDifficulty(newDifficulty);
+  };
+  const handlePointsChnage = (newPoints: number) => {
+    setPoints(newPoints);
+  };
+
+  // const isCorrect = gameState === GameState.CORRECT;
+  // const isWrong = gameState === GameState.WRONG;
   return (
     <main className="page page_sprint">
       <div className="page-controls">
-        <CloseIcon className="sprint_btn btn_exit" />
+        <CloseIcon className="sprint_btn btn_exit" onClick={() => {}} />
         <div className="sprint-btns-wrapper">
           <MusicNoteIcon className="sprint_btn btn_alerts" />
-          {isFullscreen ? (
-            <FullscreenIcon className="sprint_btn btn_fullscreen btn_fullscreen_on" />
-          ) : (
-            <FullscreenExitIcon className="sprint_btn btn_fullscreen btn_fullscreen_off" />
-          )}
+          <FullscreenButton className="sprint_btn btn_fullscreen" />
         </div>
       </div>
       <div className="sprint-content">
-        {/* {gameMode === 'start-screen' ? <StartScreen /> : null}
-        {gameMode === 'start-screen' ? (
+        {gameState === GameState.INITIAL ? (
+          <StartScreen
+            difficulty={difficulty}
+            handleDifficultyChange={handleDifficultyChange}
+          />
+        ) : null}
+        {gameState === GameState.INITIAL ? (
           <div className="sprint__controls-container">
             <Link to={'/'} className="sprint__btn_title btn__to-textbook">
-              // link to? where? title? back?
-               Выйти
+              Выйти
             </Link>
-            <button className="sprint__btn_title  btn__start">Начать</button>
+            <button
+              className="sprint__btn_title  btn__start"
+              disabled={difficulty === null}
+              onClick={() => {
+                if (difficulty !== null) {
+                  pickDifficulty(difficulty);
+                }
+              }}
+            >
+              Начать
+            </button>
           </div>
-        ) : null} */}
+        ) : null}
 
-        {/* {gameMode === 'countdown' ? <Countdown /> : null} */}
+        {gameState === GameState.COUNTDOWN ? <Countdown /> : null}
 
-        {/* {gameMode === 'game' ? <GameScreen /> : null} */}
-        {gameMode === 'end' ? <EndScreen /> : null}
+        {isQuestionOnScreen ? (
+          <GameScreen points={points} handlePointsChnage={handlePointsChnage} />
+        ) : null}
+        {gameState === GameState.RESULTS ? <EndScreen points={points} /> : null}
       </div>
     </main>
   );
