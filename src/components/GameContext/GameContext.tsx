@@ -1,16 +1,18 @@
-import { GameKey, IGetWordsOptions } from 'api/ApiService';
 import { createContext, FC, useContext, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { IUserWordsActionOptions, IWord } from 'redux/types/types';
+import { getRandomNumber, shuffle } from 'utils/helpers';
+import { GameKey, IGetWordsOptions } from 'api/ApiService';
 import {
   getWordsAudiocall,
   getWordsAudiocallAnon,
   getWordsSprint,
   getWordsSprintAnon,
 } from 'redux/actions';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { IUserWordsActionOptions, IWord } from 'redux/types/types';
-import { getRandomNumber } from 'utils/helpers';
 
 const maxPages = 30;
+const maxAnswersAudiocall = 5;
+const maxAnswersSprint = 2;
 
 export enum GameState {
   INITIAL = 'initial',
@@ -23,22 +25,44 @@ export enum GameState {
 
 interface IGameContext {
   answers: string[];
-  question: IWord | null;
+  question: IWord;
   correct: IWord[];
   wrong: IWord[];
   gameState: GameState;
-  giveAnswer: (answer: string) => void;
+  giveAnswerAudiocall: (answer: string) => void;
+  giveAnswerSprint: (asnwer: boolean) => void;
   pickDifficulty: (difficulty: number) => void;
+  handleGameStateChange: (state: GameState) => void;
+  progressGame: () => void;
 }
+const wordDefaults: IWord = {
+  id: '',
+  group: 0,
+  page: 0,
+  word: '',
+  image: '',
+  audio: '',
+  audioMeaning: '',
+  audioExample: '',
+  textMeaning: '',
+  textExample: '',
+  transcription: '',
+  wordTranslate: '',
+  textMeaningTranslate: '',
+  textExampleTranslate: '',
+};
 
 const contextDefaults: IGameContext = {
   answers: [],
-  question: null,
+  question: wordDefaults,
   correct: [],
   wrong: [],
   gameState: GameState.INITIAL,
-  giveAnswer: (answer) => {},
-  pickDifficulty: (difficulty) => {},
+  giveAnswerAudiocall: () => {},
+  giveAnswerSprint: () => {},
+  pickDifficulty: () => {},
+  handleGameStateChange: () => {},
+  progressGame: () => {},
 };
 
 interface IGameContextProps {
@@ -59,7 +83,13 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
 
   const [gameState, setGameState] = useState<GameState>(GameState.INITIAL);
   const [gameWords, setGameWords] = useState<IWord[]>([]);
-  const [maxRounds, setMaxRounds] = useState(99999);
+  const [correctArray, setCorrectArray] = useState<IWord[]>([]);
+  const [wrongtArray, setWrongArray] = useState<IWord[]>([]);
+  const [countDown, setCountdown] = useState(0);
+  const [question, setQuestion] = useState<IWord>(wordDefaults);
+  const [answers, setAnswers] = useState<string[]>([]);
+
+  const [round, setRound] = useState(0);
 
   // Function that sets words from react store to state of this component
   // for you to pop words from this state to put it as a question
@@ -67,12 +97,12 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     switch (game) {
       case 'audiocall': {
         setGameWords(audicallWords);
-        setMaxRounds(audicallWords.length);
+        setRound(0);
         break;
       }
       case 'sprint': {
         setGameWords(sprintWords);
-        setMaxRounds(sprintWords.length);
+        setRound(0);
         break;
       }
     }
@@ -130,6 +160,81 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     setGameState(GameState.COUNTDOWN);
   };
 
+  const setCurrentQuestion = () => {
+    setQuestion(gameWords[round]);
+  };
+
+  const progressGame = () => {
+    if (round < gameWords.length - 1) {
+      setRound((state) => state + 1);
+      setGameState(GameState.QUESTION);
+    } else {
+      setGameState(GameState.RESULTS);
+    }
+  };
+
+  const handleGameStateChange = (state: GameState) => {
+    setGameState(state);
+  };
+
+  const giveAnswerAudiocall = (answer: string) => {
+    // not sure which to compare
+    if (answer === question.wordTranslate) {
+      setCorrectArray((state) => [...state, question]);
+      setGameState(GameState.CORRECT);
+    } else {
+      setWrongArray((state) => [...state, question]);
+      setGameState(GameState.WRONG);
+    }
+  };
+
+  const giveAnswerSprint = (answer: boolean) => {
+    const correct =
+      (answer && answers[0] === question.wordTranslate) ||
+      (!answer && answers[0] !== question.wordTranslate);
+    if (correct) {
+      setCorrectArray((state) => [...state, question]);
+      setGameState(GameState.CORRECT);
+    } else {
+      setWrongArray((state) => [...state, question]);
+      setGameState(GameState.WRONG);
+    }
+  };
+
+  const getNewAnswersAudiocall = () => {
+    const pickedAnswers: string[] = [];
+    const currentWord = question.wordTranslate;
+    pickedAnswers.push(currentWord);
+    while (pickedAnswers.length < maxAnswersAudiocall) {
+      const index = getRandomNumber(gameWords.length);
+      const pickedWord = gameWords[index];
+      if (pickedWord.wordTranslate !== currentWord) {
+        pickedAnswers.push(pickedWord.wordTranslate);
+      } else {
+        continue;
+      }
+    }
+    shuffle(pickedAnswers);
+    setAnswers(pickedAnswers);
+  };
+
+  const getNewAnswerSprint = () => {
+    const answer: string[] = [];
+    if (Math.random() - 0.5 >= 0) {
+      answer.push(question.wordTranslate);
+    } else {
+      while (answer.length < 1) {
+        const index = getRandomNumber(gameWords.length);
+        if (gameWords[index].wordTranslate !== question.wordTranslate) {
+          answer.push(gameWords[index].wordTranslate);
+        } else {
+          continue;
+        }
+      }
+    }
+    setAnswers(answer);
+  };
+
   // After loading get words that were already fetched and sets them as a questions
   // For that to work you need to dispatch(getSprintWords or getAudiocallWords) right
   // befor navigating user to this page
@@ -157,6 +262,16 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
         break;
       }
       case GameState.COUNTDOWN: {
+        setCountdown(5);
+        break;
+      }
+      case GameState.QUESTION: {
+        setCurrentQuestion();
+        if (game === 'audiocall') {
+          getNewAnswersAudiocall();
+        } else {
+          getNewAnswerSprint();
+        }
         break;
       }
       case GameState.CORRECT: {
@@ -171,9 +286,34 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     }
   }, [gameState]);
 
+  useEffect(() => {
+    if (countDown > 0) {
+      console.log(countDown);
+      setTimeout(() => setCountdown((state) => state - 1), 1000);
+    } else {
+      setGameState(GameState.QUESTION);
+    }
+  }, [countDown]);
+
   // You should put everything you want to give access to for child components
   // shape of value prop defined in IGameContex interface
-  return <GameContext.Provider value={contextDefaults} children={children} />;
+  return (
+    <GameContext.Provider
+      value={{
+        correct: correctArray,
+        wrong: wrongtArray,
+        question: question,
+        gameState: gameState,
+        answers,
+        handleGameStateChange,
+        pickDifficulty,
+        progressGame,
+        giveAnswerAudiocall,
+        giveAnswerSprint,
+      }}
+      children={children}
+    />
+  );
 };
 
 // This gives an access to things you put in value
