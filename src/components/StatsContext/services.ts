@@ -86,7 +86,7 @@ export const sendUpdateRequests = async ({
         userWord: JSON.parse(JSON.stringify(userWord)), //WHY I HAVE TO DO THIS ??????
         correctInRow,
       });
-      console.log('Updated ', action, userWord); // To be removed later
+      // console.log('Updated ', action, userWord); // To be removed later
     }
   }
   return learned;
@@ -104,12 +104,14 @@ export const saveUserWordStats = async ({
     userId,
     game,
   });
+
   const unlearned = await sendUpdateRequests({
     words: wrong,
     action: UpdateUserWordAction.INCORRECT,
     userId,
     game,
   });
+  console.log(learned, unlearned);
   return learned + unlearned;
 };
 
@@ -209,8 +211,10 @@ export const updateLongTern = ({
     learned,
   };
   let totalLearned = 0;
+  let alreadyPlayed = false;
   for (const date in stats.longTerm) {
     if (date === todaysDate) {
+      alreadyPlayed = true;
       newLongTermStats.learned += stats.longTerm[date].learned;
       newLongTermStats.newWords += stats.longTerm[date].newWords;
       delete stats.longTerm[date];
@@ -226,7 +230,7 @@ export const updateLongTern = ({
   // } else {
   //   totalLearned += item.learned;
   // }
-  newLongTermStats.learned += totalLearned;
+  newLongTermStats.learned += alreadyPlayed ? 0 : totalLearned;
   stats.longTerm[todaysDate] = newLongTermStats;
   return stats;
 };
