@@ -4,12 +4,15 @@ import './GameScreen.scss';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import { GameState, useGame } from 'components/GameContext/GameContext';
+import AudioPlayer from 'components/Audio/Audio';
 
 interface IGameInterface {
   points: number;
   isMuted: boolean;
   handlePointsChnage: (points: number) => void;
 }
+
+const player = AudioPlayer.getInstance();
 
 const GameScreen: FC<IGameInterface> = ({
   isMuted,
@@ -44,12 +47,12 @@ const GameScreen: FC<IGameInterface> = ({
     if (gameState === GameState.CORRECT) {
       handlePointsChnage(points + (correctInRow + 1) * 10);
       if (!isMuted) {
-        console.log('playCorrect');
+        player.playCorrect();
       }
     }
     if (gameState === GameState.WRONG) {
       if (!isMuted) {
-        console.log('playWrong');
+        player.playWrong();
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

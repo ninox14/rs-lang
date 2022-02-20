@@ -2,6 +2,7 @@ import { FC } from 'react';
 
 import { ReactComponent as AudioIcon } from 'assets/icons/card-volume.svg';
 import { useGame } from 'components/GameContext/GameContext';
+import AudioPlayer from 'components/Audio/Audio';
 
 interface IWord {
   sound: string;
@@ -9,10 +10,15 @@ interface IWord {
   translate: string;
 }
 
+const player = AudioPlayer.getInstance();
+
 const Word: FC<IWord> = ({ sound, word, translate }) => {
   return (
     <div className="results-words__word-container">
-      <AudioIcon className="results-words__sound" />
+      <AudioIcon
+        className="results-words__sound"
+        onClick={() => player.playSound(sound)}
+      />
       <span className="results-words__word">{word}</span>
       <span className="results-words__dash">-</span>
       <span className="results-words__translation"></span>
