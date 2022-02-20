@@ -1,0 +1,50 @@
+@import 'styles/variables/_.scss';
+
+.page_sprint {
+  display: flex;
+  flex-direction: column;
+  color: $white;
+  background: $sprint-bg;
+}
+
+.page-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.sprint_btn {
+  width: 1.5em;
+  height: 1.5em;
+  fill: $white;
+}
+
+.sprint-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.sprint__controls-container {
+  display: flex;
+  column-gap: 50px;
+  margin-top: 60px;
+}
+
+.sprint__btn_title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 50px;
+  color: inherit;
+  font-family: inherit;
+  font-size: 18px;
+  background-color: transparent;
+  border-radius: 5px;
+  border: 3px solid $white;
+  cursor: pointer;
+  transition: 0.5s;
+}

@@ -11,6 +11,8 @@
 
 html {
   scroll-behavior: smooth;
+  height: 100%;
+  display: flex;
 }
 
 body {
@@ -22,6 +24,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 14px;
   color: $black;
+}
+
+body,
+#root,
+.app {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.page {
+  flex-grow: 1;
 }
 
 a {

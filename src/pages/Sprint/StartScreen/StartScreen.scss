@@ -1,0 +1,48 @@
+@import 'styles/variables/_.scss';
+
+.sprint_start-screen {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 650px;
+  width: calc(100% - 20px);
+}
+
+.sprint__logo {
+  width: 150px;
+  height: 120px;
+  fill: $white;
+}
+
+.sprint__title {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-size: 64px;
+}
+
+.sprint__description {
+  font-style: italic;
+  font-size: 16px;
+  text-align: center;
+}
+
+.btn__to-textbook:hover {
+  border-color: $orange;
+  background-color: $orange;
+  color: $black;
+}
+
+.btn__start:hover {
+  border-color: $green;
+  background-color: $green;
+  color: $black;
+}
+
+@media all and (max-width: 600px) {
+  .sprint_start-screen {
+    max-width: 360px;
+  }
+  .sprint__title {
+    font-size: 36px;
+  }
+}
