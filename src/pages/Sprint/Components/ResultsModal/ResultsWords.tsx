@@ -43,6 +43,7 @@ const ResultsWords: FC = () => {
         <div className="results-words__words">
           {correct.map((word) => (
             <Word
+              key={word.id}
               sound={`${word.audio}`}
               word={word.word}
               translate={word.wordTranslate}
@@ -59,6 +60,7 @@ const ResultsWords: FC = () => {
           <div className="results-words__words">
             {wrong.map((word) => (
               <Word
+                key={word.id}
                 sound={`${word.audio}`}
                 word={word.word}
                 translate={word.wordTranslate}
