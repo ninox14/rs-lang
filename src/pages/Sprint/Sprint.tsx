@@ -17,6 +17,7 @@ const Sprint: FC = () => {
   const { gameState, pickDifficulty } = useGame();
   const [difficulty, setDifficulty] = useState<null | number>(null);
   const [points, setPoints] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
     if (gameState === GameState.INITIAL) {
@@ -37,6 +38,10 @@ const Sprint: FC = () => {
     setPoints(newPoints);
   };
 
+  const toggleMuted = () => {
+    setIsMuted(!isMuted);
+  };
+
   return (
     <main className="page page_sprint">
       <div className="page-controls">
@@ -46,9 +51,18 @@ const Sprint: FC = () => {
           onClick={() => navigate(-1)}
         />
         <div className="sprint-btns-wrapper">
-          {isQuestionOnScreen && (
-            <MusicNoteIcon className="sprint_btn btn_alerts" />
-          )}
+          {isQuestionOnScreen &&
+            (isMuted ? (
+              <MusicOffIcon
+                className="sprint_btn btn_alerts"
+                onClick={toggleMuted}
+              />
+            ) : (
+              <MusicNoteIcon
+                className="sprint_btn btn_alerts"
+                onClick={toggleMuted}
+              />
+            ))}
           <FullscreenButton className="sprint_btn btn_fullscreen" />
         </div>
       </div>
@@ -81,7 +95,11 @@ const Sprint: FC = () => {
         {gameState === GameState.COUNTDOWN ? <Countdown /> : null}
 
         {isQuestionOnScreen ? (
-          <GameScreen points={points} handlePointsChnage={handlePointsChnage} />
+          <GameScreen
+            isMuted={isMuted}
+            points={points}
+            handlePointsChnage={handlePointsChnage}
+          />
         ) : null}
         {gameState === GameState.RESULTS ? <EndScreen points={points} /> : null}
       </div>

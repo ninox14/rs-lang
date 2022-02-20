@@ -7,10 +7,15 @@ import { GameState, useGame } from 'components/GameContext/GameContext';
 
 interface IGameInterface {
   points: number;
+  isMuted: boolean;
   handlePointsChnage: (points: number) => void;
 }
 
-const GameScreen: FC<IGameInterface> = ({ points, handlePointsChnage }) => {
+const GameScreen: FC<IGameInterface> = ({
+  isMuted,
+  points,
+  handlePointsChnage,
+}) => {
   const {
     question,
     gameState,
@@ -38,6 +43,14 @@ const GameScreen: FC<IGameInterface> = ({ points, handlePointsChnage }) => {
   useEffect(() => {
     if (gameState === GameState.CORRECT) {
       handlePointsChnage(points + (correctInRow + 1) * 10);
+      if (!isMuted) {
+        console.log('playCorrect');
+      }
+    }
+    if (gameState === GameState.WRONG) {
+      if (!isMuted) {
+        console.log('playWrong');
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState]);
@@ -56,6 +69,7 @@ const GameScreen: FC<IGameInterface> = ({ points, handlePointsChnage }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
