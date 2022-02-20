@@ -21,6 +21,20 @@ const GameScreen: FC<IGameInterface> = ({ points, handlePointsChnage }) => {
   } = useGame();
   const [countdown, setCountdown] = useState(60);
 
+  const handleKeyPress = (event: KeyboardEvent) => {
+    event.preventDefault();
+    switch (event.code) {
+      case 'ArrowRight': {
+        giveAnswerSprint(true);
+        break;
+      }
+      case 'ArrowLeft': {
+        giveAnswerSprint(false);
+        break;
+      }
+    }
+  };
+
   useEffect(() => {
     if (gameState === GameState.CORRECT) {
       handlePointsChnage(points + (correctInRow + 1) * 10);
@@ -36,6 +50,11 @@ const GameScreen: FC<IGameInterface> = ({ points, handlePointsChnage }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countdown]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   return (
     <div className="sprint_game-screen">
