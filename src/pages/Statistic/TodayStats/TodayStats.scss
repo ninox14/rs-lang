@@ -1,18 +1,16 @@
 @import 'styles/variables/_';
 
-.stats_today {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  row-gap: 30px;
-}
-
 .stats_today__words-stats {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   max-width: 750px;
   width: calc(100% - 20px);
+  
+  @media all and (max-width: 460px) {
+    flex-direction: column;
+    row-gap: 15px;
+  }
 }
 
 .stats_today__title {
@@ -28,4 +26,10 @@
   justify-content: space-between;
   max-width: 900px;
   width: calc(100% - 20px);
+
+  @media all and(max-width: 900px) {
+    flex-direction: column;
+    row-gap: 15px;
+    align-items: center;
+  }
 }
