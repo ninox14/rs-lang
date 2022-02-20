@@ -37,8 +37,6 @@ const Sprint: FC = () => {
     setPoints(newPoints);
   };
 
-  // const isCorrect = gameState === GameState.CORRECT;
-  // const isWrong = gameState === GameState.WRONG;
   return (
     <main className="page page_sprint">
       <div className="page-controls">

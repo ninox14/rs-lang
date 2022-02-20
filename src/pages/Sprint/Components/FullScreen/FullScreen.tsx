@@ -1,5 +1,3 @@
-// import { IElementProps } from './types';
-// import { Fullscreen, FullscreenExit } from '@mui/icons-material';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { FC, useCallback, useEffect, useState } from 'react';

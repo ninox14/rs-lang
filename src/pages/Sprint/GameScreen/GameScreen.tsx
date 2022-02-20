@@ -20,12 +20,9 @@ const GameScreen: FC<IGameInterface> = ({ points, handlePointsChnage }) => {
     handleGameStateChange,
   } = useGame();
   const [countdown, setCountdown] = useState(60);
-  // const [points, setPoints] = useState(0);
-  // const [modificator, setModificator] = useState(1);
 
   useEffect(() => {
     if (gameState === GameState.CORRECT) {
-      // setPoints((state) => state + (correctInRow + 1) * 10);
       handlePointsChnage(points + (correctInRow + 1) * 10);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,9 +56,21 @@ const GameScreen: FC<IGameInterface> = ({ points, handlePointsChnage }) => {
       <div className="game-card">
         <VolumeUpIcon className="game-card__sound" />
         <ul className="game-card__combo">
-          <li className="game-card__combo-item"></li>
-          <li className="game-card__combo-item"></li>
-          <li className="game-card__combo-item"></li>
+          <li
+            className={`game-card__combo-item ${
+              correctInRow > 3 && 'game-card__combo-item_active'
+            }`}
+          ></li>
+          <li
+            className={`game-card__combo-item ${
+              correctInRow > 5 && 'game-card__combo-item_active'
+            }`}
+          ></li>
+          <li
+            className={`game-card__combo-item ${
+              correctInRow > 7 && 'game-card__combo-item_active'
+            }`}
+          ></li>
         </ul>
         <div className="game-card__answer">
           <div className="game-card__word">{question?.word}</div>
