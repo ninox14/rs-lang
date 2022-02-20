@@ -5,7 +5,7 @@ import MusicOffIcon from '@mui/icons-material/MusicOff';
 
 import './Sprint.scss';
 import StartScreen from './StartScreen/StartScreen';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Countdown from './Countdown/Countdown';
 import GameScreen from './GameScreen/GameScreen';
 import EndScreen from './EndScreen/EndScreen';
@@ -13,6 +13,7 @@ import { GameState, useGame } from 'components/GameContext/GameContext';
 import FullscreenButton from './Components/FullScreen/FullScreen';
 
 const Sprint: FC = () => {
+  const navigate = useNavigate();
   const { gameState, pickDifficulty } = useGame();
   const [difficulty, setDifficulty] = useState<null | number>(null);
   const [points, setPoints] = useState(0);
@@ -41,9 +42,15 @@ const Sprint: FC = () => {
   return (
     <main className="page page_sprint">
       <div className="page-controls">
-        <CloseIcon className="sprint_btn btn_exit" onClick={() => {}} />
+        <CloseIcon
+          style={{ visibility: !isQuestionOnScreen ? 'hidden' : 'initial' }}
+          className="sprint_btn btn_exit"
+          onClick={() => navigate(-1)}
+        />
         <div className="sprint-btns-wrapper">
-          <MusicNoteIcon className="sprint_btn btn_alerts" />
+          {isQuestionOnScreen && (
+            <MusicNoteIcon className="sprint_btn btn_alerts" />
+          )}
           <FullscreenButton className="sprint_btn btn_fullscreen" />
         </div>
       </div>

@@ -35,11 +35,15 @@ const FullscreenButton: FC<IElementProps> = (props) => {
   }, [escFunction]);
 
   return (
-    <div className={`${className ?? ''}`} onClick={fsControl}>
+    <div onClick={fsControl}>
       {fsState ? (
-        <FullscreenExitIcon className="btn_fullscreen_on" />
+        <FullscreenExitIcon
+          className={`${className ? className : ''} btn_fullscreen_on`}
+        />
       ) : (
-        <FullscreenIcon className="btn_fullscreen_off" />
+        <FullscreenIcon
+          className={`${className ? className : ''} btn_fullscreen_off`}
+        />
       )}
     </div>
   );
