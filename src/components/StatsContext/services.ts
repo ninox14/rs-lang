@@ -161,6 +161,7 @@ export const countNewWords = ({
       newWords += 1;
     }
   });
+  console.log(newWords);
   return newWords;
 };
 export const pickStatsToUpdate = (currentStatistics?: IStatsAll) => {
@@ -190,6 +191,7 @@ export const updateDailyStats = ({
       : maxInRow;
   stats.dailyStats.learned += learned;
   stats.dailyStats.newWords += newWords;
+  stats.dailyStats.games[game].newWords = newWords;
   stats.dailyStats.games[game].maxChain = newMaxChain;
   stats.dailyStats.games[game].percentage.right += correctCount;
   stats.dailyStats.games[game].percentage.total += correctCount + wrongCount;
