@@ -1,0 +1,32 @@
+.stats_longterm__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.stats_longterm__subtitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.stats_longterm__chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1400px;
+  width: calc(100% - 100px);
+
+  @media all and(max-width: 900px) {
+    width: 100%;
+  }
+}
+
+.chart-container {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  max-width: 800px;
+  width: calc(100% - 40px);
+}

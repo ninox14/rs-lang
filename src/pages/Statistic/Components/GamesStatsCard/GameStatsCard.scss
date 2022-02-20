@@ -3,12 +3,16 @@
 .games-stats-card {
   display: flex;
   flex-direction: column;
-  padding: 20px;
   align-items: center;
-  row-gap: 30px;
   min-width: 410px;
+  row-gap: 30px;
+  padding: 20px;
   border-radius: 15px;
   background-color: $cards-gray;
+  
+  @media all and(max-width: 900px) {
+    min-width: initial;
+  }
 }
 
 .games-stats-card__title {
@@ -16,10 +20,10 @@
   width: 60%;
   margin: 0;
   padding-bottom: 10px;
-  border-bottom: 5px solid $white;
   font-size: 18px;
   text-align: center;
   text-transform: uppercase;
+  border-bottom: 5px solid $white;
 }
 
 .game-stats-card_audiocall .games-stats-card__title {
@@ -34,6 +38,7 @@
   display: flex;
   justify-content: space-between;
   column-gap: 10px;
+  align-items: center;
 }
 
 .game-count {
