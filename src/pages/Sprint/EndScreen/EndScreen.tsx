@@ -6,8 +6,6 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import ResultsChart from '../Components/ResultsModal/ResultsChart';
 import TabPanel from '../Components/ResultsModal/ResultsTabPanel';
 import ResultsWords from '../Components/ResultsModal/ResultsWords';
-import { useNavigate } from 'react-router-dom';
-import { useGame } from 'components/GameContext/GameContext';
 
 function a11yProps(index: number) {
   return {
@@ -35,8 +33,6 @@ interface IEndscreenProps {
 }
 
 const EndScreen: FC<IEndscreenProps> = ({ points }) => {
-  const navigate = useNavigate();
-  const { wrong, correct, handleGameStateChange } = useGame();
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -80,7 +76,7 @@ const EndScreen: FC<IEndscreenProps> = ({ points }) => {
           </ThemeProvider>
         </div>
         <TabPanel value={value} index={0}>
-          <ResultsChart />
+          <ResultsChart points={points} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <ResultsWords />
