@@ -3,29 +3,9 @@ import './EndScreen.scss';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { createTheme, ThemeProvider } from '@mui/material';
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-const TabPanel: FC<TabPanelProps> = (props) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`tabpanel-${index}`}
-      aria-labelledby={`tab-${index}`}
-      className="sprint__tab-panel"
-      {...other}
-    >
-      {value === index && children}
-    </div>
-  );
-};
+import ResultsChart from '../Components/ResultsModal/ResultsChart';
+import TabPanel from '../Components/ResultsModal/ResultsTabPanel';
+import ResultsWords from '../Components/ResultsModal/ResultsWords';
 
 function a11yProps(index: number) {
   return {
@@ -56,13 +36,13 @@ const EndScreen: FC = () => {
   };
 
   return (
-    <div className="sprint_end-screen">
-      <div className="end-card">
-        <div className="end-card__tabs">
+    <div className="sprint_end-screen results-screen">
+      <div className="results-modal">
+        <div className="results-modal__tabs">
           <ThemeProvider theme={TabsTheme}>
             <Tabs
               variant="fullWidth"
-              className="end-card__tabs-container"
+              className="results-modal__tab-container"
               value={value}
               onChange={handleChange}
               aria-label="game results"
@@ -79,12 +59,12 @@ const EndScreen: FC = () => {
               }}
             >
               <Tab
-                className="end-card__tab end-card__tab_result"
+                className="results-modal__tab results-modal__tab_result"
                 label="Результат"
                 {...a11yProps(0)}
               />
               <Tab
-                className="end-card__tab end-card__tab_words"
+                className="results-modal__tab results-modal__tab_words"
                 label="Слова"
                 {...a11yProps(1)}
               />
@@ -92,39 +72,10 @@ const EndScreen: FC = () => {
           </ThemeProvider>
         </div>
         <TabPanel value={value} index={0}>
-          <div className="panel-result">
-            <p className="panel-result__title">Отличный результат!</p>
-            <div className="panel-result__chart"></div>
-            <div className="panel-result__btns">
-              <button className="panel-result__btn panel-result__exit">
-                Выйти
-              </button>
-              <button className="panel-result__btn panel-result__replay">
-                Сыграть еще раз
-              </button>
-            </div>
-          </div>
+          <ResultsChart />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div className="panel-words">
-            <div className="panel-words__known">
-              <div className="panel-words__heading">
-                <span className="panel-words__subtitle">Знаю</span>
-                <span className="panel-words__words-count">10</span>
-              </div>
-              <div className="panel-words__words">
-                <div className="panel-words__word">
-                  immense - находящихся под угрозой исчезновения
-                </div>
-              </div>
-            </div>
-            <div className="panel-words__repeat">
-              <div className="panel-words__heading">
-                <span className="panel-words__subtitle">Надо повторить</span>
-                <span className="panel-words__words-count">10</span>
-              </div>
-            </div>
-          </div>
+          <ResultsWords />
         </TabPanel>
       </div>
     </div>
