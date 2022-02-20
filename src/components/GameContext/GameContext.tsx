@@ -10,6 +10,7 @@ import {
   getWordsSprintAnon,
 } from 'redux/actions';
 import { useStats } from 'components/StatsContext/StatsContext';
+import { setIsGameRanFromTextbook } from 'redux/word.slice';
 
 const maxPages = 30;
 const maxAnswersAudiocall = 5;
@@ -272,6 +273,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   // befor navigating user to this page
   useEffect(() => {
     if (isRanFromTextBook) {
+      appDispatch(setIsGameRanFromTextbook(false));
       initializeWords();
       setGameState(GameState.COUNTDOWN); // to start game right after loading
     }
