@@ -53,7 +53,9 @@ const GameScreen: FC<IGameInterface> = ({ points, handlePointsChnage }) => {
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
   }, []);
 
   return (
