@@ -19,22 +19,19 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
   const [answer, setAnswer] = useState<string>();
 
   const handleKeyUp = (event: KeyboardEvent) => {
-    console.log(answer);
-    console.log(answers);
-    console.log(event.keyCode);
-    console.log(event.keyCode > 48);
-    console.log(event.keyCode < answers.length + 49);
-    console.log(
-      event.keyCode > 48 && event.keyCode < answers.length + 49 && !answer
-    );
-    if (event.keyCode > 48 && event.keyCode < answers.length + 49 && !answer) {
+    if (
+      event.keyCode > 48 &&
+      event.keyCode < answers.length + 49 &&
+      !answer &&
+      gameState === GameState.QUESTION
+    ) {
       giveAnswerAudiocall(answers[event.keyCode - 49]);
       setAnswer(answers[event.keyCode - 49]);
     } else if (event.keyCode === 32) {
       if (answer) {
         setAnswer(undefined);
         progressGame();
-      } else {
+      } else if (gameState === GameState.QUESTION) {
         giveAnswerAudiocall('Не знаю');
         setAnswer('Не знаю');
       }
@@ -138,7 +135,7 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
             text="Не знаю"
             tabIndex={answers.length + 1}
             onClick={() => {
-              if (!answer) {
+              if (!answer && gameState === GameState.QUESTION) {
                 giveAnswerAudiocall('Не знаю');
                 setAnswer('Не знаю');
               }

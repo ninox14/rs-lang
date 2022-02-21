@@ -44,13 +44,38 @@ svg {
     padding: 0 50px 90px;
     flex-grow: 1;
 
+    @include l {
+      justify-content: flex-start;
+    }
+
+    @include s {
+      padding: 0 20px 40px;
+    }
+
     &_home {
       text-align: center;
     }
 
     &_round {
-      padding: 170px 50px 70px;
+      padding: 100px 50px 70px;
       gap: 40px;
+
+      @include l {
+        padding: 100px 25px 20px;
+        gap: 60px;
+      }
+
+      @include s {
+        padding: 30px 25px 20px;
+        gap: 40px;
+      }
+    }
+
+    &_statistics {
+      @include s {
+        padding: 30px 5px 20px;
+        gap: 40px;
+      }
     }
   }
 
@@ -65,6 +90,9 @@ svg {
     margin: 20px 0 0;
     font-size: 64px;
     font-weight: bold;
+    @include s {
+      font-size: 36px;
+    }
   }
   &game-desc {
     font-size: 16px;
@@ -82,6 +110,12 @@ svg {
     display: flex;
     justify-content: center;
     gap: 30px;
+
+    @include s {
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 230px;
+    }
   }
 
   &difficulty-button {
@@ -195,19 +229,24 @@ svg {
     border: solid 3px;
     border-radius: 50%;
 
-    &_big {
-      height: 130px;
-      width: 130px;
+    &_big svg {
+      height: 124px;
+      width: 124px;
 
-      svg {
-        height: 107px;
-        width: 107px;
+      @include s {
+        height: 54px;
+        width: 54px;
       }
     }
 
     &_small svg {
       height: 34px;
       width: 34px;
+
+      @include s {
+        height: 24px;
+        width: 24px;
+      }
     }
 
     svg {
@@ -224,6 +263,15 @@ svg {
     gap: 25px 20px;
     flex-grow: 1;
     text-transform: uppercase;
+
+    @include l {
+      flex-direction: column;
+    }
+
+    @include s {
+      align-items: stretch;
+      width: 100%;
+    }
   }
 
   &option {
@@ -233,6 +281,16 @@ svg {
     padding: 10px;
     border: 1px solid;
     border-radius: 5px;
+
+    @include s {
+      font-size: 14px;
+      width: 100%;
+      justify-content: space-between;
+
+      &:after {
+        content: '';
+      }
+    }
 
     &-index {
       display: flex;
@@ -254,6 +312,12 @@ svg {
       width: 157px;
       border: 2px solid;
       border-radius: 5px;
+      text-transform: uppercase;
+
+      @include s {
+        font-size: 14px;
+        height: 45px;
+      }
     }
   }
 
@@ -278,6 +342,11 @@ svg {
     background-size: cover;
     background-position: center;
     border-radius: 50%;
+
+    @include s {
+      height: 20px;
+      width: 20px;
+    }
   }
 
   &word {
@@ -287,6 +356,11 @@ svg {
     align-items: center;
     gap: 15px;
     text-transform: lowercase;
+
+    @include l {
+      font-size: 24px;
+      gap: 9px;
+    }
   }
 
   &tabs-container {
@@ -295,8 +369,13 @@ svg {
     display: flex;
     flex-direction: column;
     flex-basis: 550px;
-    min-width: 600px;
+    width: 100%;
+    max-width: 600px;
     border-radius: 10px;
+
+    @include l {
+      min-width: 0;
+    }
   }
 
   &tabs-wrapper {
@@ -410,6 +489,8 @@ svg {
 
   &btns {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 40px;
   }
 
@@ -505,5 +586,11 @@ svg {
 
   &word {
     font-weight: bold;
+  }
+}
+
+.button_fullscreen {
+  @include l {
+    display: none;
   }
 }
