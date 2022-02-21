@@ -41,9 +41,9 @@ const ResultsWords: FC = () => {
           <span className="results-words__words-count">{rightCount}</span>
         </div>
         <div className="results-words__words">
-          {correct.map((word) => (
+          {correct.map((word, index) => (
             <Word
-              key={word.id}
+              key={index}
               sound={`${word.audio}`}
               word={word.word}
               translate={word.wordTranslate}
@@ -58,9 +58,9 @@ const ResultsWords: FC = () => {
         </div>
         <div className="results-words__words">
           <div className="results-words__words">
-            {wrong.map((word) => (
+            {wrong.map((word, index) => (
               <Word
-                key={word.id}
+                key={index}
                 sound={`${word.audio}`}
                 word={word.word}
                 translate={word.wordTranslate}
