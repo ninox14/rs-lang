@@ -2,9 +2,14 @@ import { FC } from 'react';
 import { IButtonProps } from './types';
 
 const Button: FC<IButtonProps> = (props) => {
-  const { text, url, className, onClick } = props;
+  const { text, url, className, tabIndex, onClick } = props;
   return (
-    <a href={url} className={`button ${className ?? ''}`} onClick={onClick}>
+    <a
+      href={url}
+      className={`button ${className ?? ''}`}
+      onClick={onClick}
+      tabIndex={tabIndex}
+    >
       {text}
       {props.children}
     </a>

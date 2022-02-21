@@ -18,16 +18,44 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
 
   const [answer, setAnswer] = useState<string>();
 
+  const handleKeyUp = (event: KeyboardEvent) => {
+    console.log(answer);
+    console.log(answers);
+    console.log(event.keyCode);
+    console.log(event.keyCode > 48);
+    console.log(event.keyCode < answers.length + 49);
+    console.log(
+      event.keyCode > 48 && event.keyCode < answers.length + 49 && !answer
+    );
+    if (event.keyCode > 48 && event.keyCode < answers.length + 49 && !answer) {
+      giveAnswerAudiocall(answers[event.keyCode - 49]);
+      setAnswer(answers[event.keyCode - 49]);
+    } else if (event.keyCode === 32) {
+      if (answer) {
+        setAnswer(undefined);
+        progressGame();
+      } else {
+        giveAnswerAudiocall('Не знаю');
+        setAnswer('Не знаю');
+      }
+    }
+  };
+
   useEffect(() => {
     if (question.audio && question.audio.length > 0) {
       changeAudioSrc(question.audio);
     }
   }, [question.audio]);
 
-  if (gameState === GameState.CORRECT) {
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyUp);
+    return () => window.removeEventListener('keydown', handleKeyUp);
+  }, [answer, answers, gameState]);
+
+  if (gameState === GameState.CORRECT && answer) {
     audio.playCorrect();
   }
-  if (gameState === GameState.WRONG) {
+  if (gameState === GameState.WRONG && answer) {
     audio.playWrong();
   }
 
@@ -79,6 +107,7 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
                   ? 'audiocall__answer_correct'
                   : ''
               }`}
+              tabIndex={index + 1}
               onClick={() => {
                 if (!answer) {
                   giveAnswerAudiocall(word);
@@ -97,6 +126,7 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
           <Button
             className="audiocall__next"
             text="Далее"
+            tabIndex={answers.length + 1}
             onClick={() => {
               setAnswer(undefined);
               progressGame();
@@ -106,9 +136,12 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
           <Button
             className="audiocall__skip"
             text="Не знаю"
+            tabIndex={answers.length + 1}
             onClick={() => {
-              giveAnswerAudiocall('Не знаю');
-              setAnswer('Не знаю');
+              if (!answer) {
+                giveAnswerAudiocall('Не знаю');
+                setAnswer('Не знаю');
+              }
             }}
           />
         )}

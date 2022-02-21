@@ -5,6 +5,7 @@ export interface IElementProps {
 export interface IButtonProps extends IElementProps {
   text?: string;
   url?: string;
+  tabIndex?: number;
   onClick?: () => void;
 }
 
