@@ -1,7 +1,7 @@
-@import "styles/variables/_";
+@import 'styles/variables/_';
 
 .author-card {
-  background: $cards-gray;
+  background: $light-gray;
   width: 250px;
   display: flex;
   flex-direction: column;
@@ -12,17 +12,30 @@
   border-radius: 10px;
 }
 
+.author-card:nth-child(1) {
+  border: 2px solid $accent-blue;
+}
+
+.author-card:nth-child(2) {
+  border: 2px solid $green;
+}
+
+.author-card:nth-child(3) {
+  border: 2px solid $pink;
+}
+
 .author-card__ {
   &avatar {
     max-width: 150px;
     max-height: 150px;
+    border-radius: 15px;
   }
 
   &github {
     font-size: 18px;
     display: flex;
     align-items: center;
-    gap: 7px;
+    column-gap: 7px;
 
     &:hover {
       text-decoration: underline;
@@ -30,30 +43,31 @@
   }
 }
 
+.author-card__role {
+  text-align: center;
+}
+
 .team {
   display: flex;
   justify-content: center;
-  padding: 60px 20px;
-
-  @include s {
-   padding: 40px 20px; 
-  }
+  align-items: center;
 }
 
 .team__ {
   &container {
     max-width: 1070px;
-    width: 100%;
+    width: calc(100% - 40px);
     display: flex;
     flex-direction: column;
-    gap: 60px;
 
     @include l {
       align-items: center;
     }
 
-    @include s {
-     gap: 40px; 
+    @media screen and (max-width: 830px) {
+      align-items: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
     }
   }
 
@@ -65,16 +79,23 @@
   &cards-container {
     display: flex;
     justify-content: space-between;
-    gap: 40px;
-    
+    margin-top: 30px;
+    column-gap: 15px;
+
     @include l {
       flex-wrap: wrap;
       justify-content: center;
-      gap: 60px;
     }
 
-    @include s {
-     gap: 40px; 
+    @media screen and (max-width: 830px) {
+      margin-top: 0;
+      flex-direction: column;
+      row-gap: 25px;
     }
   }
+}
+
+.author-card__github-icon {
+  width: 18px;
+  height: 18px;
 }
