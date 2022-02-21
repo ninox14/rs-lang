@@ -1,7 +1,6 @@
 import pages from 'data/pages';
-import session from 'data/session';
 import { ReactComponent as Logo } from 'assets/icons/rs-lang-logo.svg';
-import { useState, FC, FormEvent } from 'react';
+import { useState, FC, FormEvent, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import {
   AppBar,
@@ -12,24 +11,31 @@ import {
   MenuItem,
   Toolbar,
 } from '@mui/material';
+import { useAppSelector } from 'redux/hooks';
+import { logOut } from 'api/AuthService';
 
 const Header: FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<Element>();
+  const isLoggedIn = !!useAppSelector((state) => state.word.userId);
   const handleOpenNavMenu = (event: FormEvent): void => {
     setAnchorElNav(event.currentTarget);
   };
   const handleCloseNavMenu = (): void => {
     setAnchorElNav(undefined);
   };
-  const loginBtnClass: string = session.loggedIn
+  const loginBtnClass: string = isLoggedIn
     ? 'header__button header__button_brd header__button_red'
     : 'header__button header__button_brd';
-  const getHeaderBtnClass = (url: string, visibility?: boolean): string => {
+  const getHeaderBtnUrl = (url: string, visibility?: boolean): string => {
     return visibility ?? true
       ? url === '/auth'
-        ? loginBtnClass
-        : 'header__button'
-      : 'header__button header__button_hidden';
+        ? isLoggedIn
+          ? '#'
+          : url
+        : url
+      : isLoggedIn
+      ? url
+      : '/auth';
   };
   return (
     <AppBar className="header">
@@ -39,15 +45,18 @@ const Header: FC = () => {
             <Logo />
           </Box>
           <Box className="header__wrapper header__buttons header__buttons_desktop">
-            {pages.map(({ label, url, visibility }, index) => (
-              <Link
-                key={'headerLinkDesktop' + index}
-                to={session.loggedIn && url === '/auth' ? '#' : url}
-                className={getHeaderBtnClass(url, visibility)}
-              >
-                {session.loggedIn && url === '/auth' ? 'Выйти' : label}
-              </Link>
-            ))}
+            {pages.map(
+              ({ label, url, visibility }, index): ReactElement => (
+                <Link
+                  key={`headerLinkDesktop${index}`}
+                  to={getHeaderBtnUrl(url, visibility)}
+                  className={url === '/auth' ? loginBtnClass : 'header__button'}
+                  onClick={isLoggedIn && url === '/auth' ? logOut : undefined}
+                >
+                  {isLoggedIn && url === '/auth' ? 'Выйти' : label}
+                </Link>
+              )
+            )}
           </Box>
           <Box className="header__wrapper header__buttons header__buttons_mobile">
             <Button
@@ -66,29 +75,30 @@ const Header: FC = () => {
               onClose={handleCloseNavMenu}
               onClick={handleCloseNavMenu}
             >
-              {pages.map(({ label, url, visibility }, index) => (
-                <MenuItem
-                  className={
-                    visibility ?? true
-                      ? 'header-menu__menu-item'
-                      : 'header__button_hidden'
-                  }
-                  key={'headerMenuItem' + index}
-                >
-                  <Link
-                    to={session.loggedIn && url === '/auth' ? '/logout' : url}
-                    className="header-menu__button-wrapper"
+              {pages.map(
+                ({ label, url, visibility }, index): ReactElement => (
+                  <MenuItem
+                    className={'header-menu__menu-item'}
+                    key={`headerMenuItem${index}`}
                   >
-                    <span
-                      className={
-                        url === '/auth' ? loginBtnClass : 'header__button'
+                    <Link
+                      to={getHeaderBtnUrl(url, visibility)}
+                      className="header-menu__button-wrapper"
+                      onClick={
+                        isLoggedIn && url === '/auth' ? logOut : undefined
                       }
                     >
-                      {session.loggedIn && url === '/auth' ? 'Выйти' : label}
-                    </span>
-                  </Link>
-                </MenuItem>
-              ))}
+                      <span
+                        className={
+                          url === '/auth' ? loginBtnClass : 'header__button'
+                        }
+                      >
+                        {isLoggedIn && url === '/auth' ? 'Выйти' : label}
+                      </span>
+                    </Link>
+                  </MenuItem>
+                )
+              )}
             </Menu>
           </Box>
         </Toolbar>

@@ -1,5 +1,6 @@
 import CorrectSound from 'assets/audio/correct.mp3';
 import WrongSound from 'assets/audio/wrong.mp3';
+import { baseURL } from 'api/http';
 
 // usage:
 // const player = AudioPlayer.getInstance();
@@ -7,8 +8,6 @@ import WrongSound from 'assets/audio/wrong.mp3';
 
 export default class AudioPlayer {
   private static instance: AudioPlayer;
-
-  baseURL: string;
 
   playlist: string[];
 
@@ -23,7 +22,6 @@ export default class AudioPlayer {
   wrongAudio: HTMLAudioElement;
 
   constructor() {
-    this.baseURL = 'https://rs-lang-team-34.herokuapp.com/';
     this.playlist = [];
     this.audio = new Audio();
     this.currentIndex = 0;
@@ -47,10 +45,10 @@ export default class AudioPlayer {
   }
 
   playSound(url: string) {
-    if (this.audio) {
-      this.audio.pause();
-    }
-    this.audio.src = this.baseURL + url;
+    // if (this.audio) {
+    //   this.audio.pause();
+    // }
+    this.audio.src = `${baseURL}/${url}`;
     this.audio.play();
   }
 
@@ -65,7 +63,7 @@ export default class AudioPlayer {
       this.audio.pause();
     }
     this.currentIndex = 0;
-    this.playlist = url.map((el) => this.baseURL + el);
+    this.playlist = url.map((el) => `${baseURL}/${el}`);
   };
 
   startPlaylist() {

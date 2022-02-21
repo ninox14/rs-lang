@@ -12,6 +12,7 @@ import WordList from 'components/WordList/WordList';
 import WordPage from 'components/WordPage/WordPage';
 import { GameProvider } from 'components/GameContext/GameContext';
 import { StatsProvider } from 'components/StatsContext/StatsContext';
+import Statistics from 'pages/Statistic/Statistic';
 
 const AppRouter: FC = () => {
   return (
@@ -28,6 +29,7 @@ const AppRouter: FC = () => {
             </Route>
           </Route>
           <Route path="games" element={<Games />} />
+          <Route path="statistics" element={<Statistics />} />
         </Route>
         <Route path="/games/audiocall" element={<Audiocall />} />
         <Route

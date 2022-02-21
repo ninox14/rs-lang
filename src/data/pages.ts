@@ -1,5 +1,4 @@
 import { Pages } from 'types/rs-lang';
-import session from 'data/session';
 
 const pages: Pages = [
   {
@@ -9,17 +8,17 @@ const pages: Pages = [
   {
     label: 'Учебник',
     url: '/textbook',
-    visibility: session.loggedIn,
+    visibility: false,
   },
   {
     label: 'Игры',
     url: '/games',
-    visibility: session.loggedIn,
+    visibility: false,
   },
   {
     label: 'Статистика',
     url: '/stat',
-    visibility: session.loggedIn,
+    visibility: false,
   },
   {
     label: 'О команде',
