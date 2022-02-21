@@ -1,18 +1,31 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { IHardWordsOptions, IWord } from 'redux/types/types';
-
 import {
   getAggregatedWords,
   getWords,
   WORDS_PER_PAGE,
 } from '../api/ApiService';
-import type { IAggregatedOptions, IGetWordsOptions } from 'api/ApiService';
+import type { IGetWordsOptions } from 'api/ApiService';
+import {
+  IHardWordsOptions,
+  IUserWordsActionOptions,
+  IWord,
+  WordDifficulty,
+} from 'redux/types/types.d';
+
 import { reshapeWordsForUser } from 'utils/helpers';
 import { setMaxHardWordsPages } from 'redux/word.slice';
+import { RootState } from './store';
 
 export const AUDIOCALL_WORD_COUNT = 20;
 const SPRINT_MAX_PAGE_COUNT = 3;
 const maxPageIndex = 29;
+
+const aggregatedWordsFilters = {
+  onlyHard: `{"$and":[{"userWord.difficulty":"${WordDifficulty.HARD}"}]}`,
+  notLearned: ({ page }: { page: number }) =>
+    `{"$and":[{"$or":[{"userWord.difficulty":"${WordDifficulty.HARD}"},{"userWord.difficulty":"${WordDifficulty.DEFAULT}"},{"userWord":null}]},{"page":${page}}]}`,
+  defaultFilter: ({ page }: { page: number }) => `{"$and":[{"page":${page}}]}`,
+};
 
 const getPossiblePages = ({ group, page }: IGetWordsOptions) => {
   let pageIndex = page;
@@ -48,10 +61,13 @@ export const getTextbookWords = createAsyncThunk(
 
 export const getUserTextbookWords = createAsyncThunk(
   'words/getUserTextbookWords',
-  async (options: IAggregatedOptions, { rejectWithValue }) => {
+  async (options: IUserWordsActionOptions, { rejectWithValue }) => {
     try {
-      const { data } = await getAggregatedWords(options);
-      const reshaped = reshapeWordsForUser(data.paginatedResults);
+      const { page, group, userId } = options;
+      const filter = aggregatedWordsFilters.defaultFilter({ page });
+      const { data } = await getAggregatedWords({ userId, group, filter });
+      const reshaped = reshapeWordsForUser(data[0].paginatedResults);
+      console.log(data[0].paginatedResults);
       return reshaped;
     } catch (err) {
       console.error(err);
@@ -68,10 +84,10 @@ export const getTextbookHardWords = createAsyncThunk(
     try {
       const { data } = await getAggregatedWords({
         ...options,
-        filter: 'onlyHard',
+        filter: aggregatedWordsFilters.onlyHard,
       });
-      const reshaped = reshapeWordsForUser(data.paginatedResults);
-      const maxPages = Math.floor(data.totalCount[0].count / WORDS_PER_PAGE);
+      const reshaped = reshapeWordsForUser(data[0].paginatedResults);
+      const maxPages = Math.floor(data[0].totalCount[0].count / WORDS_PER_PAGE);
       dispatch(setMaxHardWordsPages(maxPages));
       return reshaped;
     } catch (err) {
@@ -83,13 +99,23 @@ export const getTextbookHardWords = createAsyncThunk(
 
 export const getWordsAudiocall = createAsyncThunk(
   'words/getWordsAudiocall',
-  async (options: IAggregatedOptions, { rejectWithValue }) => {
+  async (options: IUserWordsActionOptions, { getState, rejectWithValue }) => {
     try {
+      const { page, group, userId } = options;
+      const {
+        word: { isGameRanFromTextbook },
+      } = getState() as RootState;
+      const filter = isGameRanFromTextbook
+        ? aggregatedWordsFilters.notLearned({ page })
+        : aggregatedWordsFilters.defaultFilter({ page });
+
       const { data } = await getAggregatedWords({
-        ...options,
+        group,
+        userId,
         wordsPerPage: AUDIOCALL_WORD_COUNT,
+        filter,
       });
-      const reshaped = reshapeWordsForUser(data.paginatedResults);
+      const reshaped = reshapeWordsForUser(data[0].paginatedResults);
       return reshaped;
     } catch (err) {
       console.error(err);
@@ -112,18 +138,28 @@ export const getWordsAudiocallAnon = createAsyncThunk(
 );
 
 export const getWordsSprint = createAsyncThunk(
-  'words/getWordsAudiocall',
-  async ({ page, group, userId }: IAggregatedOptions, { rejectWithValue }) => {
-    if (!group) {
-      throw new Error('This should not happend');
-    }
+  'words/getWordsSprint',
+  async (
+    { page, group, userId }: IUserWordsActionOptions,
+    { getState, rejectWithValue }
+  ) => {
     const pagesToGetFrom = getPossiblePages({ group, page });
-
     try {
       const words: IWord[] = [];
+      const {
+        word: { isGameRanFromTextbook },
+      } = getState() as RootState;
+
       for (const item of pagesToGetFrom) {
-        const { data } = await getAggregatedWords({ ...item, userId });
-        const reshaped = reshapeWordsForUser(data.paginatedResults);
+        const filter = isGameRanFromTextbook
+          ? aggregatedWordsFilters.notLearned({ page: item.page })
+          : aggregatedWordsFilters.defaultFilter({ page: item.page });
+        const { data } = await getAggregatedWords({
+          group: item.group,
+          userId,
+          filter,
+        });
+        const reshaped = reshapeWordsForUser(data[0].paginatedResults);
         words.push(...reshaped);
       }
       return words;
@@ -135,7 +171,7 @@ export const getWordsSprint = createAsyncThunk(
 );
 
 export const getWordsSprintAnon = createAsyncThunk(
-  'words/getWordsAudiocallAnon',
+  'words/getWordsSprintAnon',
   async (options: IGetWordsOptions, { rejectWithValue }) => {
     try {
       const { data } = await getWords(options);

@@ -1,4 +1,4 @@
-import { WordDifficulty } from '../redux/types/types.d';
+import { IStatisticsResponse, WordDifficulty } from '../redux/types/types.d';
 import type {
   IAggregatedResponse,
   IOptional,
@@ -7,20 +7,16 @@ import type {
 } from '../redux/types/types';
 import { makeUserWordEndpoint } from 'utils/helpers';
 import { http } from 'api/http';
+import { IStatsAll } from 'components/StatsContext/types.d';
 
 const WORDS_ENDPOINT = '/words';
 export const USERS_ENDPOINT = '/users';
 const AGGREGATED_ENDPOINT = '/aggregatedWords';
+const STATS_ENDPOINT = '/statistics';
 export const WORDS_PER_PAGE = 20;
 
-const aggregatedWordsFilters = {
-  onlyHard: `{"$and":[{"userWord.difficulty":"${WordDifficulty.HARD}"}]}`,
-};
-
-// eslint-disable-next-line prettier/prettier
 type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-type FilterKey = keyof typeof aggregatedWordsFilters;
 export interface IGetWordsOptions {
   page: number;
   group: number;
@@ -31,23 +27,31 @@ interface IUserWordIDs {
   wordId: string;
 }
 
-enum UpdateUserWordAction {
-  CORRECT,
-  INCORRECT,
+interface IStatisticsOptions extends Pick<IUserWordIDs, 'userId'> {
+  stats: IStatsAll;
+}
+
+export enum UpdateUserWordAction {
+  CORRECT = 'correct',
+  INCORRECT = 'wrong',
 }
 
 interface IUserWordOptions extends IUserWord, IUserWordIDs {}
 
-type GameKey = keyof IOptional;
+export type GameKey = keyof Omit<IOptional, 'correctInRow'>;
 interface IGetAndUpdateOptions extends IUserWordIDs {
   difficulty?: WordDifficulty;
   game?: GameKey;
   action?: UpdateUserWordAction;
+  correctInRow?: number;
+  userWord: IUserWord;
 }
 export interface IAggregatedOptions
-  extends PartialBy<IGetWordsOptions, 'group'>,
-    Pick<IUserWordIDs, 'userId'> {
-  filter?: FilterKey;
+  // extends PartialBy<IGetWordsOptions, 'group'>, // it is partial coz of fetching only hard textbook.
+  extends Partial<IGetWordsOptions> {
+  // it is partial coz of fetching only hard textbook.
+  userId: string;
+  filter?: string;
   wordsPerPage?: number;
 }
 
@@ -115,30 +119,36 @@ export const getAggregatedWords = async ({
 }: IAggregatedOptions) => {
   const endpoint = `${USERS_ENDPOINT}/${userId}${AGGREGATED_ENDPOINT}`;
   const newWordsPerPage = wordsPerPage ? wordsPerPage : WORDS_PER_PAGE;
-  const response = await http.get<IAggregatedResponse>(endpoint, {
+  const response = await http.get<IAggregatedResponse[]>(endpoint, {
     params: {
       group,
       page,
       wordsPerPage: newWordsPerPage,
-      ...(filter ? { filter: aggregatedWordsFilters[filter] } : {}),
+      ...(filter ? { filter } : {}),
     },
   });
   return response;
 };
 
 const updateGameScore = (
-  game: keyof IOptional,
+  game: keyof Omit<IOptional, 'correctInRow'>,
   action: UpdateUserWordAction,
-  optional: IOptional
+  optional: IOptional,
+  correctInRow: number
 ) => {
   switch (action) {
     case UpdateUserWordAction.CORRECT: {
       optional[game].right += 1;
       optional[game].total += 1;
+      // if (typeof correctInRow === 'number') {
+      //   optional.correctInRow = correctInRow;
+      // }
+      optional.correctInRow = correctInRow;
       break;
     }
     case UpdateUserWordAction.INCORRECT: {
       optional[game].total += 1;
+      optional.correctInRow = correctInRow;
       break;
     }
   }
@@ -151,28 +161,36 @@ export const getAndUpdateUserWord = async ({
   difficulty,
   action,
   game,
+  userWord,
+  correctInRow,
 }: IGetAndUpdateOptions) => {
   try {
-    const wordExists = (word: IUserWord) => {
-      if (game && action) {
-        word.optional = updateGameScore(game, action, word.optional);
+    const wordExists = () => {
+      if (game && action && correctInRow) {
+        userWord.optional = updateGameScore(
+          game,
+          action,
+          userWord.optional,
+          correctInRow
+        );
       }
-      const newDifficulty = difficulty ? difficulty : word.difficulty;
+      const newDifficulty = difficulty ? difficulty : userWord.difficulty;
       return updateUserWord({
         userId,
         wordId,
         difficulty: newDifficulty,
-        optional: word.optional,
+        optional: { ...userWord.optional },
       });
     };
     const wordDoesntExist = () => {
       let optional: IOptional = {
         audiocall: { right: 0, total: 0 },
         sprint: { right: 0, total: 0 },
+        correctInRow: 0,
       };
       const newDifficulty = difficulty ? difficulty : WordDifficulty.DEFAULT;
-      if (game && action) {
-        optional = updateGameScore(game, action, optional);
+      if (game && action && correctInRow) {
+        optional = updateGameScore(game, action, optional, correctInRow);
       }
       return createUserWord({
         userId,
@@ -182,11 +200,31 @@ export const getAndUpdateUserWord = async ({
       });
     };
     const response = await getUserWord({ userId, wordId }).then(
-      (result) => wordExists(result.data),
-      wordDoesntExist
+      () => wordExists(),
+      () => wordDoesntExist()
     );
     return response;
   } catch (err) {
     console.error(err);
   }
+};
+
+export const getUserStatistics = async ({
+  userId,
+}: Pick<IUserWordIDs, 'userId'>) => {
+  const endpoint = `${USERS_ENDPOINT}/${userId}${STATS_ENDPOINT}`;
+  const response = await http.get<IStatisticsResponse>(endpoint);
+  return response;
+};
+
+export const updateUserStatistics = async ({
+  userId,
+  stats,
+}: IStatisticsOptions) => {
+  const endpoint = `${USERS_ENDPOINT}/${userId}${STATS_ENDPOINT}`;
+  const response = await http.put<IStatisticsResponse>(endpoint, {
+    learnedWords: 1337,
+    optional: stats,
+  });
+  return response;
 };

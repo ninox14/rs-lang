@@ -28,6 +28,7 @@
   },
   "rules": {
     "linebreak-style": "off",
+    "react-hooks/exhaustive-deps": "warn",
     "prettier/prettier": [
       "error",
       {
