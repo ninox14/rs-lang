@@ -1,6 +1,6 @@
-@import "styles/variables/_";
-@import "styles/components/_";
-@import "styles/pages/_";
+@import 'styles/variables/_';
+@import 'styles/components/_';
+@import 'styles/pages/_';
 
 *,
 *::before,
@@ -17,8 +17,8 @@ html {
 
 body {
   margin: 0;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
