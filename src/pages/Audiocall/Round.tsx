@@ -20,14 +20,14 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
 
   const handleKeyUp = (event: KeyboardEvent) => {
     if (
-      event.keyCode > 48 &&
-      event.keyCode < answers.length + 49 &&
+      parseInt(event.key) > 0 &&
+      parseInt(event.key) < answers.length + 1 &&
       !answer &&
       gameState === GameState.QUESTION
     ) {
-      giveAnswerAudiocall(answers[event.keyCode - 49]);
-      setAnswer(answers[event.keyCode - 49]);
-    } else if (event.keyCode === 32) {
+      giveAnswerAudiocall(answers[parseInt(event.key) - 1]);
+      setAnswer(answers[parseInt(event.key) - 1]);
+    } else if (event.key === ' ') {
       if (answer) {
         setAnswer(undefined);
         progressGame();
