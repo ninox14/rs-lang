@@ -20,8 +20,9 @@ const ResultsChart: FC<{ points: number }> = ({ points }) => {
   const { wrong, correct, handleGameStateChange } = useGame();
   const resultMessage = getMessage(points);
   const subtitleMessage = points;
+  const percent = (correct.length / (wrong.length + correct.length)) * 100;
   const rightAnswersPercentage = `${
-    ((correct.length / (wrong.length + correct.length)) * 100).toFixed(0) || '0'
+    isNaN(percent) ? '0' : percent.toFixed(0)
   }%`;
   console.log(rightAnswersPercentage);
 

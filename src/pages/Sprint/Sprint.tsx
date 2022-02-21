@@ -22,6 +22,7 @@ const Sprint: FC = () => {
   useEffect(() => {
     if (gameState === GameState.INITIAL) {
       setDifficulty(null);
+      setPoints(0);
     }
   }, [gameState]);
 
