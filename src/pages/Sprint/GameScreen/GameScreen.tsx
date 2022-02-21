@@ -28,7 +28,7 @@ const GameScreen: FC<IGameInterface> = ({
     handleGameStateChange,
   } = useGame();
   const [countdown, setCountdown] = useState(60);
-  const [multilpler, setMultiplier] = useState(1);
+  const [multiplier, setMultiplier] = useState(1);
 
   const [blinkGreen, setBlinkGreen] = useState(false);
   const [blinkRed, setBlinkRed] = useState(false);
@@ -49,7 +49,7 @@ const GameScreen: FC<IGameInterface> = ({
 
   useEffect(() => {
     if (gameState === GameState.CORRECT) {
-      handlePointsChange(points + multilpler * 10);
+      handlePointsChange(points + multiplier * 10);
       if (!isMuted) {
         player.playCorrect();
       }
@@ -88,7 +88,7 @@ const GameScreen: FC<IGameInterface> = ({
   }, [answers]);
 
   useEffect(() => {
-    if (correctInRow > 0 && correctInRow % 3 === 0) {
+    if (correctInRow > 0 && correctInRow % 4 === 0) {
       setMultiplier((state) => state + 1);
     }
     if (correctInRow === 0) {
@@ -104,7 +104,7 @@ const GameScreen: FC<IGameInterface> = ({
       </div>
       <div className="game__points-container">
         <div className="game__points game__points_per-word">
-          <span className="points">+{multilpler * 10}</span> очков за слово
+          <span className="points">+{multiplier * 10}</span> очков за слово
         </div>
         <div className="game__points game__points_total">
           <span className="points">{points}</span> очков
