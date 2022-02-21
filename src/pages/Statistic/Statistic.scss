@@ -1,3 +1,5 @@
+@import "styles/variables/_.scss";
+
 .page_stats {
   display: flex;
   flex-direction: column;
@@ -18,4 +20,14 @@
   row-gap: 30px;
   margin-top: 30px;
   max-width: 1400px;
+}
+
+.stats__title_auth {
+  font-size: 2em;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.stats__link_auth {
+  color: $accent-blue
 }

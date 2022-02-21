@@ -20,9 +20,11 @@ const Statistics: FC = () => {
             <LongtermStats />
           </>
         ) : (
-          <h3 className="stats__title">
+          <h3 className="stats__title_auth">
             Для просмотра статистики нужно{' '}
-            <Link to={'/auth'}>авторизоваться</Link>
+            <Link className="stats__link_auth" to={'/auth'}>
+              авторизоваться
+            </Link>
           </h3>
         )}
       </div>
