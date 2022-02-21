@@ -28,6 +28,7 @@ const GameScreen: FC<IGameInterface> = ({
     handleGameStateChange,
   } = useGame();
   const [countdown, setCountdown] = useState(60);
+  const [multilpler, setMultiplier] = useState(1);
 
   const handleKeyPress = (event: KeyboardEvent) => {
     event.preventDefault();
@@ -45,7 +46,7 @@ const GameScreen: FC<IGameInterface> = ({
 
   useEffect(() => {
     if (gameState === GameState.CORRECT) {
-      handlePointsChnage(points + (correctInRow + 1) * 10);
+      handlePointsChnage(points + multilpler * 10);
       if (!isMuted) {
         player.playCorrect();
       }
@@ -75,6 +76,15 @@ const GameScreen: FC<IGameInterface> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (correctInRow > 0 && correctInRow % 3 === 0) {
+      setMultiplier((state) => state + 1);
+    }
+    if (correctInRow === 0) {
+      setMultiplier(1);
+    }
+  }, [correctInRow]);
+
   return (
     <div className="sprint_game-screen">
       <div className="game__timer-container">
@@ -83,8 +93,7 @@ const GameScreen: FC<IGameInterface> = ({
       </div>
       <div className="game__points-container">
         <div className="game__points game__points_per-word">
-          <span className="points">+{(correctInRow + 1) * 10}</span> очков за
-          слово
+          <span className="points">+{multilpler * 10}</span> очков за слово
         </div>
         <div className="game__points game__points_total">
           <span className="points">{points}</span> очков
@@ -96,17 +105,21 @@ const GameScreen: FC<IGameInterface> = ({
         <ul className="game-card__combo">
           <li
             className={`game-card__combo-item ${
-              correctInRow > 3 && 'game-card__combo-item_active'
+              (correctInRow % 4 === 1 ||
+                correctInRow % 4 === 2 ||
+                correctInRow % 4 === 3) &&
+              'game-card__combo-item_active'
             }`}
           ></li>
           <li
             className={`game-card__combo-item ${
-              correctInRow > 5 && 'game-card__combo-item_active'
+              (correctInRow % 4 === 2 || correctInRow % 4 === 3) &&
+              'game-card__combo-item_active'
             }`}
           ></li>
           <li
             className={`game-card__combo-item ${
-              correctInRow > 7 && 'game-card__combo-item_active'
+              correctInRow % 4 === 3 && 'game-card__combo-item_active'
             }`}
           ></li>
         </ul>
