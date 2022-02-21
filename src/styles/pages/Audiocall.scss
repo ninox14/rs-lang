@@ -21,6 +21,14 @@ svg {
 
 .button {
   cursor: pointer;
+  transition: 0.5s;
+  transition-property: color, background-color, border-color, opacity,
+    box-shadow;
+  user-select: none;
+}
+
+.hidden {
+  display: none;
 }
 
 .audiocall {
@@ -223,7 +231,7 @@ svg {
 
     &_disabled {
       pointer-events: none;
-      opacity: 0.7;
+      opacity: 0.6;
     }
   }
 
@@ -342,8 +350,8 @@ svg {
   }
 
   &word-image {
-    height: 77px;
-    width: 77px;
+    height: 76px;
+    width: 76px;
     background-size: cover;
     background-position: center;
     border-radius: 50%;
@@ -509,6 +517,10 @@ svg {
     text-align: center;
     text-transform: uppercase;
     border-radius: 5px;
+
+    &:hover {
+      box-shadow: 0px 3px 3px 0px #585858a8;
+    }
   }
 
   &exit {

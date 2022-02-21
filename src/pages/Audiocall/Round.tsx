@@ -58,7 +58,18 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
 
   return (
     <div className="audiocall__container audiocall__container_round">
-      <div className="audiocall__audio-container">
+      <div
+        className={`audiocall__countdown ${
+          gameState === GameState.COUNTDOWN ? undefined : 'hidden'
+        }`}
+      >
+        {countDown}
+      </div>
+      <div
+        className={`audiocall__audio-container ${
+          gameState === GameState.COUNTDOWN ? 'hidden' : undefined
+        }`}
+      >
         {answer ? (
           <div className="audiocall__word-container">
             <div
@@ -79,8 +90,6 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
               </span>
             </div>
           </div>
-        ) : gameState === GameState.COUNTDOWN ? (
-          countDown
         ) : (
           <div
             className="button audiocall__speaker-icon audiocall__speaker-icon_big"
@@ -92,7 +101,11 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
           </div>
         )}
       </div>
-      <div className="audiocall__options">
+      <div
+        className={`audiocall__options ${
+          gameState === GameState.COUNTDOWN ? 'hidden' : undefined
+        }`}
+      >
         {answers.map(
           (word, index): ReactElement => (
             <Button
@@ -118,7 +131,11 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
           )
         )}
       </div>
-      <div className="audiocall__round-button">
+      <div
+        className={`audiocall__round-button ${
+          gameState === GameState.COUNTDOWN ? 'hidden' : undefined
+        }`}
+      >
         {answer ? (
           <Button
             className="audiocall__next"
