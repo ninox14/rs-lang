@@ -35,7 +35,7 @@ const Sprint: FC = () => {
   const handleDifficultyChange = (newDifficulty: number) => {
     setDifficulty(newDifficulty);
   };
-  const handlePointsChnage = (newPoints: number) => {
+  const handlePointsChange = (newPoints: number) => {
     setPoints(newPoints);
   };
 
@@ -99,7 +99,7 @@ const Sprint: FC = () => {
           <GameScreen
             isMuted={isMuted}
             points={points}
-            handlePointsChnage={handlePointsChnage}
+            handlePointsChange={handlePointsChange}
           />
         ) : null}
         {gameState === GameState.RESULTS ? <EndScreen points={points} /> : null}

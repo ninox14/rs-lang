@@ -9,7 +9,7 @@ import AudioPlayer from 'components/Audio/Audio';
 interface IGameInterface {
   points: number;
   isMuted: boolean;
-  handlePointsChnage: (points: number) => void;
+  handlePointsChange: (points: number) => void;
 }
 
 const player = AudioPlayer.getInstance();
@@ -17,7 +17,7 @@ const player = AudioPlayer.getInstance();
 const GameScreen: FC<IGameInterface> = ({
   isMuted,
   points,
-  handlePointsChnage,
+  handlePointsChange,
 }) => {
   const {
     question,
@@ -46,7 +46,7 @@ const GameScreen: FC<IGameInterface> = ({
 
   useEffect(() => {
     if (gameState === GameState.CORRECT) {
-      handlePointsChnage(points + multilpler * 10);
+      handlePointsChange(points + multilpler * 10);
       if (!isMuted) {
         player.playCorrect();
       }
@@ -56,7 +56,6 @@ const GameScreen: FC<IGameInterface> = ({
         player.playWrong();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState]);
 
   useEffect(() => {
@@ -65,16 +64,14 @@ const GameScreen: FC<IGameInterface> = ({
     } else {
       handleGameStateChange(GameState.RESULTS);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countdown]);
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
+    document.addEventListener('keyup', handleKeyPress);
     return () => {
-      window.removeEventListener('keydown', handleKeyPress);
+      document.removeEventListener('keyup', handleKeyPress);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [answers]);
 
   useEffect(() => {
     if (correctInRow > 0 && correctInRow % 3 === 0) {
