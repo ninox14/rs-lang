@@ -7,6 +7,7 @@
   border-radius: 15px;
   border-top: 5px solid var(--color);
   background-color: $white;
+  margin-top: 20px;
 
   & p {
     margin: 0;
@@ -16,6 +17,7 @@
 .wordcard_hidden {
   height: 0;
   padding: 0;
+  margin: 0;
   border: none;
   overflow: hidden;
   transition: 0.2s;
@@ -49,6 +51,13 @@
 
 .wordcard__trsc {
   color: $gray;
+}
+
+.meaning__en,
+.meaning__ru,
+.example__en,
+.example__ru {
+  width: 100%;
 }
 
 .wordcard-top__controls-wrapper {
@@ -106,6 +115,10 @@
 .wordcard__icon_chart {
   stroke: $black;
   transition: 0.5s;
+}
+
+.wordcard__icon_sound:hover {
+  stroke: var(--color);
 }
 
 .wordcard__icon_check_active {
