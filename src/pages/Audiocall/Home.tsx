@@ -1,22 +1,18 @@
-import FullscreenButton from 'components/AudiocallPage/Fullscreen';
 import { ReactComponent as Headphones } from 'assets/icons/headphones.svg';
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import Button from 'components/AudiocallPage/Button';
-import { GamePage, IGamePageProps } from './types.d';
+import { useGame } from 'components/GameContext/GameContext';
 
-const AudiocallHome: FC<IGamePageProps> = ({ gamePageProps }) => {
-  const { changePage } = gamePageProps;
-
+const AudiocallHome: FC = () => {
+  const { pickDifficulty } = useGame();
   const [difficulty, setDifficulty] = useState<number>();
+
+  useEffect(() => {
+    setDifficulty(undefined);
+  }, []);
 
   return (
     <div className="audiocall__container audiocall__container_home">
-      <div className="audiocall__fixed-controls">
-        <div className="audiocall__fixed-controls_left"></div>
-        <div className="audiocall__fixed-controls_right">
-          <FullscreenButton className="audiocall__controls-button" />
-        </div>
-      </div>
       <div className="audiocall__content-wrapper">
         <Headphones className="audiocall__game-icon" />
         <h2 className="audiocall__game-header">Аудиовызов</h2>
@@ -55,8 +51,8 @@ const AudiocallHome: FC<IGamePageProps> = ({ gamePageProps }) => {
                 className="audiocall__homepage-button"
                 url={index ? undefined : '..'}
                 onClick={() => {
-                  if (changePage && difficulty !== undefined)
-                    changePage(GamePage.Round);
+                  if (difficulty !== undefined && index > 0)
+                    pickDifficulty(difficulty);
                 }}
                 key={`homepageButton${index}`}
               />

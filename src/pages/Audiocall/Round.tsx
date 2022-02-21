@@ -1,97 +1,90 @@
-import { CloseSharp, VolumeUp } from '@mui/icons-material';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { VolumeUp } from '@mui/icons-material';
 import Button from 'components/AudiocallPage/Button';
-import FullscreenButton from 'components/AudiocallPage/Fullscreen';
-import { FC, ReactElement, useState } from 'react';
-import audiocallData from './testData';
-import { GamePage, IGamePageProps } from './types.d';
+import { GameState, useGame } from 'components/GameContext/GameContext';
+import { FC, ReactElement, useEffect, useState } from 'react';
+import { IGamePageProps } from './types.d';
 
 const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
-  const { changePage, changeAudioSrc, saveResults, roundResults } =
-    gamePageProps;
+  const {
+    gameState,
+    question,
+    answers,
+    countDown,
+    giveAnswerAudiocall,
+    progressGame,
+  } = useGame();
+  const { audioSrc, changeAudioSrc, audio } = gamePageProps;
 
-  const data = audiocallData.rounds;
-
-  const [round, setRound] = useState<number>(0);
   const [answer, setAnswer] = useState<string>();
 
-  const nextRound = () => {
-    if (round < data.length - 1) {
-      setRound(round + 1);
-      setAnswer(undefined);
-      if (changeAudioSrc) changeAudioSrc(data[0].audio);
-    } else {
-      if (changePage) changePage(GamePage.Statistics);
+  useEffect(() => {
+    if (question.audio && question.audio.length > 0) {
+      changeAudioSrc(question.audio);
     }
-  };
-  const checkAnswer = (word: string): void => {
-    setAnswer(word);
-    if (saveResults && roundResults)
-      saveResults([
-        ...roundResults,
-        {
-          word: data[round].word,
-          correct: word === data[round].answer,
-          translation: data[round].answer,
-          audio: data[round].audio,
-        },
-      ]);
-  };
+  }, [question.audio]);
 
-  if (changeAudioSrc && round < 1 && answer === undefined)
-    changeAudioSrc(data[0].audio);
+  if (gameState === GameState.CORRECT) {
+    audio.playCorrect();
+  }
+  if (gameState === GameState.WRONG) {
+    audio.playWrong();
+  }
 
   return (
     <div className="audiocall__container audiocall__container_round">
-      <div className="audiocall__fixed-controls">
-        <div className="audiocall__fixed-controls_left">
-          <div
-            className="button audiocall__controls-button"
-            onClick={() => {
-              if (changePage) changePage(GamePage.Home);
-            }}
-          >
-            <CloseSharp />
-          </div>
-        </div>
-        <div className="audiocall__fixed-controls_right">
-          <FullscreenButton className="audiocall__controls-button" />
-        </div>
-      </div>
       <div className="audiocall__audio-container">
         {answer ? (
           <div className="audiocall__word-container">
             <div
               style={{
-                backgroundImage: `url(${data[round].image})`,
+                backgroundImage: `url(https://rs-lang-team-34.herokuapp.com/${question.image})`,
               }}
               className="audiocall__word-image"
             />
-            <div className="audiocall__word">
-              {data[round].word}
+            <div
+              className="button audiocall__word"
+              onClick={() => {
+                audio.playSound(audioSrc);
+              }}
+            >
+              {question.word}
               <span className="audiocall__speaker-icon audiocall__speaker-icon_small">
                 <VolumeUp />
               </span>
             </div>
           </div>
+        ) : gameState === GameState.COUNTDOWN ? (
+          countDown
         ) : (
-          <div className="audiocall__speaker-icon audiocall__speaker-icon_big">
+          <div
+            className="button audiocall__speaker-icon audiocall__speaker-icon_big"
+            onClick={() => {
+              audio.playSound(audioSrc);
+            }}
+          >
             <VolumeUp />
           </div>
         )}
       </div>
       <div className="audiocall__options">
-        {data[round].options.map(
+        {answers.map(
           (word, index): ReactElement => (
             <Button
-              key={word}
+              key={word.concat(`${index}`)}
               className={`audiocall__option ${
                 answer === word ? 'audiocall__answer' : ''
               } ${
-                data[round].answer === word && answer
+                question.wordTranslate === word && answer
                   ? 'audiocall__answer_correct'
                   : ''
               }`}
-              onClick={answer ? undefined : () => checkAnswer(word)}
+              onClick={() => {
+                if (!answer) {
+                  giveAnswerAudiocall(word);
+                  setAnswer(word);
+                }
+              }}
             >
               <span className="audiocall__option-index">{index + 1}</span>
               {word}
@@ -104,13 +97,19 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
           <Button
             className="audiocall__next"
             text="Далее"
-            onClick={nextRound}
+            onClick={() => {
+              setAnswer(undefined);
+              progressGame();
+            }}
           />
         ) : (
           <Button
             className="audiocall__skip"
             text="Не знаю"
-            onClick={() => checkAnswer('Не знаю')}
+            onClick={() => {
+              giveAnswerAudiocall('Не знаю');
+              setAnswer('Не знаю');
+            }}
           />
         )}
       </div>

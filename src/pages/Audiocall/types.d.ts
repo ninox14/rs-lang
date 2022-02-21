@@ -1,3 +1,5 @@
+import AudioPlayer from 'components/Audio/Audio';
+
 export enum GamePage {
   Home = 'Home',
   Round = 'Round',
@@ -18,8 +20,7 @@ export interface IGamePageProps {
 }
 
 export interface IGamePagePropsObject {
-  changePage?: (page: GamePage) => void;
-  changeAudioSrc?: (src: string) => void;
-  saveResults?: (results: Results) => void;
-  roundResults?: Results;
+  audioSrc: string;
+  changeAudioSrc: (src: string) => void;
+  audio: AudioPlayer;
 }

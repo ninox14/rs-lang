@@ -1,18 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { IUserWordsActionOptions, IWord } from 'redux/types/types';
+import { IWord } from 'redux/types/types';
 import { getRandomNumber, shuffle } from 'utils/helpers';
-import { GameKey, IGetWordsOptions } from 'api/ApiService';
+import { GameKey } from 'api/ApiService';
 import {
   getWordsAudiocall,
   getWordsAudiocallAnon,
   getWordsSprint,
   getWordsSprintAnon,
 } from 'redux/actions';
+import { useStats } from 'components/StatsContext/StatsContext';
+import { setIsGameRanFromTextbook } from 'redux/word.slice';
 
 const maxPages = 30;
 const maxAnswersAudiocall = 5;
-const maxAnswersSprint = 2;
 
 export enum GameState {
   INITIAL = 'initial',
@@ -30,12 +32,14 @@ interface IGameContext {
   wrong: IWord[];
   gameState: GameState;
   countDown: number;
+  correctInRow: number;
   giveAnswerAudiocall: (answer: string) => void;
-  giveAnswerSprint: (asnwer: boolean) => void;
+  giveAnswerSprint: (answer: boolean) => void;
   pickDifficulty: (difficulty: number) => void;
   handleGameStateChange: (state: GameState) => void;
   progressGame: () => void;
 }
+
 const wordDefaults: IWord = {
   id: '',
   group: 0,
@@ -60,6 +64,7 @@ const contextDefaults: IGameContext = {
   wrong: [],
   gameState: GameState.INITIAL,
   countDown: 0,
+  correctInRow: 0,
   giveAnswerAudiocall: () => {},
   giveAnswerSprint: () => {},
   pickDifficulty: () => {},
@@ -75,7 +80,7 @@ const GameContext = createContext<IGameContext>(contextDefaults);
 
 export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   const appDispatch = useAppDispatch();
-
+  const { saveStatistics } = useStats();
   const isRanFromTextBook = useAppSelector(
     (state) => state.word.isGameRanFromTextbook
   );
@@ -86,11 +91,12 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   const [gameState, setGameState] = useState<GameState>(GameState.INITIAL);
   const [gameWords, setGameWords] = useState<IWord[]>([]);
   const [correctArray, setCorrectArray] = useState<IWord[]>([]);
-  const [wrongtArray, setWrongArray] = useState<IWord[]>([]);
+  const [wrongArray, setWrongArray] = useState<IWord[]>([]);
   const [countDown, setCountdown] = useState(0);
   const [question, setQuestion] = useState<IWord>(wordDefaults);
   const [answers, setAnswers] = useState<string[]>([]);
-
+  const [correctInRow, setCorrectInRow] = useState(0);
+  const [maxInRow, setMaxInRow] = useState(0);
   // const [isCountdownStarted, setIsCountdownStarted] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
 
@@ -243,15 +249,36 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     setQuestion(gameWords[round]);
   };
 
+  const resetStates = () => {
+    setGameWords([]);
+    setCorrectArray([]);
+    setWrongArray([]);
+    setCountdown(0);
+    setIsGameStarted(false);
+    setMaxInRow(0);
+    setCorrectInRow(0);
+    setQuestion(wordDefaults);
+    setAnswers([]);
+    setRound(0);
+  };
+
+  const saveGameStats = async () => {
+    await saveStatistics({
+      correct: correctArray,
+      wrong: wrongArray,
+      maxInRow,
+    });
+  };
+
   // After loading get words that were already fetched and sets them as a questions
   // For that to work you need to dispatch(getSprintWords or getAudiocallWords) right
   // befor navigating user to this page
   useEffect(() => {
     if (isRanFromTextBook) {
+      appDispatch(setIsGameRanFromTextbook(false));
       initializeWords();
       setGameState(GameState.COUNTDOWN); // to start game right after loading
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // This needed to actually track changes in redux store
@@ -259,7 +286,6 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   // this useEffect executes to set them as words for questions
   useEffect(() => {
     initializeWords();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sprintWords, audicallWords]);
 
   // This should execute services or make something happend on change of the
@@ -267,6 +293,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   useEffect(() => {
     switch (gameState) {
       case GameState.INITIAL: {
+        resetStates();
         break;
       }
       case GameState.COUNTDOWN: {
@@ -280,13 +307,27 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
         break;
       }
       case GameState.CORRECT: {
+        setCorrectInRow((state) => state + 1);
+        if (maxInRow < correctInRow + 1) {
+          setMaxInRow(correctInRow + 1);
+        }
+        if (game === 'sprint') {
+          progressGame();
+        }
         break;
       }
       case GameState.WRONG: {
+        setCorrectInRow(0);
+        if (game === 'sprint') {
+          progressGame();
+        }
         break;
       }
       case GameState.RESULTS: {
         setIsGameStarted(false);
+        if (userId) {
+          saveGameStats();
+        }
         break;
       }
     }
@@ -306,7 +347,6 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     if (countDown > 0 && isGameStarted) {
       setTimeout(() => setCountdown((state) => state - 1), 1000);
     } else {
-      console.log('inside countdown');
       if (isGameStarted) {
         setGameState(GameState.QUESTION);
       }
@@ -318,9 +358,10 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   return (
     <GameContext.Provider
       value={{
+        correctInRow,
         countDown,
         correct: correctArray,
-        wrong: wrongtArray,
+        wrong: wrongArray,
         question: question,
         gameState: gameState,
         answers,

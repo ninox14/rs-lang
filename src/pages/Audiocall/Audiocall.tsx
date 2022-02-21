@@ -1,48 +1,45 @@
-import { FC, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import AudioPlayer from 'components/Audio/Audio';
+import GameControls from 'components/AudiocallPage/GameControls';
+import { GameState, useGame } from 'components/GameContext/GameContext';
+import { FC, useEffect, useState } from 'react';
 import AudiocallHome from './Home';
 import AudiocallRound from './Round';
 import AudiocallStatistics from './Statistics';
-import { GamePage, IGamePagePropsObject, Results } from './types.d';
+import { IGamePagePropsObject } from './types.d';
 
 const Audiocall: FC = () => {
-  const [currentPage, setCurrentPage] = useState<GamePage>(GamePage.Home);
-  const [roundResults, setRoundResults] = useState<Results>([]);
-  const [audioSrc, setAudioSrc] = useState<string>();
-  const audio = new Audio();
+  const { gameState } = useGame();
 
-  const changePage = (page: GamePage): void => {
-    setCurrentPage(page);
-    audio.pause();
-    audio.currentTime = 0;
-    if (page === GamePage.Home) setRoundResults([]);
-  };
-  const saveResults = (results: Results): void => {
-    setRoundResults(results);
-  };
+  const [audioSrc, setAudioSrc] = useState<string>('');
+
   const changeAudioSrc = (src: string): void => {
-    audio.pause();
-    audio.currentTime = 0;
     setAudioSrc(src);
-    if (audio.src.length > 0) audio.play();
   };
+
+  const audio = AudioPlayer.getInstance();
+
+  useEffect(() => {
+    if (audioSrc.length > 0) {
+      audio.playSound(audioSrc);
+    }
+  }, [audioSrc]);
 
   const Page =
-    currentPage === GamePage.Home
+    gameState === GameState.INITIAL
       ? AudiocallHome
-      : currentPage === GamePage.Round
-      ? AudiocallRound
-      : AudiocallStatistics;
-  const pageProps: IGamePagePropsObject =
-    currentPage === GamePage.Home
-      ? { changePage }
-      : currentPage === GamePage.Round
-      ? { changePage, changeAudioSrc, saveResults, roundResults }
-      : { changePage, changeAudioSrc, roundResults };
-
-  audio.src = audioSrc ?? '';
+      : gameState === GameState.RESULTS
+      ? AudiocallStatistics
+      : AudiocallRound;
+  const pageProps: IGamePagePropsObject = {
+    audioSrc,
+    changeAudioSrc,
+    audio,
+  };
 
   return (
     <main className="page page_audiocall audiocall">
+      <GameControls />
       <Page gamePageProps={pageProps} />
     </main>
   );

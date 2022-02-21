@@ -24,6 +24,9 @@ svg {
 }
 
 .audiocall {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   font-size: 18px;
   background: $audiocall-bg;
   color: $white;
@@ -33,14 +36,13 @@ svg {
 
 .audiocall__ {
   &container {
-    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 21px;
-    padding: 50px;
-    min-height: 100%;
+    padding: 0 50px 90px;
+    flex-grow: 1;
 
     &_home {
       text-align: center;
@@ -50,22 +52,6 @@ svg {
       padding: 170px 50px 70px;
       gap: 40px;
     }
-  }
-
-  &fixed-controls {
-    position: fixed;
-    top: 40px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 170px;
-  }
-
-  &controls-button svg {
-    height: 48px;
-    width: 48px;
   }
 
   &content-wrapper {
@@ -454,6 +440,7 @@ svg {
   height: 450px;
   padding-left: 50px;
   padding-right: 50px;
+  overflow: auto;
 
   &::-webkit-scrollbar {
     width: 8px;

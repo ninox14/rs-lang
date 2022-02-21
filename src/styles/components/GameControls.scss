@@ -1,0 +1,13 @@
+.game__ {
+  &controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px 170px 0;
+  }
+
+  &controls-button svg {
+    height: 48px;
+    width: 48px;
+  }
+}
