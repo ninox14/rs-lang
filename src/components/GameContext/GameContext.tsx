@@ -33,11 +33,12 @@ interface IGameContext {
   countDown: number;
   correctInRow: number;
   giveAnswerAudiocall: (answer: string) => void;
-  giveAnswerSprint: (asnwer: boolean) => void;
+  giveAnswerSprint: (answer: boolean) => void;
   pickDifficulty: (difficulty: number) => void;
   handleGameStateChange: (state: GameState) => void;
   progressGame: () => void;
 }
+
 const wordDefaults: IWord = {
   id: '',
   group: 0,
@@ -89,7 +90,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   const [gameState, setGameState] = useState<GameState>(GameState.INITIAL);
   const [gameWords, setGameWords] = useState<IWord[]>([]);
   const [correctArray, setCorrectArray] = useState<IWord[]>([]);
-  const [wrongtArray, setWrongArray] = useState<IWord[]>([]);
+  const [wrongArray, setWrongArray] = useState<IWord[]>([]);
   const [countDown, setCountdown] = useState(0);
   const [question, setQuestion] = useState<IWord>(wordDefaults);
   const [answers, setAnswers] = useState<string[]>([]);
@@ -260,10 +261,10 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     setRound(0);
   };
 
-  const saveGameStatats = async () => {
+  const saveGameStats = async () => {
     await saveStatistics({
       correct: correctArray,
-      wrong: wrongtArray,
+      wrong: wrongArray,
       maxInRow,
     });
   };
@@ -277,7 +278,6 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
       initializeWords();
       setGameState(GameState.COUNTDOWN); // to start game right after loading
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // This needed to actually track changes in redux store
@@ -285,7 +285,6 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
   // this useEffect executes to set them as words for questions
   useEffect(() => {
     initializeWords();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sprintWords, audicallWords]);
 
   // This should execute services or make something happend on change of the
@@ -326,12 +325,11 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
       case GameState.RESULTS: {
         setIsGameStarted(false);
         if (userId) {
-          saveGameStatats();
+          saveGameStats();
         }
         break;
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState]);
 
   useEffect(() => {
@@ -342,7 +340,6 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
         getNewAnswerSprint();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [question]);
 
   useEffect(() => {
@@ -353,7 +350,6 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
         setGameState(GameState.QUESTION);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countDown]);
 
   // You should put everything you want to give access to for child components
@@ -364,7 +360,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
         correctInRow,
         countDown,
         correct: correctArray,
-        wrong: wrongtArray,
+        wrong: wrongArray,
         question: question,
         gameState: gameState,
         answers,
