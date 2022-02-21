@@ -125,7 +125,7 @@ const WordList: FC = () => {
       ) : null}
 
       <div className="wordlist-cards">
-        {isNoWords ? (
+        {isNoWords && !isLoading ? (
           <div className="wordslist-cards__tip">
             В этом разделе пока нет слов
           </div>

@@ -1,7 +1,9 @@
+import AudioPlayer from 'components/Audio/Audio';
 import { FC, useEffect, useState, MouseEvent } from 'react';
 import { useAppSelector } from 'redux/hooks';
 import { IWord, WordDifficulty } from 'redux/types/types.d';
 import { getAndUpdateUserWord } from 'api/ApiService';
+import { baseURL } from 'api/http';
 
 import Collapse from '@mui/material/Collapse';
 import Popover from '@mui/material/Popover';
@@ -50,6 +52,9 @@ export const WordCard: FC<CardWordInterface> = ({
   textMeaningTranslate,
   textExample,
   textExampleTranslate,
+  audio,
+  audioMeaning,
+  audioExample,
   userWord,
   isHardPage,
   handleAddLearned,
@@ -57,7 +62,7 @@ export const WordCard: FC<CardWordInterface> = ({
 }) => {
   const userId = useAppSelector((state) => state.word.userId);
   const words = useAppSelector((state) => state.word.words);
-  const baseURL = 'https://rs-lang-team-34.herokuapp.com';
+  const player = AudioPlayer.getInstance();
 
   const [isCardExpanded, setCardExpanded] = useState(false);
   const [isRemoved, setIsRemoved] = useState(false);
@@ -143,7 +148,13 @@ export const WordCard: FC<CardWordInterface> = ({
           <div className="wordcard-top__heading">
             <h4 className="wordcard__word">{word}</h4>
             <button className="wordcard__btn btn_sound">
-              <SoundIcon className="wordcard__icon_sound" />
+              <SoundIcon
+                className="wordcard__icon_sound"
+                onClick={() => {
+                  player.updatePlaylist([audio, audioMeaning, audioExample]);
+                  player.startPlaylist();
+                }}
+              />
             </button>
           </div>
           <p className="wordcard__trsc">{transcription}</p>

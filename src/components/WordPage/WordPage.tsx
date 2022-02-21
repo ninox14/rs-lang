@@ -1,5 +1,6 @@
+import AudioPlayer from 'components/Audio/Audio';
 import { FC, useEffect } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setGroup, setPage } from 'redux/word.slice';
 
@@ -21,6 +22,22 @@ const WordPage: FC = () => {
   useEffect(() => {
     dispatch(setPage(pageId));
   }, [pageId]);
+
+  // stop audio if page changes
+
+  const player = AudioPlayer.getInstance();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    player.stopAudio();
+  }, [location]);
+
+  useEffect(() => {
+    return () => {
+      player.stopAudio();
+    };
+  }, []);
 
   return (
     <div
