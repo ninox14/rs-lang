@@ -1,0 +1,139 @@
+@import 'styles/variables/_.scss';
+
+.page_wordpage {
+  display: flex;
+  justify-content: center;
+  background-color: $bg-gray;
+  padding-bottom: 70px;
+  --color: $black;
+}
+
+.wordpage {
+  &_lightblue {
+    --color: #8cd9ff;
+  }
+  &_blue {
+    --color: #40c0ff;
+  }
+  &_pink {
+    --color: #f063af;
+  }
+  &_green {
+    --color: #2dcb92;
+  }
+  &_yellow {
+    --color: #ffab19;
+  }
+  &_orange {
+    --color: #ff7e53;
+  }
+  &_purple {
+    --color: #889bff;
+  }
+}
+
+.wordpage-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 768px;
+  width: calc(100% - 20px);
+  margin-top: 30px;
+}
+
+.wordpage__title {
+  margin: 0;
+  font-size: 18px;
+}
+
+.groups-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  column-gap: 5px;
+  row-gap: 5px;
+  max-width: 765px;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  @media all and (max-width: 680px) {
+    justify-content: center;
+  }
+}
+
+.groups__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 30px;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 15px;
+  border-width: 3px;
+  border-style: solid;
+  background-color: $light-gray;
+  border-color: var(--group-color);
+  transition: 0.5s;
+
+  &.groups__link_active {
+    background-color: var(--group-color);
+  }
+}
+
+.groups__link_lightblue {
+  --group-color: #8cd9ff;
+
+  &:hover {
+    background-color: scale-color($light-blue, $lightness: 65%);
+  }
+}
+
+.groups__link_blue {
+  --group-color: #40c0ff;
+
+  &:hover {
+    background-color: scale-color($blue, $lightness: 65%);
+  }
+}
+
+.groups__link_pink {
+  --group-color: #f063af;
+
+  &:hover {
+    background-color: scale-color($pink, $lightness: 65%);
+  }
+}
+
+.groups__link_green {
+  --group-color: #2dcb92;
+
+  &:hover {
+    background-color: scale-color($green, $lightness: 65%);
+  }
+}
+
+.groups__link_yellow {
+  --group-color: #ffab19;
+
+  &:hover {
+    background-color: scale-color($yellow, $lightness: 65%);
+  }
+}
+
+.groups__link_orange {
+  --group-color: #ff7e53;
+
+  &:hover {
+    background-color: scale-color($orange, $lightness: 65%);
+  }
+}
+
+.groups__link_purple {
+  --group-color: #889bff;
+
+  &:hover {
+    background-color: scale-color($purple, $lightness: 65%);
+  }
+}
