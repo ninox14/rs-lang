@@ -294,6 +294,10 @@ svg {
     border: 1px solid;
     border-radius: 5px;
 
+    &:hover {
+      background: #fff2;
+    }
+
     @include s {
       font-size: 14px;
       width: 100%;
@@ -325,6 +329,10 @@ svg {
       border: 2px solid;
       border-radius: 5px;
       text-transform: uppercase;
+
+      &:hover {
+        background: #fff2;
+      }
 
       @include s {
         font-size: 14px;
