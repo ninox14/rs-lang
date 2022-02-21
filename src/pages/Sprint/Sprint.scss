@@ -11,6 +11,9 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .sprint_btn {
@@ -31,8 +34,12 @@
 
 .sprint__controls-container {
   display: flex;
-  column-gap: 50px;
+  flex-wrap: wrap;
   margin-top: 60px;
+  margin-bottom: 60px;
+  align-items: center;
+  row-gap: 10px;
+  justify-content: center;
 }
 
 .sprint-btns-wrapper {
@@ -53,9 +60,17 @@
   border: 3px solid $white;
   cursor: pointer;
   transition: 0.5s;
+  margin: 0 25px 0 25px;
 
   &:disabled {
     opacity: 0.6;
     pointer-events: none;
   }
+}
+
+.sprint__error-screen {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 30px;
 }

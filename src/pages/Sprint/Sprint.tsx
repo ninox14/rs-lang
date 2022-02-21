@@ -96,14 +96,17 @@ const Sprint: FC = () => {
         {gameState === GameState.COUNTDOWN ? <Countdown /> : null}
 
         {gameState === GameState.INSUFFICIENT ? (
-          <div>
-            <div>недостаточно слов</div>
+          <div className="sprint__error-screen">
+            <h3 className="sprint__error-message">
+              Извините, для данной игры недостаточно слов
+            </h3>
             <button
+              className="sprint__btn_title btn__to-textbook"
               onClick={() => {
                 handleGameStateChange(GameState.INITIAL);
               }}
             >
-              назад
+              Выйти
             </button>
           </div>
         ) : null}

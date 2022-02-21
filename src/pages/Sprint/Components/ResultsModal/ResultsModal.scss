@@ -12,7 +12,8 @@
   display: none;
 }
 
-.results-chart, .results-words {
+.results-chart,
+.results-words {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -104,10 +105,11 @@
 .results-words {
   display: flex;
   flex-direction: column;
-  height: 480px;
+  height: 470px;
   padding-left: 50px;
   padding-right: 50px;
   overflow-y: auto;
+  margin-top: 10px;
 }
 
 .results-words::-webkit-scrollbar {
@@ -172,4 +174,50 @@
 .results-words__dash {
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.results-words__sound {
+  stroke: $black;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.results-words__sound:hover {
+  stroke: $green;
+}
+
+@media screen and (max-width: 620px) {
+  .results-modal {
+    width: 320px;
+  }
+
+  .results-chart__btns {
+    column-gap: unset;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 15px;
+  }
+
+  .results-chart__title {
+    font-size: 18px;
+  }
+
+  .results-chart__chart {
+    width: 200px;
+    height: 200px;
+  }
+
+  .results-chart__percentage {
+    width: 120px;
+    height: 120px;
+  }
+
+  .results-words__word-container {
+    flex-wrap: wrap;
+  }
+
+  .results-words {
+    padding-left: 35px;
+    padding-right: 35px;
+  }
 }
