@@ -29,6 +29,9 @@ const GameScreen: FC<IGameInterface> = ({
   } = useGame();
   const [countdown, setCountdown] = useState(60);
 
+  const [blinkGreen, setBlinkGreen] = useState(false);
+  const [blinkRed, setBlinkRed] = useState(false);
+
   const handleKeyPress = (event: KeyboardEvent) => {
     event.preventDefault();
     switch (event.code) {
@@ -49,13 +52,24 @@ const GameScreen: FC<IGameInterface> = ({
       if (!isMuted) {
         player.playCorrect();
       }
+      setBlinkGreen(true);
     }
     if (gameState === GameState.WRONG) {
       if (!isMuted) {
         player.playWrong();
       }
+      setBlinkRed(true);
     }
   }, [gameState]);
+
+  useEffect(() => {
+    if (blinkGreen) {
+      setTimeout(() => setBlinkGreen(false), 200);
+    }
+    if (blinkRed) {
+      setTimeout(() => setBlinkRed(false), 200);
+    }
+  }, [blinkGreen, blinkRed]);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -88,22 +102,33 @@ const GameScreen: FC<IGameInterface> = ({
         </div>
       </div>
 
-      <div className="game-card">
-        <VolumeUpIcon className="game-card__sound" />
+      <div
+        className={`game-card ${blinkGreen && 'game-card_correct'} ${
+          blinkRed && 'game-card_wrong'
+        }`}
+      >
+        <VolumeUpIcon
+          className="game-card__sound"
+          onClick={() => player.playSound(question.audio)}
+        />
         <ul className="game-card__combo">
           <li
             className={`game-card__combo-item ${
-              correctInRow > 3 && 'game-card__combo-item_active'
+              (correctInRow % 4 === 1 ||
+                correctInRow % 4 === 2 ||
+                correctInRow % 4 === 3) &&
+              'game-card__combo-item_active'
             }`}
           ></li>
           <li
             className={`game-card__combo-item ${
-              correctInRow > 5 && 'game-card__combo-item_active'
+              (correctInRow % 4 === 2 || correctInRow % 4 === 3) &&
+              'game-card__combo-item_active'
             }`}
           ></li>
           <li
             className={`game-card__combo-item ${
-              correctInRow > 7 && 'game-card__combo-item_active'
+              correctInRow % 4 === 3 && 'game-card__combo-item_active'
             }`}
           ></li>
         </ul>

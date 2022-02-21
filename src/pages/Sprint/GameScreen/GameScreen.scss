@@ -52,6 +52,14 @@
   padding: 30px;
   border-radius: 15px;
   border: 3px solid $white;
+  transition: border-color 0.5s;
+}
+
+.game-card_correct {
+  border-color: $green;
+}
+.game-card_wrong {
+  border-color: $orange;
 }
 
 .game-card__sound {
@@ -101,8 +109,8 @@
   flex-wrap: wrap;
   justify-content: space-between;
   row-gap: 10px;
-  width: 100%;
   margin-top: 60px;
+  column-gap: 40px;
 }
 
 .game-card__btn {

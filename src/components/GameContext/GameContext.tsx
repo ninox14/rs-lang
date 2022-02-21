@@ -297,8 +297,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
       }
       case GameState.COUNTDOWN: {
         setIsGameStarted(true);
-        setCountdown(3);
-
+        setCountdown(4);
         break;
       }
       case GameState.QUESTION: {
