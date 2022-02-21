@@ -22,6 +22,7 @@ export enum GameState {
   WRONG = 'answ-wrong',
   RESULTS = 'results',
   COUNTDOWN = 'countdown',
+  INSUFFICIENT = 'insufficient',
 }
 
 interface IGameContext {
@@ -345,8 +346,16 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     if (countDown > 0 && isGameStarted) {
       setTimeout(() => setCountdown((state) => state - 1), 1000);
     } else {
+      const notEnoughWords =
+        (sprintWords.length > 0 && sprintWords.length < 15) ||
+        (audicallWords.length > 0 && audicallWords.length < 10);
       if (isGameStarted) {
-        setGameState(GameState.QUESTION);
+        if (notEnoughWords) {
+          setGameState(GameState.INSUFFICIENT);
+          setIsGameStarted(false);
+        } else {
+          setGameState(GameState.QUESTION);
+        }
       }
     }
   }, [countDown]);

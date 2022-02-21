@@ -14,7 +14,7 @@ import FullscreenButton from './Components/FullScreen/FullScreen';
 
 const Sprint: FC = () => {
   const navigate = useNavigate();
-  const { gameState, pickDifficulty } = useGame();
+  const { gameState, pickDifficulty, handleGameStateChange } = useGame();
   const [difficulty, setDifficulty] = useState<null | number>(null);
   const [points, setPoints] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
@@ -94,6 +94,19 @@ const Sprint: FC = () => {
         ) : null}
 
         {gameState === GameState.COUNTDOWN ? <Countdown /> : null}
+
+        {gameState === GameState.INSUFFICIENT ? (
+          <div>
+            <div>недостаточно слов</div>
+            <button
+              onClick={() => {
+                handleGameStateChange(GameState.INITIAL);
+              }}
+            >
+              назад
+            </button>
+          </div>
+        ) : null}
 
         {isQuestionOnScreen ? (
           <GameScreen
