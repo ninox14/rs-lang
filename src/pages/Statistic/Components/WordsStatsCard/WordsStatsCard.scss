@@ -4,10 +4,6 @@
   align-items: center;
   font-size: 16px;
   text-transform: uppercase;
-  
-  @media all and(max-width: 900px) {
-    font-size: 14px;
-  }
 }
 
 .words-count {
