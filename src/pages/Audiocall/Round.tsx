@@ -72,12 +72,14 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
       >
         {answer ? (
           <div className="audiocall__word-container">
-            <div
-              style={{
-                backgroundImage: `url(https://rs-lang-team-34.herokuapp.com/${question.image})`,
-              }}
-              className="audiocall__word-image"
-            />
+            <div className="audiocall__word-image-wrap">
+              <div
+                style={{
+                  backgroundImage: `url(https://rs-lang-team-34.herokuapp.com/${question.image})`,
+                }}
+                className="audiocall__word-image"
+              />
+            </div>
             <div
               className="button audiocall__word"
               onClick={() => {
