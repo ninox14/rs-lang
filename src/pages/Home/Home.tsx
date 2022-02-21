@@ -11,7 +11,7 @@ import { ReactComponent as PuzzleIcon } from 'assets/icons/main-puzzle.svg';
 
 const Home: FC = () => {
   return (
-    <main className="page page_home">
+    <main className="page page_home page_header">
       <div className="home-intro">
         <div className="home-intro__text">
           <h1 className="home-intro__title">

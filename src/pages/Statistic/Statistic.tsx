@@ -12,7 +12,7 @@ const Statistics: FC = () => {
 
   return (
     <StatsProvider game="sprint">
-      <div className="page page_stats">
+      <div className="page page_stats page_header">
         {isLogged ? (
           <>
             <h3 className="stats__title">Статистика</h3>

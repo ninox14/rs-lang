@@ -41,7 +41,7 @@ const Auth: FC = () => {
   };
 
   return (
-    <main className="page page_auth auth">
+    <main className="page page_auth auth page_header">
       <div className="auth__container">
         <PlaneSvg className="auth__svg" />
         <div className="auth__form-container">

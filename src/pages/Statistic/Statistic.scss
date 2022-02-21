@@ -33,3 +33,9 @@
 .stats__link_auth {
   color: $accent-blue
 }
+
+.page_header {
+  @media screen and (max-width: 768px) {
+    padding-top: 40px;
+  }
+}
