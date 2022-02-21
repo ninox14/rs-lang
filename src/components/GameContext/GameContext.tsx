@@ -10,7 +10,11 @@ import {
   getWordsSprintAnon,
 } from 'redux/actions';
 import { useStats } from 'components/StatsContext/StatsContext';
-import { setIsGameRanFromTextbook } from 'redux/word.slice';
+import {
+  resetAudiocallWords,
+  resetSprintWords,
+  setIsGameRanFromTextbook,
+} from 'redux/word.slice';
 
 const maxPages = 30;
 const maxAnswersAudiocall = 5;
@@ -353,6 +357,8 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
         if (notEnoughWords) {
           setGameState(GameState.INSUFFICIENT);
           setIsGameStarted(false);
+          appDispatch(resetAudiocallWords());
+          appDispatch(resetSprintWords());
         } else {
           setGameState(GameState.QUESTION);
         }

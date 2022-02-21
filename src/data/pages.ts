@@ -8,16 +8,14 @@ const pages: Pages = [
   {
     label: 'Учебник',
     url: '/textbook',
-    visibility: false,
   },
   {
     label: 'Игры',
     url: '/games',
-    visibility: false,
   },
   {
     label: 'Статистика',
-    url: '/stat',
+    url: '/statistics',
     visibility: false,
   },
   {
