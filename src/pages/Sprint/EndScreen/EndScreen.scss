@@ -1,0 +1,34 @@
+@import 'styles/variables/_.scss';
+
+.results-modal {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  width: 600px;
+  height: 550px;
+  color: $black;
+  background-color: $light-gray;
+}
+
+.results-modal__tabs {
+  display: flex;
+  width: 100%;
+}
+
+.results-modal__tab-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.results-modal__tab {
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 400;
+  color: $black;
+  padding: 0;
+  height: 40px;
+  z-index: 5;
+}

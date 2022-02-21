@@ -172,10 +172,15 @@ export const getWordsSprint = createAsyncThunk(
 
 export const getWordsSprintAnon = createAsyncThunk(
   'words/getWordsSprintAnon',
-  async (options: IGetWordsOptions, { rejectWithValue }) => {
+  async ({ page, group }: IGetWordsOptions, { rejectWithValue }) => {
     try {
-      const { data } = await getWords(options);
-      return data;
+      const words: IWord[] = [];
+      const pagesToGetFrom = getPossiblePages({ group, page });
+      for (const item of pagesToGetFrom) {
+        const { data } = await getWords({ page: item.page, group: item.group });
+        words.push(...data);
+      }
+      return words;
     } catch (err) {
       console.error(err);
       return rejectWithValue("Не удалось загрузить слова для сринт'а");
