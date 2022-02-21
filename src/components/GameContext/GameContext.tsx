@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { IWord } from 'redux/types/types';
@@ -23,6 +22,7 @@ export enum GameState {
   WRONG = 'answ-wrong',
   RESULTS = 'results',
   COUNTDOWN = 'countdown',
+  INSUFFICIENT = 'insufficient',
 }
 
 interface IGameContext {
@@ -217,7 +217,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
       const pickedWord = gameWords[index];
       if (
         pickedWord.wordTranslate !== currentWord &&
-        pickedAnswers.indexOf(currentWord) !== -1
+        !pickedAnswers.includes(currentWord)
       ) {
         pickedAnswers.push(pickedWord.wordTranslate);
       } else {
@@ -298,8 +298,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
       }
       case GameState.COUNTDOWN: {
         setIsGameStarted(true);
-        setCountdown(3);
-
+        setCountdown(4);
         break;
       }
       case GameState.QUESTION: {
@@ -347,8 +346,16 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
     if (countDown > 0 && isGameStarted) {
       setTimeout(() => setCountdown((state) => state - 1), 1000);
     } else {
+      const notEnoughWords =
+        (sprintWords.length > 0 && sprintWords.length < 15) ||
+        (audicallWords.length > 0 && audicallWords.length < 10);
       if (isGameStarted) {
-        setGameState(GameState.QUESTION);
+        if (notEnoughWords) {
+          setGameState(GameState.INSUFFICIENT);
+          setIsGameStarted(false);
+        } else {
+          setGameState(GameState.QUESTION);
+        }
       }
     }
   }, [countDown]);

@@ -25,13 +25,15 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     const token = localStorage.getItem(USER_TOKEN_KEY);
     if (token != null && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log('token injected', config.headers.Authorization); // To be removed later
+      // console.log('token injected', config.headers.Authorization); // To be removed later
     }
     return config;
   } catch (error) {
     throw error;
   }
 };
+
+export const baseURL = 'https://rs-lang-team-34.herokuapp.com';
 
 class Http {
   // eslint-disable-next-line prettier/prettier
@@ -43,7 +45,7 @@ class Http {
 
   initHttp() {
     const http = axios.create({
-      baseURL: 'https://rs-lang-team-34.herokuapp.com',
+      baseURL: baseURL,
       headers,
       // withCredentials: true, <- triggers CORS error for some reason
     });

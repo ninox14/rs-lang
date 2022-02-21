@@ -1,0 +1,16 @@
+.words-stats__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.words-count {
+  font-weight: bold;
+  font-size: 2em;
+  
+  @media all and(max-width: 900px) {
+    font-size: 1.5em;
+  }
+}
