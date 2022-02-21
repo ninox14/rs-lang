@@ -189,7 +189,7 @@ export const getAndUpdateUserWord = async ({
         correctInRow: 0,
       };
       const newDifficulty = difficulty ? difficulty : WordDifficulty.DEFAULT;
-      if (game && action && correctInRow) {
+      if (game && action && typeof correctInRow === 'number') {
         optional = updateGameScore(game, action, optional, correctInRow);
       }
       return createUserWord({

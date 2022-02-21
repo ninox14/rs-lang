@@ -49,7 +49,7 @@ const Sprint: FC = () => {
         <CloseIcon
           style={{ visibility: !isQuestionOnScreen ? 'hidden' : 'initial' }}
           className="sprint_btn btn_exit"
-          onClick={() => navigate(-1)}
+          onClick={() => handleGameStateChange(GameState.INITIAL)}
         />
         <div className="sprint-btns-wrapper">
           {isQuestionOnScreen &&
