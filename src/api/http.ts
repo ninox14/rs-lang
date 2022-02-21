@@ -33,6 +33,8 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
   }
 };
 
+export const baseURL = 'https://rs-lang-team-34.herokuapp.com';
+
 class Http {
   // eslint-disable-next-line prettier/prettier
   private instance: AxiosInstance | null = null;
@@ -43,7 +45,7 @@ class Http {
 
   initHttp() {
     const http = axios.create({
-      baseURL: 'https://rs-lang-team-34.herokuapp.com',
+      baseURL: baseURL,
       headers,
       // withCredentials: true, <- triggers CORS error for some reason
     });
