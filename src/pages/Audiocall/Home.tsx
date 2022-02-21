@@ -48,7 +48,11 @@ const AudiocallHome: FC = () => {
             (label, index): ReactElement => (
               <Button
                 text={label}
-                className="audiocall__homepage-button"
+                className={`audiocall__homepage-button ${
+                  difficulty === undefined && index > 0
+                    ? 'audiocall__homepage-button_disabled'
+                    : ''
+                }`}
                 url={index ? undefined : '..'}
                 onClick={() => {
                   if (difficulty !== undefined && index > 0)
