@@ -1,0 +1,76 @@
+@import 'styles/variables/_.scss';
+
+.page_sprint {
+  display: flex;
+  flex-direction: column;
+  color: $white;
+  background: $sprint-bg;
+}
+
+.page-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.sprint_btn {
+  width: 1.5em;
+  height: 1.5em;
+  fill: $white;
+
+  cursor: pointer;
+}
+
+.sprint-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.sprint__controls-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  align-items: center;
+  row-gap: 10px;
+  justify-content: center;
+}
+
+.sprint-btns-wrapper {
+  display: flex;
+}
+
+.sprint__btn_title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 50px;
+  color: inherit;
+  font-family: inherit;
+  font-size: 18px;
+  background-color: transparent;
+  border-radius: 5px;
+  border: 3px solid $white;
+  cursor: pointer;
+  transition: 0.5s;
+  margin: 0 25px 0 25px;
+
+  &:disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+.sprint__error-screen {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 30px;
+}

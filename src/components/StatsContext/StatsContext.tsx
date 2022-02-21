@@ -28,7 +28,6 @@ export const StatsProvider: FC<IStatsContextProviderProps> = ({
   const getStatistics = async (): Promise<IStatsAll> => {
     try {
       const { data } = await getUserStatistics({ userId });
-
       return pickStatsToUpdate(data.optional);
     } catch (err) {
       console.error(err);
