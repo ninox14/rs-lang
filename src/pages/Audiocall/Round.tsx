@@ -2,6 +2,7 @@
 import { VolumeUp } from '@mui/icons-material';
 import Button from 'components/AudiocallPage/Button';
 import { GameState, useGame } from 'components/GameContext/GameContext';
+import Countdown from 'pages/Sprint/Countdown/Countdown';
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { IGamePageProps } from './types.d';
 
@@ -63,7 +64,7 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
           gameState === GameState.COUNTDOWN ? undefined : 'hidden'
         }`}
       >
-        {countDown}
+        <Countdown />
       </div>
       <div
         className={`audiocall__audio-container ${

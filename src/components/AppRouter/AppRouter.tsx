@@ -31,7 +31,16 @@ const AppRouter: FC = () => {
           <Route path="games" element={<Games />} />
           <Route path="statistics" element={<Statistics />} />
         </Route>
-        <Route path="/games/audiocall" element={<Audiocall />} />
+        <Route
+          path="/games/audiocall"
+          element={
+            <StatsProvider game="audiocall">
+              <GameProvider game="audiocall">
+                <Audiocall />
+              </GameProvider>
+            </StatsProvider>
+          }
+        />
         <Route
           path="/games/sprint"
           element={
