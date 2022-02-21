@@ -49,6 +49,7 @@ const Form: FC<FomrProps> = ({ type }) => {
     <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="form__inputs">
         <TextField
+          autoComplete="off"
           type="email"
           error={!!errors.email || !!errorMsg ? true : false}
           helperText={
@@ -70,6 +71,7 @@ const Form: FC<FomrProps> = ({ type }) => {
           onChange={changeHandler}
         />
         <TextField
+          autoComplete="off"
           type="password"
           error={!!errors.password || !!errorMsg}
           helperText={errors.password ? errors.password.message : null}
