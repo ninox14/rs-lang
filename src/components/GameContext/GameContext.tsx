@@ -217,7 +217,7 @@ export const GameProvider: FC<IGameContextProps> = ({ game, children }) => {
       const pickedWord = gameWords[index];
       if (
         pickedWord.wordTranslate !== currentWord &&
-        !pickedAnswers.includes(currentWord)
+        !pickedAnswers.includes(pickedWord.wordTranslate)
       ) {
         pickedAnswers.push(pickedWord.wordTranslate);
       } else {
