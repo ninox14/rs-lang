@@ -2,10 +2,12 @@ import { ReactComponent as Headphones } from 'assets/icons/headphones.svg';
 import { FC, ReactElement, useEffect, useState } from 'react';
 import Button from 'components/AudiocallPage/Button';
 import { useGame } from 'components/GameContext/GameContext';
+import { useNavigate } from 'react-router-dom';
 
 const AudiocallHome: FC = () => {
   const { pickDifficulty } = useGame();
   const [difficulty, setDifficulty] = useState<number>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setDifficulty(undefined);
@@ -53,11 +55,14 @@ const AudiocallHome: FC = () => {
                     ? 'audiocall__homepage-button_disabled'
                     : ''
                 }`}
-                url={index ? undefined : '..'}
-                onClick={() => {
-                  if (difficulty !== undefined && index > 0)
-                    pickDifficulty(difficulty);
-                }}
+                onClick={
+                  !index
+                    ? () => navigate('/')
+                    : () => {
+                        if (difficulty !== undefined && index > 0)
+                          pickDifficulty(difficulty);
+                      }
+                }
                 key={`homepageButton${index}`}
               />
             )
