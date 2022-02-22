@@ -28,7 +28,7 @@ svg {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .audiocall {
@@ -231,6 +231,13 @@ svg {
       pointer-events: none;
       opacity: 0.6;
     }
+  }
+
+  &error {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 30px;
   }
 
   &speaker-icon {
