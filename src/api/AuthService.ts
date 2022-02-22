@@ -54,7 +54,6 @@ export const getNewTokens = async (userId: string) => {
       (_, headers) => {
         if (headers) {
           headers.Authorization = `Bearer ${currentRefreshToken}`;
-          console.log('transformed header', headers.Authorization);
         }
       },
     ],
@@ -82,8 +81,7 @@ export const relogin = async () => {
   const userId = localStorage.getItem(USER_ID_KEY);
   if (userId) {
     try {
-      const res = await getNewTokens(userId);
-      console.log(res);
+      await getNewTokens(userId);
       store.dispatch(setUserId(userId));
     } catch (err) {
       console.error('Probably tokens were deleted or expired');

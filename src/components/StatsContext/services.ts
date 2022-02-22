@@ -24,7 +24,6 @@ const getNewUserWordStats = ({
 
   if (action === UpdateUserWordAction.CORRECT) {
     newCorrectInRow = optional.correctInRow + 1;
-    console.log('new ', newCorrectInRow, ' optional ', optional.correctInRow);
     // Checking if word should become learned
     const isPromotedFromDefault =
       difficulty === WordDifficulty.DEFAULT && newCorrectInRow === 3;
@@ -40,7 +39,6 @@ const getNewUserWordStats = ({
       learnedWords += 1;
     }
 
-    console.log(newDifficulty, newCorrectInRow, newDifficulty);
     return {
       difficulty: newDifficulty,
       correctInRow: newCorrectInRow,
@@ -86,7 +84,6 @@ export const sendUpdateRequests = async ({
         userWord: JSON.parse(JSON.stringify(userWord)), //WHY I HAVE TO DO THIS ??????
         correctInRow,
       });
-      // console.log('Updated ', action, userWord); // To be removed later
     }
   }
   return learned;
@@ -111,7 +108,6 @@ export const saveUserWordStats = async ({
     userId,
     game,
   });
-  console.log(learned, unlearned);
   return learned + unlearned;
 };
 
@@ -163,7 +159,6 @@ export const countNewWords = ({
       newWords += 1;
     }
   });
-  console.log(newWords);
   return newWords;
 };
 export const pickStatsToUpdate = (currentStatistics?: IStatsAll) => {

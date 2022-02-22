@@ -24,7 +24,6 @@ const ResultsChart: FC<{ points: number }> = ({ points }) => {
   const rightAnswersPercentage = `${
     isNaN(percent) ? '0' : percent.toFixed(0)
   }%`;
-  console.log(rightAnswersPercentage);
 
   const percStyle = {
     '--percentage': rightAnswersPercentage,

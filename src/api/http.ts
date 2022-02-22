@@ -25,7 +25,6 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
     const token = localStorage.getItem(USER_TOKEN_KEY);
     if (token != null && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
-      // console.log('token injected', config.headers.Authorization); // To be removed later
     }
     return config;
   } catch (error) {
@@ -117,7 +116,6 @@ class Http {
         break;
       }
       case StatusCode.Unauthorized: {
-        console.log(error);
         const prevConfig = error.config;
         if (prevConfig.url?.includes('tokens')) {
           break; // brake out of infinite loop
@@ -125,8 +123,6 @@ class Http {
         const {
           word: { userId },
         } = store.getState();
-
-        console.log(prevConfig, userId);
 
         if (userId) {
           return getNewTokens(userId)

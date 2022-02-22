@@ -67,7 +67,6 @@ export const getUserTextbookWords = createAsyncThunk(
       const filter = aggregatedWordsFilters.defaultFilter({ page });
       const { data } = await getAggregatedWords({ userId, group, filter });
       const reshaped = reshapeWordsForUser(data[0].paginatedResults);
-      console.log(data[0].paginatedResults);
       return reshaped;
     } catch (err) {
       console.error(err);

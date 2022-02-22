@@ -166,7 +166,7 @@ export const getAndUpdateUserWord = async ({
 }: IGetAndUpdateOptions) => {
   try {
     const wordExists = () => {
-      if (game && action && correctInRow) {
+      if (game && action && typeof correctInRow === 'number') {
         userWord.optional = updateGameScore(
           game,
           action,
@@ -179,7 +179,7 @@ export const getAndUpdateUserWord = async ({
         userId,
         wordId,
         difficulty: newDifficulty,
-        optional: { ...userWord.optional },
+        optional: userWord.optional,
       });
     };
     const wordDoesntExist = () => {
