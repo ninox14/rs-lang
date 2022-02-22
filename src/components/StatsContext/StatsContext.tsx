@@ -69,7 +69,7 @@ export const StatsProvider: FC<IStatsContextProviderProps> = ({
           stats: statsToUpdate,
         });
 
-        console.log(resp); // to be removed later
+        // console.log(resp); // to be removed later
       } catch (err) {
         console.error(err); // to be removed later
         dispatch(
