@@ -17,7 +17,7 @@ const pages: Pages = [
   },
   {
     label: 'Статистика',
-    url: '/stat',
+    url: '/statistics',
     visibility: false,
   },
   {
