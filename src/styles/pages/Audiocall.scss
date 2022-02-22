@@ -1,0 +1,636 @@
+@import 'styles/variables/_';
+
+html {
+  height: 100%;
+  display: flex;
+}
+
+body,
+#root,
+.app {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+// debug
+
+svg {
+  display: inline-block;
+}
+
+.button {
+  cursor: pointer;
+  transition: 0.5s;
+  transition-property: color, background-color, border-color, opacity,
+    box-shadow;
+  user-select: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.audiocall {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-size: 18px;
+  background: $audiocall-bg;
+  color: $white;
+  fill: currentColor;
+  flex-grow: 1;
+}
+
+.audiocall__ {
+  &container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 21px;
+    padding: 0 50px 90px;
+    flex-grow: 1;
+    max-width: 100vw;
+
+    @include l {
+      padding: 0 20px 40px;
+    }
+
+    &_home {
+      text-align: center;
+    }
+
+    &_round {
+      padding: 100px 50px 70px;
+      gap: 40px;
+
+      @include l {
+        padding: 100px 25px 20px;
+        gap: 60px;
+        justify-content: flex-start;
+      }
+
+      @include s {
+        padding: 30px 25px 20px;
+        gap: 40px;
+      }
+    }
+
+    &_statistics {
+      @include s {
+        padding: 30px 5px 20px;
+        gap: 40px;
+      }
+    }
+  }
+
+  &content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &game-header {
+    margin: 20px 0 0;
+    font-size: 64px;
+    font-weight: bold;
+    @include s {
+      font-size: 36px;
+    }
+  }
+  &game-desc {
+    font-size: 16px;
+    font-style: italic;
+  }
+
+  &difficulty-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px 0 40px;
+  }
+
+  &difficulty-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+
+    @media screen and (max-width: 568px) {
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 230px;
+    }
+  }
+
+  &difficulty-button {
+    height: 50px;
+    width: 50px;
+    border: 2px solid;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &_selected {
+      color: $black;
+
+      &:nth-child(1) {
+        background: $light-blue;
+      }
+      &:nth-child(2) {
+        background: $blue;
+      }
+      &:nth-child(3) {
+        background: $yellow;
+      }
+      &:nth-child(4) {
+        background: $green;
+      }
+      &:nth-child(5) {
+        background: $peach;
+      }
+      &:nth-child(6) {
+        background: $orange;
+      }
+    }
+
+    &:hover {
+      color: $black;
+    }
+
+    &:nth-child(1) {
+      border-color: $light-blue;
+      &:hover {
+        background: $light-blue;
+      }
+    }
+    &:nth-child(2) {
+      border-color: $blue;
+      &:hover {
+        background: $blue;
+      }
+    }
+    &:nth-child(3) {
+      border-color: $yellow;
+      &:hover {
+        background: $yellow;
+      }
+    }
+    &:nth-child(4) {
+      border-color: $green;
+      &:hover {
+        background: $green;
+      }
+    }
+    &:nth-child(5) {
+      border-color: $peach;
+      &:hover {
+        background: $peach;
+      }
+    }
+    &:nth-child(6) {
+      border-color: $orange;
+      &:hover {
+        background: $orange;
+      }
+    }
+  }
+
+  &homepage-buttons {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+  &homepage-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 140px;
+    border: 2px solid $white;
+    border-radius: 5px;
+
+    &:hover {
+      color: $black;
+
+      &:nth-child(1) {
+        background: $orange;
+        border-color: $orange;
+      }
+
+      &:nth-child(2) {
+        background: $green;
+        border-color: $green;
+      }
+    }
+
+    &_disabled {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+  }
+
+  &speaker-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 3px;
+    border-radius: 50%;
+
+    &_big svg {
+      height: 124px;
+      width: 124px;
+
+      @include s {
+        height: 54px;
+        width: 54px;
+      }
+    }
+
+    &_small svg {
+      height: 34px;
+      width: 34px;
+
+      @include s {
+        height: 24px;
+        width: 24px;
+      }
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  &options {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: center;
+    gap: 25px 20px;
+    flex-grow: 1;
+    text-transform: uppercase;
+
+    @include l {
+      flex-direction: column;
+    }
+
+    @include s {
+      align-items: stretch;
+      width: 100%;
+    }
+  }
+
+  &option {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+
+    &:hover {
+      background: #fff2;
+    }
+
+    @include s {
+      font-size: 14px;
+      width: 100%;
+      justify-content: space-between;
+
+      &:after {
+        content: '';
+      }
+    }
+
+    &-index {
+      display: flex;
+      justify-content: center;
+      font-size: 14px;
+      height: 20px;
+      width: 20px;
+      border: 1px solid;
+      border-radius: 50%;
+    }
+  }
+
+  &round-button {
+    .button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+      width: 157px;
+      border: 2px solid;
+      border-radius: 5px;
+      text-transform: uppercase;
+
+      &:hover {
+        background: #fff2;
+      }
+
+      @include s {
+        font-size: 14px;
+        height: 45px;
+      }
+    }
+  }
+
+  &answer {
+    color: $orange;
+
+    &_correct {
+      color: $green;
+    }
+  }
+
+  &word-container {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    height: 130px;
+
+    @include s {
+      height: 60px;
+    }
+  }
+
+  &word-image {
+    height: 100px;
+    width: 100px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+
+    @include l {
+      height: 90px;
+      width: 90px;
+    }
+
+    @include s {
+      height: 60px;
+      width: 60px;
+    }
+  }
+
+  &word {
+    font-size: 36px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-transform: lowercase;
+
+    @include l {
+      font-size: 24px;
+      gap: 9px;
+    }
+  }
+
+  &tabs-container {
+    color: $black;
+    background: $white;
+    display: flex;
+    flex-direction: column;
+    flex-basis: 550px;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+
+    @include l {
+      min-width: 0;
+    }
+  }
+
+  &tabs-wrapper {
+    width: 100%;
+  }
+
+  &tabs {
+    min-height: 0;
+
+    .MuiTabs-flexContainer {
+      background: $neutral-gray;
+      justify-content: space-between;
+      border-radius: 10px 10px 0 0;
+    }
+    .MuiTabs-indicator {
+      display: none;
+    }
+
+    .MuiTab-root {
+      flex-grow: 1;
+    }
+  }
+
+  &tab {
+    font-family: inherit;
+    text-transform: uppercase;
+    font-weight: lighter;
+    color: $black;
+    font-size: 24px;
+    line-height: 40px;
+    min-height: 0;
+    padding: 0;
+    letter-spacing: initial;
+    border-radius: 10px 10px 0 0;
+    transition: background-color 0.3s ease-in-out;
+
+    &.Mui-selected {
+      color: $black;
+      background: $white;
+    }
+
+    .MuiTouchRipple-root {
+      display: none;
+    }
+  }
+
+  &tab-panel {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    &[hidden] {
+      display: none;
+    }
+
+    &_0 {
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+  }
+}
+
+.panel-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0 60px;
+  gap: 50px;
+}
+
+.panel-result__ {
+  &title {
+    font-size: 24px;
+    margin: 0;
+  }
+
+  &chart-container {
+    height: 250px;
+    width: 250px;
+    display: flex;
+  }
+
+  &chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    background-color: $neutral-gray;
+    background-image: url('../../assets/images/green-bg.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    border-radius: 50%;
+  }
+
+  &chart-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 150px;
+    width: 150px;
+    background: $white;
+    border-radius: 50%;
+  }
+
+  &chart-score {
+    font-size: 36px;
+  }
+
+  &btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  &btn {
+    font-size: 14px;
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    border: 0;
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 5px;
+
+    &:hover {
+      box-shadow: 0px 3px 3px 0px #585858a8;
+    }
+  }
+
+  &exit {
+    background: $orange;
+  }
+
+  &replay {
+    background: $light-blue;
+  }
+}
+
+.panel-words {
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+  padding-left: 50px;
+  padding-right: 50px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $gray;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $light-gray;
+  }
+}
+
+.panel-words__ {
+  &heading {
+    width: 100%;
+    padding: 2px 40px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    margin-top: 30px;
+  }
+
+  &repeat {
+    & .panel-words__heading {
+      border-bottom: 3px solid $orange;
+    }
+
+    .panel-words__words-count {
+      background-color: $orange;
+    }
+  }
+
+  &known {
+    .panel-words__heading {
+      border-bottom: 3px solid $green;
+    }
+
+    .panel-words__words-count {
+      background-color: $green;
+    }
+  }
+
+  &words-count {
+    border-radius: 20px;
+    padding: 1px 9px;
+    margin-left: 10px;
+  }
+
+  &words {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  &item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  &word {
+    font-weight: bold;
+  }
+
+  &translation {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.button_fullscreen {
+  @include l {
+    display: none;
+  }
+}
