@@ -7,14 +7,8 @@ import { FC, ReactElement, useEffect, useState } from 'react';
 import { IGamePageProps } from './types.d';
 
 const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
-  const {
-    gameState,
-    question,
-    answers,
-    countDown,
-    giveAnswerAudiocall,
-    progressGame,
-  } = useGame();
+  const { gameState, question, answers, giveAnswerAudiocall, progressGame } =
+    useGame();
   const { audioSrc, changeAudioSrc, audio } = gamePageProps;
 
   const [answer, setAnswer] = useState<string>();
@@ -57,18 +51,42 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
     audio.playWrong();
   }
 
+  console.log(gameState === GameState.INSUFFICIENT);
+
   return (
     <div className="audiocall__container audiocall__container_round">
       <div
         className={`audiocall__countdown ${
-          gameState === GameState.COUNTDOWN ? undefined : 'hidden'
+          gameState === GameState.COUNTDOWN ? '' : 'hidden'
         }`}
       >
         <Countdown />
       </div>
       <div
+        className={`audiocall__error ${
+          gameState === GameState.INSUFFICIENT ? '' : 'hidden'
+        }`}
+      >
+        <h3 className="audiocall__error-message">
+          Извините, для данной игры недостаточно слов
+        </h3>
+
+        <div className="audiocall__round-button">
+          <Button
+            className="audiocall__back"
+            text="Назад"
+            onClick={() => {
+              history.back();
+            }}
+          />
+        </div>
+      </div>
+      <div
         className={`audiocall__audio-container ${
-          gameState === GameState.COUNTDOWN ? 'hidden' : undefined
+          gameState === GameState.COUNTDOWN ||
+          gameState === GameState.INSUFFICIENT
+            ? 'hidden'
+            : ''
         }`}
       >
         {answer ? (
@@ -106,7 +124,10 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
       </div>
       <div
         className={`audiocall__options ${
-          gameState === GameState.COUNTDOWN ? 'hidden' : undefined
+          gameState === GameState.COUNTDOWN ||
+          gameState === GameState.INSUFFICIENT
+            ? 'hidden'
+            : ''
         }`}
       >
         {answers.map(
@@ -136,7 +157,10 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
       </div>
       <div
         className={`audiocall__round-button ${
-          gameState === GameState.COUNTDOWN ? 'hidden' : undefined
+          gameState === GameState.COUNTDOWN ||
+          gameState === GameState.INSUFFICIENT
+            ? 'hidden'
+            : ''
         }`}
       >
         {answer ? (
