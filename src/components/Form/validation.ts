@@ -13,6 +13,7 @@ const validationSchema: yup.SchemaOf<FormValues> = yup.object({
     .string()
     .required('Введите пароль')
     .min(8, 'Пароль должен содержать не менее 8 символов')
+    .max(30, 'Максимальное кол-во символов: 30')
     .matches(/^[a-z\d]+$/im, {
       message:
         'Можно использовать только символы латинского алфавита или цифры',
