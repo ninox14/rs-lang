@@ -4,12 +4,14 @@ import Button from 'components/AudiocallPage/Button';
 import { GameState, useGame } from 'components/GameContext/GameContext';
 import Countdown from 'pages/Sprint/Countdown/Countdown';
 import { FC, ReactElement, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IGamePageProps } from './types.d';
 
 const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
   const { gameState, question, answers, giveAnswerAudiocall, progressGame } =
     useGame();
   const { audioSrc, changeAudioSrc, audio } = gamePageProps;
+  const navigate = useNavigate();
 
   const [answer, setAnswer] = useState<string>();
 
@@ -75,9 +77,7 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
           <Button
             className="audiocall__back"
             text="Назад"
-            onClick={() => {
-              history.back();
-            }}
+            onClick={() => navigate(-1)}
           />
         </div>
       </div>

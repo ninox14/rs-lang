@@ -47,6 +47,12 @@ const wordsSlice = createSlice({
     setIsGameRanFromTextbook: (state, action: PayloadAction<boolean>) => {
       state.isGameRanFromTextbook = action.payload;
     },
+    resetAudiocallWords: (state) => {
+      state.audiocallWords = [];
+    },
+    resetSprintWords: (state) => {
+      state.sprintWords = [];
+    },
   },
   extraReducers: {
     [getTextbookWords.fulfilled.type]: (
@@ -187,6 +193,8 @@ export const {
   setErrorMsg,
   setMaxHardWordsPages,
   setIsGameRanFromTextbook,
+  resetAudiocallWords,
+  resetSprintWords,
 } = actions;
 
 export default reducer;
