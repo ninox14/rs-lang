@@ -5,13 +5,14 @@ import { Author } from 'types/rs-lang';
 
 export const Team: FC = () => {
   return (
-    <main className="page page_team team">
+    <main className="page page_team team page_header">
       <div className="team__container">
         <h1 className="page__header team__header">Над проектом работали</h1>
         <div className="team__cards-container">
           {authors.map(
             (author: Author): ReactElement => (
               <AuthorCard
+                key={author.name}
                 name={author.name}
                 nickname={author.nickname}
                 github={author.github}

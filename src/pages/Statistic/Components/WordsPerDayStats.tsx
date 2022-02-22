@@ -71,13 +71,13 @@ const WordsPerDayStats: FC<IWordsPerDayStats> = ({ dates, newWordsCount }) => {
           text: 'Кол-во слов',
           color: 'black',
           font: {
-            size: 14,
+            size: 16,
             family: '"Inter", sans-serif',
           },
         },
         beginAtZero: true,
         ticks: {
-          color: 'black',
+          color: '#727272',
           font: {
             size: 14,
             family: '"Inter", sans-serif',
@@ -90,12 +90,12 @@ const WordsPerDayStats: FC<IWordsPerDayStats> = ({ dates, newWordsCount }) => {
           text: 'Период изучения',
           color: 'black',
           font: {
-            size: 14,
+            size: 16,
             family: '"Inter", sans-serif',
           },
         },
         ticks: {
-          color: 'black',
+          color: '#727272',
           font: {
             size: 14,
             family: '"Inter", sans-serif',

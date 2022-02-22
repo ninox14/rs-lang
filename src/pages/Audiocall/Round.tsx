@@ -53,8 +53,6 @@ const AudiocallRound: FC<IGamePageProps> = ({ gamePageProps }) => {
     audio.playWrong();
   }
 
-  console.log(gameState === GameState.INSUFFICIENT);
-
   return (
     <div className="audiocall__container audiocall__container_round">
       <div

@@ -4,9 +4,14 @@ import CardData from './Components/CardData';
 import { Link } from 'react-router-dom';
 import './Home.scss';
 
+import { ReactComponent as GlassIcon } from 'assets/icons/glass.svg';
+import { ReactComponent as LaptopIcon } from 'assets/icons/laptop.svg';
+import { ReactComponent as AppleIcon } from 'assets/icons/apple.svg';
+import { ReactComponent as PuzzleIcon } from 'assets/icons/main-puzzle.svg';
+
 const Home: FC = () => {
   return (
-    <main className="page page_home">
+    <main className="page page_home page_header">
       <div className="home-intro">
         <div className="home-intro__text">
           <h1 className="home-intro__title">
@@ -21,10 +26,18 @@ const Home: FC = () => {
           </a>
         </div>
         <div className="home-intro__cards">
-          <div className="home-intro__card"></div>
-          <div className="home-intro__card"></div>
-          <div className="home-intro__card"></div>
-          <div className="home-intro__card"></div>
+          <div className="home-intro__card">
+            <GlassIcon className="home-intro__card-icon" />
+          </div>
+          <div className="home-intro__card">
+            <LaptopIcon className="home-intro__card-icon" />
+          </div>
+          <div className="home-intro__card">
+            <AppleIcon className="home-intro__card-icon" />
+          </div>
+          <div className="home-intro__card">
+            <PuzzleIcon className="home-intro__card-icon" />
+          </div>
         </div>
       </div>
       <div id="advantages" className="home-advantages">

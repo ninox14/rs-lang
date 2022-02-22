@@ -7,7 +7,7 @@
   padding: 10px 15px;
 
   @media all and (max-width: 460px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
     row-gap: 30px;
   }
 }

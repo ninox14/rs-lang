@@ -41,7 +41,7 @@ const WordPage: FC = () => {
 
   return (
     <div
-      className={`page page_wordpage wordpage_${groupsColorThemes[groupId]}`}
+      className={`page page_wordpage page_header wordpage_${groupsColorThemes[groupId]}`}
     >
       <div className="wordpage-container">
         <h4 className="wordpage__title">Разделы</h4>

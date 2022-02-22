@@ -7,7 +7,7 @@ import { useAppSelector } from 'redux/hooks';
 const Textbook: FC = () => {
   const isLogged = useAppSelector((state) => state.word.userId);
   return (
-    <main className="page page_textbook">
+    <main className="page page_textbook page_header">
       <div className="textbook-content">
         <h2 className="textbook__title">Учебник</h2>
         <div className="textbook__cards-container">

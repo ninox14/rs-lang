@@ -6,6 +6,7 @@ import { getNewTokens, USER_TOKEN_KEY } from 'api/AuthService';
 enum StatusCode {
   Unauthorized = 401,
   Forbidden = 403,
+  NotFound = 404,
   UserExists = 417,
   TooManyRequests = 429,
   InternalServerError = 500,
@@ -113,6 +114,10 @@ class Http {
       }
       case StatusCode.Forbidden: {
         store.dispatch(setErrorMsg('Неправильный e-mail или пароль'));
+        break;
+      }
+      case StatusCode.NotFound: {
+        store.dispatch(setErrorMsg('Пользователь с таким e-mail не найден'));
         break;
       }
       case StatusCode.Unauthorized: {

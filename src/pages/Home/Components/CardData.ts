@@ -5,7 +5,7 @@ const CardsData = [
     iconName: 'chart',
     description: 'Следите за своим прогрессом с помощью детальной ',
     linkName: 'статистики.',
-    path: '/auth',
+    path: '/statistics',
   },
   {
     id: 1,

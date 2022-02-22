@@ -1,5 +1,9 @@
 @import 'styles/variables/_';
 
+.page_home {
+  margin-bottom: 30px;
+}
+
 .home-intro {
   display: flex;
   align-items: center;
@@ -38,17 +42,17 @@
   padding: 10px 35px;
   font-weight: bold;
   text-align: center;
-  border: 2px solid $accent-blue;
+  border: 2px solid $blue;
   border-radius: 10px;
   transition: 0.5s;
 
   &:hover {
-    background-color: scale-color($accent-blue, $lightness: 65%);
+    background-color: scale-color($blue, $lightness: 65%);
     cursor: pointer;
   }
 
   &:active {
-    background-color: $accent-blue;
+    background-color: $blue;
     color: $white;
     cursor: pointer;
   }
@@ -64,42 +68,45 @@
 }
 
 .home-intro__card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 170px;
   height: 170px;
   border-radius: 30px;
   border-width: 5px;
   border-style: solid;
-  background-position: center;
-  background-repeat: no-repeat;
 
   &:nth-child(1) {
     background-color: $blue;
     border-color: $blue;
-    background-image: url('../../assets/icons/glass.svg');
   }
 
   &:nth-child(2) {
     border-color: $yellow;
-    background-image: url('../../assets/icons/laptop.svg');
   }
 
   &:nth-child(3) {
-    background-color: $green;
-    border-color: $green;
-    background-image: url('../../assets/icons/main-puzzle.svg');
+    border-color: $orange;
   }
 
   &:nth-child(4) {
-    border-color: $orange;
-    background-image: url('../../assets/icons/apple.svg');
+    background-color: $green;
+    border-color: $green;
   }
+}
+
+.home-intro__card-icon {
+  width: 110px;
 }
 
 .home-advantages {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   max-width: 1140px;
+  width: 90%;
   min-height: calc(100vh - 44px);
   margin: 0 auto;
 }
@@ -150,6 +157,9 @@
     width: 130px;
     height: 130px;
     background-size: 84px 84px;
+  }
+  .home-intro__card-icon {
+    width: 84px;
   }
 
   .home-advantages {

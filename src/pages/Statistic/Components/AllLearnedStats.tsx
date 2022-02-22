@@ -80,13 +80,13 @@ const AllLearnedStats: FC<IAllLearnedStats> = ({ dates, learnedCount }) => {
           text: 'Кол-во слов',
           color: 'black',
           font: {
-            size: 14,
+            size: 16,
             family: '"Inter", sans-serif',
           },
         },
         beginAtZero: true,
         ticks: {
-          color: 'black',
+          color: '#727272',
           font: {
             size: 14,
             family: '"Inter", sans-serif',
@@ -99,12 +99,12 @@ const AllLearnedStats: FC<IAllLearnedStats> = ({ dates, learnedCount }) => {
           text: 'Период изучения',
           color: 'black',
           font: {
-            size: 14,
+            size: 16,
             family: '"Inter", sans-serif',
           },
         },
         ticks: {
-          color: 'black',
+          color: '#727272',
           font: {
             size: 14,
             family: '"Inter", sans-serif',
