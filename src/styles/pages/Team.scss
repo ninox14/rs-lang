@@ -1,0 +1,101 @@
+@import 'styles/variables/_';
+
+.author-card {
+  background: $light-gray;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24.5px;
+  flex-shrink: 1;
+  padding: 30px 30px 20px;
+  border-radius: 10px;
+}
+
+.author-card:nth-child(1) {
+  border: 2px solid $accent-blue;
+}
+
+.author-card:nth-child(2) {
+  border: 2px solid $green;
+}
+
+.author-card:nth-child(3) {
+  border: 2px solid $pink;
+}
+
+.author-card__ {
+  &avatar {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 15px;
+  }
+
+  &github {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    column-gap: 7px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.author-card__role {
+  text-align: center;
+}
+
+.team {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.team__ {
+  &container {
+    max-width: 1070px;
+    width: calc(100% - 40px);
+    display: flex;
+    flex-direction: column;
+
+    @include l {
+      align-items: center;
+    }
+
+    @media screen and (max-width: 830px) {
+      align-items: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+  }
+
+  &header {
+    font-size: 18px;
+    text-transform: uppercase;
+  }
+
+  &cards-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    column-gap: 15px;
+
+    @include l {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    @media screen and (max-width: 830px) {
+      margin-top: 0;
+      flex-direction: column;
+      row-gap: 25px;
+    }
+  }
+}
+
+.author-card__github-icon {
+  width: 18px;
+  height: 18px;
+}

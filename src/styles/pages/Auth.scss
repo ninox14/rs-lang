@@ -1,0 +1,96 @@
+@import "styles/variables/_.scss";
+
+.auth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include l {
+    padding: 0 15px;
+  }
+
+  @include s {
+    padding: 0 5px;
+  }
+}
+
+.auth__ {
+  &container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px;
+    max-width: 650px;
+    width: 100%;
+    height: 440px;
+    background-color: $light-gray;
+    box-shadow: 0px 4px 4px $shadow-medium;
+    border-radius: 10px;
+    
+    @include l {
+      justify-content: center;
+    }
+
+    @include s {
+      background-color: $white;
+      box-shadow: none;
+      padding: 0;
+      width: 100%;
+    }
+  }
+  &svg {
+    @include l {
+      display: none;
+    }
+  }
+
+  &form-container {
+    max-width: 350px;
+    width: 100%;
+    padding: 0 30px;
+  }
+
+  &tabs-wrapper {
+    width: 100%;
+  }
+
+  &tabs {
+    .MuiTabs-flexContainer{
+      justify-content: space-between;
+    }
+    .MuiTabs-indicator {
+      height: 2px;
+      background-color: $black;
+      border-radius: 3px;
+    }
+  }
+
+  &tab {
+    font-family: inherit;
+    text-transform: capitalize;
+    font-weight: 700;
+    color: $neutral-gray;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: initial;
+    border-radius: 10px;
+    transition: background-color .3s ease-in-out ;
+
+    &:hover {
+      background-color: $shadow-light;
+    }
+
+    &.Mui-selected {
+      color: $black;
+    }
+  }
+  
+  &tab-panel {
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  
+  
+}

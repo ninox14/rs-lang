@@ -1,0 +1,112 @@
+@import 'styles/variables/_.scss';
+
+.wordlist-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.wordlist-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.word-cards-loader {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  pointer-events: none;
+  border-radius: 15px;
+}
+
+.loader__circle {
+  position: fixed;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+  width: 80px;
+  height: 80px;
+  border: 10px solid var(--color);
+  border-top: 10px solid $black;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  transition: all 0.5s ease-out;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.word-cards-loader_active {
+  display: block;
+
+  & + .wordlist__pagination {
+    pointer-events: none;
+  }
+}
+
+.wordlist__pagination {
+  padding-bottom: 30px;
+}
+
+.wordlist__pagination_learned .pagination_item.Mui-selected {
+  border: 2px solid var(--color);
+  background-color: $light-gray;
+}
+
+.games-menu {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+
+  @media all and (max-width: 800px) {
+    right: 30px;
+  }
+
+  @media all and (max-width: 460px) {
+    bottom: 95px;
+    right: 20px;
+  }
+}
+
+.games-menu_disabled .MuiButtonBase-root {
+  pointer-events: none;
+  background-color: $neutral-gray;
+}
+
+.games-menu__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-size: 90%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.games-menu__logo_sprint,
+.games-menu__logo_audiocall {
+  pointer-events: none;
+  width: 34px;
+  height: 34px;
+  stroke: $black;
+  stroke-width: 2px;
+}
+
+.wordslist-cards__tip {
+  font-size: 18px;
+}

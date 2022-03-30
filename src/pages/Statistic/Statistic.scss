@@ -1,0 +1,41 @@
+@import "styles/variables/_.scss";
+
+.page_stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.stats__title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.stats_today,
+.stats_longterm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% - 40px);
+  row-gap: 30px;
+  margin-top: 30px;
+  max-width: 1400px;
+}
+
+.stats__title_auth {
+  font-size: 2em;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.stats__link_auth {
+  color: $accent-blue
+}
+
+.page_header {
+  @media screen and (max-width: 768px) {
+    padding-top: 40px;
+  }
+}
