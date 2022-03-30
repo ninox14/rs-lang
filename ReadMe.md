@@ -1,6 +1,15 @@
 # RS-Lang
 
 ## Libraries and frameworks were used:
+- Typescript: 
+
+  pros: better code readability, early spotted bugs and IDE autocomplete 
+  
+  cons: more code to write 
+
+- SASS: 
+
+  pros: way easier to type CSS code  
 
 - React:
 
