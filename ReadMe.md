@@ -1,77 +1,32 @@
 # RS-Lang
 
-## Libraries and frameworks were used:
-- Typescript: 
+## Stack
 
-  pros: better code readability, early spotted bugs and IDE autocomplete 
+- `React.js` - declarative and component-based library for building user interfaces.
+  - *pros*: easy creation and implementation of UIs, components reusability
   
-  cons: more code to write 
-
-- SASS: 
-
-  pros: way easier to type CSS code  
-
-- React:
-
-  pros: ease of implementation of interfaces
- 
-- MUI:
-
-  pros: ease of implementation of certain interactive elements
+- `Typescript` -  a strict syntactical superset of JavaScript that adds optional static typing
+  - *pros*: better code readability, early spotted bugs, IDE integration
+  - *cons*: needs initial setup, more code to write 
   
-  cons: sometimes hard to style components
+- `React Router` - routing library for the React
+  - *pros*: simplifies implementation of navigation between components
 
-- Redux Toolkit:
-
-  pros: easy to control global app state, immutability and ease of async fetching
+- `Redux Toolkit` - toolset for efficient Redux development
+  - *pros*: global app state controlling, immutability and ease of async fetching
+  - *cons*: requires too much boilerplate code
   
-  cons: way too much boilerplate code
+- `Axios` - promise based HTTP client
+  - *pros*: better requests control than fetch
   
-- Axios:
+- `yup + ReactHookForms` - tools for form validation
+  - *pros*: easy and straightforward way to implement forms and validate inputs with custom rules
+- `SASS` - pre-processor that make writing CSS much more powerful
+  - *pros*: provides nesting and useful functions like color manipulation
 
-  pros: better than fetch api
+- `MUI` - react library of UI components
+  - *pros*: ease of implementation of certain interactive elements
+  - *cons*: difficulties with components customization
   
-- ChartJS:
-
-  pros: easy way to implement charts
-  
-- yup + ReactHookForms:
-
-  pros: easy and straightforward way to implement forms and validation
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- `ChartJS` - library for data visualization
+  - *pros*: a lot of customizable chart types 
