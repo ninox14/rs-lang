@@ -33,7 +33,7 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
   }
 };
 
-export const baseURL = 'https://rs-lang-team-34.herokuapp.com';
+export const baseURL = 'https://rs-lang-backend-x63v.onrender.com';
 
 class Http {
   // eslint-disable-next-line prettier/prettier
