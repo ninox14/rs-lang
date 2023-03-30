@@ -9,8 +9,8 @@
 .words-count {
   font-weight: bold;
   font-size: 2em;
-  
-  @media all and(max-width: 900px) {
+
+  @media all and (max-width: 900px) {
     font-size: 1.5em;
   }
 }

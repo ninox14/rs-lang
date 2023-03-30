@@ -9,8 +9,8 @@
   padding: 20px;
   border-radius: 15px;
   background-color: $cards-gray;
-  
-  @media all and(max-width: 900px) {
+
+  @media all and (max-width: 900px) {
     min-width: initial;
   }
 }
